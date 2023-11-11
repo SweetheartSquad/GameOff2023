@@ -71,3 +71,15 @@ textures/skybox_posx.jpg
 textures/skybox_posz.jpg
 textures/skybox_negx.jpg
 textures/skybox_negz.jpg
+
+models/pc_proxy.glb
+models/birdwatcher_proxy.glb
+models/groundPlane_00.glb
+models/groundPlane_10.glb
+models/groundPlane_15.glb
+
+models/pc_proxy.gltf
+models/birdwatcher_proxy.gltf
+models/groundPlane_00.gltf
+models/groundPlane_10.gltf
+models/groundPlane_15.gltf
