@@ -254,7 +254,7 @@
 
 
 		await this.delay(556*2);
-		const t2 = scene.strand.Text('65');
+		const t2 = scene.strand.Text('66');
 		game.app.stage.addChild(t2.display.container);
 		t2.text.style.fontSize = 240;
 		t2.text.style.fill = 0x406885;
