@@ -17,269 +17,163 @@
 
 	
 	// start with music off in debug
-	this.radio = !this.debug;
-
-	this.car = this.Model('taxi', 'palette', { doubleSided: true, depth: true });
-	this.passengerProps = this.Model('passengerProps', 'palette', { doubleSided: true, depth: true });
-	this.aloneProps = this.Model('aloneProps', 'palette', { doubleSided: true, depth: true });
-	this.aloneProps.model.visible = false;
-	this.clock = this.Model('clock', 'palette', { doubleSided: true, depth: true });
-	this.car.model.getChildByName('passengerRef').visible = false;
-
-	const gasNeedle = this.car.model.getChildByName('gasMeterNeedle');
-	this.gas = 1;
-	this.tween(this, 'gas', 0, 1000 * 60 * 20);
-	this.Updater(() => {
-		gasNeedle.rotationQuaternion.setEulerAngles(0,0,40-this.gas*80);
-	});
-	
-	this.chimneys = this.Model('chimneys', 'palette', { doubleSided: true, depth: true });
-
+	// this.radio = !this.debug;
 	// camera
-	this.scene.camera3d.position = this.car.model.getChildByName('Camera').position;
-	const camProps = window.game.app.loader.resources.taxi.gltf.descriptor.cameras[0].perspective;
+	this.cameraPlaceholder = this.Model('camera_test');
+	this.cameraPlaceholder.visible = false;
+
+	const cameraPlaceholder = this.cameraPlaceholder.model.getChildByName('Camera');
+	this.scene.camera3d.position = cameraPlaceholder.position;
+	const camProps = window.game.app.loader.resources.camera_test.gltf.descriptor.cameras[0].perspective;
 	this.scene.camera3d.fieldOfView = camProps.yfov * 100;
 	this.scene.camera3d.near = camProps.znear;
 	this.scene.camera3d.far = camProps.zfar;
 
 	// road + sway
-	const speedometer = this.car.model.getChildByName('speed').getChildByName('speedMeter');
-	const wheel = this.scene.strand.car.model.getChildByName('steeringColumn');
-	const roadSize = 60;
-	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
-	console.log(roadSegments);
-	this.roadSpeed = 40;
-	let rootRoad;
-	for(let i = 0; i < roadSegments; ++i) {
-		const pos = i-roadSegments/2;
-		const road = this.Model('roadSeg', 'palette', { doubleSided: true, depth: true });
-		if (i === 0) {
-			rootRoad = road;
-		} else {
-			rootRoad.model.addChild(road.model);
-			road.model.position.z = i * roadSize;
-		}
-	}
-	rootRoad.model.position.y -= 1.36;
-	rootRoad.model.position.x -= 3.3;
-	const xRoot = rootRoad.model.position.x;
-	const yRoot = rootRoad.model.position.y;
-	let pTime = Date.now();
-	let curPos = 0;
-	let roadDelta = 0;
-	this.Updater(() => {
-		const cTime = Date.now();
-		const dTime = cTime - pTime;
-		roadDelta = dTime/1000 * this.roadSpeed;
-		curPos += roadDelta;
-		curPos %= roadSize;
-		rootRoad.model.position.z = curPos - (roadSize*roadSegments/2);
+	// const speedometer = this.car.model.getChildByName('speed').getChildByName('speedMeter');
+	// const wheel = this.scene.strand.car.model.getChildByName('steeringColumn');
+	// const roadSize = 60;
+	// const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
+	// console.log(roadSegments);
+	// this.roadSpeed = 40;
+	// let rootRoad;
+	// for(let i = 0; i < roadSegments; ++i) {
+	// 	const pos = i-roadSegments/2;
+	// 	const road = this.Model('roadSeg', 'palette', { doubleSided: true, depth: true });
+	// 	if (i === 0) {
+	// 		rootRoad = road;
+	// 	} else {
+	// 		rootRoad.model.addChild(road.model);
+	// 		road.model.position.z = i * roadSize;
+	// 	}
+	// }
+	// rootRoad.model.position.y -= 1.36;
+	// rootRoad.model.position.x -= 3.3;
+	// const xRoot = rootRoad.model.position.x;
+	// const yRoot = rootRoad.model.position.y;
+	// let pTime = Date.now();
+	// let curPos = 0;
+	// let roadDelta = 0;
+	// this.Updater(() => {
+	// 	const cTime = Date.now();
+	// 	const dTime = cTime - pTime;
+	// 	roadDelta = dTime/1000 * this.roadSpeed;
+	// 	curPos += roadDelta;
+	// 	curPos %= roadSize;
+	// 	rootRoad.model.position.z = curPos - (roadSize*roadSegments/2);
 
-		// rotate wheel + sway road back and forth
-		const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
-		wheel.rotationQuaternion.setEulerAngles(65, 0, sway);
-		rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
-		// bounce road
-		rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
-		pTime = cTime;
-		// speedometer
-		speedometer.rotationQuaternion.setEulerAngles(0, 30 - this.roadSpeed * 2 * (Math.random()*0.1+0.95), 0);
-	});
+	// 	// rotate wheel + sway road back and forth
+	// 	const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
+	// 	wheel.rotationQuaternion.setEulerAngles(65, 0, sway);
+	// 	rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
+	// 	// bounce road
+	// 	rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
+	// 	pTime = cTime;
+	// 	// speedometer
+	// 	speedometer.rotationQuaternion.setEulerAngles(0, 30 - this.roadSpeed * 2 * (Math.random()*0.1+0.95), 0);
+	// });
 
-	// looping speed sign
-	const sign1 = this.Model('speedlimitsign', 'palette', { doubleSided: true, depth: true });
-	sign1.model.position.z = -roadSize*16;
-	this.Updater(() => {
-		sign1.model.position.z += roadDelta;
-		if (sign1.model.position.z > roadSize) {
-			sign1.model.position.z -= roadSize*16;
-		}
-	});
-	const sign2 = this.Model('speedlimitsign', 'palette', { doubleSided: true, depth: true });
-	sign2.model.position.z = -roadSize*16*0.5;
-	sign2.model.position.x -= 10;
-	sign2.model.rotationQuaternion.setEulerAngles(0, 180, 0);
-	this.Updater(() => {
-		sign2.model.position.z += roadDelta;
-		if (sign2.model.position.z > roadSize) {
-			sign2.model.position.z -= roadSize*16;
-		}
-	});
+	// floor
+	this.floor = this.Model('groundPlane_00', 'passenger_normal');
 
 	// passenger
-	this.passenger = this.Model('taxi', 'passenger_normal', { transparent: true });
-	this.passenger.model.children.forEach(i => i.visible = false);
-	this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
-	const passengerRef = this.passenger.model.getChildByName('passengerRef');
+	this.passenger = this.Model('birdwatcher_proxy', 'passenger_normal', { transparent: true });
+	// this.passenger.model.children.forEach(i => i.visible = false);
+	// this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
+	const passengerRef = this.passenger.model.getChildByName('birdwatcher_Standin');
 	passengerRef.visible = true;
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
 	this.scene.pointDialogue.position.y = passengerRef.position.y + 0.35;
 	this.scene.pointDialogue.position.z = passengerRef.position.z + 0.25;
 
-	this.toggleRadio = () => {
-		this.radio = !this.radio;
-		this.sfx('click', { rate: Math.random()*0.2 + 0.9 });
-		if (this.radio) {
-			this.music('bgm');
-			this.clock.model.visible = true;
-		} else {
-			this.music('bgm_ambient');
-			this.clock.model.visible = false;
-		}
-	};
-	this.InteractionRegion({
-		x: -42,
-		y: 12,
-		range: 10,
-		label: 'crank',
-		action: () => this.toggleRadio(),
-	});
+	// this.EnvModel = (model) => {
+	// 	const m = this.Model(model, 'palette', { doubleSided: true, depth: true });
+	// 	m.model.position.z = -110;
+	// 	const remove = this.Updater(() => {
+	// 		m.model.position.z += roadDelta;
+	// 		if (m.model.position.z > 110) {
+	// 			remove();
+	// 			this.destroy(m);
+	// 		}
+	// 	});
+	// 	return m;
+	// };
 
-	const rearView = scene.strand.car.model.getChildByName('rearView');
-	this.InteractionRegion({
-		x: -49,
-		y: -15,
-		range: 5,
-		label: 'adjust',
-		action: () => {
-			this.sfx('click', { rate: Math.random()*0.2 + 0.9 });
-			rearView.rotationQuaternion.setEulerAngles(0, Math.random()*40-30, 0);
-		},
-	});
-
-	const sideMirror = scene.strand.car.model.getChildByName('sideMirror');
-	this.InteractionRegion({
-		x: 34,
-		y: 3,
-		range: 5,
-		label: 'adjust',
-		action: () => {
-			this.sfx('click', { rate: Math.random()*0.2 + 0.9 });
-			sideMirror.rotationQuaternion.setEulerAngles(0, Math.random()*30+10, 0);
-		},
-	});
-
-	const sunBlind = scene.strand.car.model.getChildByName('sunBlind1');
-	let sunBlindOpen = false;
-	this.InteractionRegion({
-		x: -7,
-		y: -35,
-		range: 10,
-		label: 'flip',
-		action: () => {
-			this.sfx('click', { rate: Math.random()*0.2 + 0.9 });
-			sunBlind.rotationQuaternion.setEulerAngles(sunBlindOpen ? 0 : 90, 0, 0);
-			sunBlindOpen = !sunBlindOpen;
-		},
-	});
-
-	let honks = 0;
-	let honklimit = false;
-	this.InteractionRegion({
-		x: 1,
-		y: 25,
-		range: 5,
-		label: 'honk',
-		action: () => {
-			this.sfx('honk', { rate: Math.random()*0.04 + 0.98 });
-			if (honklimit) return;
-			++honks;
-			if (honks % 5 === 0 && this.passenger.model.visible && !this.scene.dialogue.isOpen && this.roadSpeed > 0) {
-				honklimit = true;
-				this.goto('honk-limit');
-			}
-		},
-	});
-
-
-	this.EnvModel = (model) => {
-		const m = this.Model(model, 'palette', { doubleSided: true, depth: true });
-		m.model.position.z = -110;
-		const remove = this.Updater(() => {
-			m.model.position.z += roadDelta;
-			if (m.model.position.z > 110) {
-				remove();
-				this.destroy(m);
-			}
-		});
-		return m;
-	};
-
-	setTimeout(() => {
-		this.EnvModel('coyoteXsign');
-	}, 1000 * 110);
-	setTimeout(() => {
-		this.EnvModel('coyote');
-	}, 1000 * 120);
+	// setTimeout(() => {
+	// 	this.EnvModel('coyoteXsign');
+	// }, 1000 * 110);
+	// setTimeout(() => {
+	// 	this.EnvModel('coyote');
+	// }, 1000 * 120);
 
 	// random props
-	const props = [
-		'roadsideTrash1',
-		'roadsideTrash1',
-		'roadsideTrash1',
-		'roadsideTrash2',
-		'roadsideTrash2',
-		'roadsideTrash2',
-		'pothole1',
-		'pothole1',
-		'cactus1',
-		'cactus1',
-		'cactus2',
-		'cactus2',
-		'cactus3',
-		'cactus3',
-		'cactus4',
-		'cactus4',
-		'cactus5',
-		'cactus5',
-		'cactus6',
-		'cactus6',
-		'cactus7',
-		'cactus7',
-		'cactus8',
-		'cactus8',
-		'longhornskull',
-	];
-	let lastprop;
-	const rndprop = () => {
-		if (!lastprop || lastprop.model.destroyed) {
-			const prop = this.shuffle(props)[0];
-			lastprop = this.EnvModel(prop);
-		}
-		setTimeout(rndprop, Math.random()*25000+Math.random()*25000+5000);
-	};
-	rndprop();
-	let lastprop2;
-	const rndprop2 = () => {
-		if (!lastprop2 || lastprop2.model.destroyed) {
-			const prop = this.shuffle(props)[0];
-			lastprop2 = this.EnvModel(prop);
-		}
-		setTimeout(rndprop2, Math.random()*25000+Math.random()*25000+5000);
-	};
-	rndprop2();
+	// const props = [
+	// 	'roadsideTrash1',
+	// 	'roadsideTrash1',
+	// 	'roadsideTrash1',
+	// 	'roadsideTrash2',
+	// 	'roadsideTrash2',
+	// 	'roadsideTrash2',
+	// 	'pothole1',
+	// 	'pothole1',
+	// 	'cactus1',
+	// 	'cactus1',
+	// 	'cactus2',
+	// 	'cactus2',
+	// 	'cactus3',
+	// 	'cactus3',
+	// 	'cactus4',
+	// 	'cactus4',
+	// 	'cactus5',
+	// 	'cactus5',
+	// 	'cactus6',
+	// 	'cactus6',
+	// 	'cactus7',
+	// 	'cactus7',
+	// 	'cactus8',
+	// 	'cactus8',
+	// 	'longhornskull',
+	// ];
+	// let lastprop;
+	// const rndprop = () => {
+	// 	if (!lastprop || lastprop.model.destroyed) {
+	// 		const prop = this.shuffle(props)[0];
+	// 		lastprop = this.EnvModel(prop);
+	// 	}
+	// 	setTimeout(rndprop, Math.random()*25000+Math.random()*25000+5000);
+	// };
+	// rndprop();
+	// let lastprop2;
+	// const rndprop2 = () => {
+	// 	if (!lastprop2 || lastprop2.model.destroyed) {
+	// 		const prop = this.shuffle(props)[0];
+	// 		lastprop2 = this.EnvModel(prop);
+	// 	}
+	// 	setTimeout(rndprop2, Math.random()*25000+Math.random()*25000+5000);
+	// };
+	// rndprop2();
 
-	const boulders = [
-		'boulder1',
-		'boulder2',
-		'boulder3',
-		'boulder4',
-		'boulder5',
-		'boulder6',
-		'boulder7',
-		'boulder8',
-		'boulder9',
-		'boulder10',
-		'boulder11',
-		'boulder12',
-	];
-	const rndprop3 = () => {
-		const prop = this.shuffle(boulders)[0];
-		const model = this.EnvModel(prop);
-		model.model.position.y -= 1.36;
-		setTimeout(rndprop3, Math.random()*3000+Math.random()*1000+100);
-	};
-	rndprop3();
+	// const boulders = [
+	// 	'boulder1',
+	// 	'boulder2',
+	// 	'boulder3',
+	// 	'boulder4',
+	// 	'boulder5',
+	// 	'boulder6',
+	// 	'boulder7',
+	// 	'boulder8',
+	// 	'boulder9',
+	// 	'boulder10',
+	// 	'boulder11',
+	// 	'boulder12',
+	// ];
+	// const rndprop3 = () => {
+	// 	const prop = this.shuffle(boulders)[0];
+	// 	const model = this.EnvModel(prop);
+	// 	model.model.position.y -= 1.36;
+	// 	setTimeout(rndprop3, Math.random()*3000+Math.random()*1000+100);
+	// };
+	// rndprop3();
 
 	// pose helper
 	const poses = {
@@ -339,13 +233,13 @@
 		}
 	};
 
-	if (this.radio) {
-		this.music('bgm');
-	} else {
-		this.music('bgm_ambient');
-	}
+	// if (this.radio) {
+	// 	this.music('bgm');
+	// } else {
+	// 	this.music('bgm_ambient');
+	// }
 
-	this.clock.model.visible = this.radio;
+	// this.clock.model.visible = this.radio;
 
 	// start
 	this.started=true;
@@ -855,7 +749,6 @@ I just... whatever.
 [[>main]]
 
 ::scenario-flood
-<<do this.EnvModel('flashfloodsign')>>
 -_- - Huh, is that a flood warning?
 >
 Do you get floods out here often?
