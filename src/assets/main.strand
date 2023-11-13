@@ -17,7 +17,6 @@
 
 	
 	// start with music off in debug
-	// this.radio = !this.debug;
 	// camera
 	this.cameraPlaceholder = this.Model('camera_test');
 	this.cameraPlaceholder.visible = false;
@@ -233,13 +232,7 @@
 		}
 	};
 
-	// if (this.radio) {
 	// 	this.music('bgm');
-	// } else {
-	// 	this.music('bgm_ambient');
-	// }
-
-	// this.clock.model.visible = this.radio;
 
 	// start
 	this.started=true;
@@ -306,11 +299,6 @@ I think this is my exit.
 >>
 
 ::end-scenario2
-<<do
-	if (this.radio) {
-		this.toggleRadio();
-	}
->>
 This is it, huh?
 >
 <<do this.sfx('door_open')>>
@@ -690,62 +678,6 @@ Ughhh.
 ...Sorry.
 >
 :( - I, uh... I'll shut up now.
-[[>main]]
-
-::scenario-radio
-<<do
-    this.radioRequest = this.radio;
-    this.toggleRadioO = this.toggleRadio;
-    this.toggleRadio = () => {};
->>
-:) - Hey, do you mind if I turn the radio <<print this.radioRequest ? 'off' : 'on'>>?
-[[Yeah>radio-refuse]]
-[[Nah>radio-allow]]
-
-::radio-refuse
-Oh...
->
-:( - Rude.
-[[ |this.toggleRadio = this.toggleRadioO;this.goto('main')]]
-
-::radio-allow
-Thanks.
->
-<<do
-    this.radio = this.radioRequest;
-    this.toggleRadioO();
->>
-...
->
-<<do
-    this.toggleRadio = () => {
-        this.toggleRadioO();
-        this.goto('radio-override');
-    };
->>
--_- - *sigh*
->
-It's just good to have a <<print this.radioRequest ? 'bit of quiet' : 'distraction'>>, you know?
->
-Clears your head.
->
-Gives you a chance to really think things through.
->
-...
->
-...Can't believe I'm really going through with this.
->
-:) - Thanks again. I mean it.
-[[ |this.toggleRadio = this.toggleRadioO;this.goto('main')]]
-
-
-::radio-override
-<<do this.toggleRadio = this.toggleRadioO>>
-o_o - Seriously? That was- that was barely...
->
-:( - Whatever. Leave it for all I care.
->
-I just... whatever.
 [[>main]]
 
 ::scenario-flood
