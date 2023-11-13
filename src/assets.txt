@@ -17,7 +17,6 @@ audio/honk.mp3
 models/groundPlane_00.gltf
 models/groundPlane_10.gltf
 models/groundPlane_15.gltf
-models/pc_proxy.gltf
 models/birdwatcher_proxy.gltf
 models/camera_test.gltf
 
