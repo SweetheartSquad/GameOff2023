@@ -17,6 +17,7 @@ models/groundPlane_00.glb
 models/groundPlane_10.glb
 models/groundPlane_15.glb
 models/birdwatcher_proxy.glb
+models/birdwatcher_proxy.gltf
 models/camera_test.glb
 models/camera_test.gltf
 
