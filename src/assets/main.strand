@@ -81,6 +81,7 @@
 	// this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
 	const passengerRef = this.passenger.model.getChildByName('birdwatcher_Standin');
 	passengerRef.visible = true;
+	// TODO: use ref obj
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
 	this.scene.pointDialogue.position.y = passengerRef.position.y + 0.35;
 	this.scene.pointDialogue.position.z = passengerRef.position.z + 0.25;
