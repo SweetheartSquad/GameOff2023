@@ -101,6 +101,7 @@ export class Mouse {
 		if (this.lock) {
 			this.lockMouse();
 		}
+		this.onMove(event);
 	};
 
 	onUp = (event: MouseEvent): void => {
@@ -108,6 +109,7 @@ export class Mouse {
 		this.down = false;
 		this.justDown = false;
 		this.justUp = true;
+		this.onMove(event);
 	};
 
 	onMove = (event: MouseEvent): void => {
