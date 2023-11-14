@@ -43,9 +43,9 @@
 			rootRoad = road;
 		} else {
 			rootRoad.model.addChild(road.model);
-			road.model.position.z = i * roadSize * Math.cos(this.roadAngle);
-			road.model.position.y = (roadSegments/2-i) * roadSize * Math.sin(this.roadAngle);
 		}
+		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
+		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
 	}
 	const xRoot = rootRoad.model.position.x;
 	const yRoot = rootRoad.model.position.y;
@@ -59,7 +59,7 @@
 		curPos += roadDelta;
 		curPos %= roadSize;
 		let pos = curPos;
-		rootRoad.model.position.z = pos * Math.cos(this.roadAngle) - (roadSize*roadSegments/2);
+		rootRoad.model.position.z = pos * Math.cos(this.roadAngle);
 		rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
 		// sway road back and forth
