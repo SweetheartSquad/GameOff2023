@@ -194,7 +194,8 @@ export function init(): void {
 			KEYS.ENTER,
 		],
 	});
-	mouse = new Mouse(game.app.view, true);
+	// TODO: remove unsafe cast https://github.com/pixijs/pixijs/pull/8820
+	mouse = new Mouse(game.app.view as unknown as HTMLCanvasElement, true);
 
 	const fill = new Sprite(Texture.WHITE);
 	fill.tint = 0x000000;
