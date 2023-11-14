@@ -183,10 +183,10 @@
 		this.pose = poses[pose] || pose;
 		const frame = this.passenger.animator.frame;
 		const offset = this.passenger.animator.offset;
-		this.passenger.setAnimation(['passenger', this.pose, state].filter(i => i).join('_'));
-		this.passenger.animator.frame = frame;
-		this.passenger.animator.offset = offset;
-		this.passenger.animator.updateTexture();
+		// this.passenger.setAnimation(['passenger', this.pose, state].filter(i => i).join('_'));
+		// this.passenger.animator.frame = frame;
+		// this.passenger.animator.offset = offset;
+		// this.passenger.animator.updateTexture();
 	};
 
 
