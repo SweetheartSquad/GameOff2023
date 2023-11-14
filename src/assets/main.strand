@@ -29,51 +29,48 @@
 	this.scene.camera3d.far = camProps.zfar;
 
 	// road + sway
-	// const speedometer = this.car.model.getChildByName('speed').getChildByName('speedMeter');
-	// const wheel = this.scene.strand.car.model.getChildByName('steeringColumn');
-	// const roadSize = 60;
-	// const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
-	// console.log(roadSegments);
-	// this.roadSpeed = 40;
-	// let rootRoad;
-	// for(let i = 0; i < roadSegments; ++i) {
-	// 	const pos = i-roadSegments/2;
-	// 	const road = this.Model('roadSeg', 'palette', { doubleSided: true, depth: true });
-	// 	if (i === 0) {
-	// 		rootRoad = road;
-	// 	} else {
-	// 		rootRoad.model.addChild(road.model);
-	// 		road.model.position.z = i * roadSize;
-	// 	}
-	// }
-	// rootRoad.model.position.y -= 1.36;
-	// rootRoad.model.position.x -= 3.3;
-	// const xRoot = rootRoad.model.position.x;
-	// const yRoot = rootRoad.model.position.y;
-	// let pTime = Date.now();
-	// let curPos = 0;
-	// let roadDelta = 0;
-	// this.Updater(() => {
-	// 	const cTime = Date.now();
-	// 	const dTime = cTime - pTime;
-	// 	roadDelta = dTime/1000 * this.roadSpeed;
-	// 	curPos += roadDelta;
-	// 	curPos %= roadSize;
-	// 	rootRoad.model.position.z = curPos - (roadSize*roadSegments/2);
+	const roadSize = 200;
+	this.roadSpeed = 40;
+	this.roadAngle = 10; // degrees
 
-	// 	// rotate wheel + sway road back and forth
-	// 	const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
-	// 	wheel.rotationQuaternion.setEulerAngles(65, 0, sway);
-	// 	rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
-	// 	// bounce road
-	// 	rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
-	// 	pTime = cTime;
-	// 	// speedometer
-	// 	speedometer.rotationQuaternion.setEulerAngles(0, 30 - this.roadSpeed * 2 * (Math.random()*0.1+0.95), 0);
-	// });
+	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
+	console.log(roadSegments);
 
-	// floor
-	this.floor = this.Model('groundPlane_00', 'passenger_normal');
+	this.roadAngle = this.roadAngle / 180 * Math.PI;
+	let rootRoad;
+	for(let i = 0; i < roadSegments; ++i) {
+		const road = this.Model('groundPlane_10', 'floor', { depth: true });
+		if (i === 0) {
+			rootRoad = road;
+		} else {
+			rootRoad.model.addChild(road.model);
+			road.model.position.z = i * roadSize * Math.cos(this.roadAngle);
+			road.model.position.y = (roadSegments/2-i) * roadSize * Math.sin(this.roadAngle);
+		}
+	}
+	const xRoot = rootRoad.model.position.x;
+	const yRoot = rootRoad.model.position.y;
+	let pTime = Date.now();
+	let curPos = 0;
+	let roadDelta = 0;
+	this.Updater(() => {
+		const cTime = Date.now();
+		const dTime = cTime - pTime;
+		roadDelta = dTime/1000 * this.roadSpeed;
+		curPos += roadDelta;
+		curPos %= roadSize;
+		let pos = curPos;
+		rootRoad.model.position.z = pos * Math.cos(this.roadAngle) - (roadSize*roadSegments/2);
+		rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
+
+		// sway road back and forth
+		// const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
+		// rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
+
+		// bounce road
+		// rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
+		pTime = cTime;
+	});
 
 	// passenger
 	this.passenger = this.Model('birdwatcher_proxy', 'passenger_normal', { transparent: true });
