@@ -1,11 +1,11 @@
 import { Axes, Buttons, Gamepads } from 'input-gamepads.js';
 import { Sprite, Texture } from 'pixi.js';
+import { fps, size } from './config';
 import { game } from './Game';
 import { GameScene } from './GameScene';
 import { KEYS, keys } from './input-keys';
 import { Mouse } from './input-mouse';
 import { swipes } from './input-swipe';
-import { size } from './size';
 import { clamp } from './utils';
 
 const gamepads = new Gamepads();

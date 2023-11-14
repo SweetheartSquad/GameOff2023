@@ -3,8 +3,8 @@ import { game } from './Game';
 import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
 import * as VMath from './VMath';
-import { size } from './size';
 import { zero } from './utils';
+import { size } from './config';
 
 export class Camera extends GameObject {
 	display: Display;

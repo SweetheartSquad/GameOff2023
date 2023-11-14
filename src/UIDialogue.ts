@@ -21,9 +21,9 @@ import { Transform } from './Scripts/Transform';
 import { Tween, TweenManager } from './Tweens';
 import { V } from './VMath';
 import { fontChoice, fontDialogue } from './font';
+import { size } from './config';
 import { KEYS, keys } from './input-keys';
 import { getInput } from './main';
-import { size } from './size';
 import { clamp, lerp, pointOnRect, tex } from './utils';
 
 const padding = {

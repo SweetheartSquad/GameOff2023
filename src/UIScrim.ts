@@ -3,7 +3,7 @@ import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
 import { Tween, TweenManager } from './Tweens';
-import { size } from './size';
+import { size } from './config';
 
 export class UIScrim extends GameObject {
 	sprScrim: Sprite;

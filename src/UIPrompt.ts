@@ -2,9 +2,9 @@ import { Text } from 'pixi.js';
 import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
+import { size } from './config';
 import { fontPrompt } from './font';
 import { getInput, mouse } from './main';
-import { size } from './size';
 import { lerp } from './utils';
 
 export class UIPrompt extends GameObject {
