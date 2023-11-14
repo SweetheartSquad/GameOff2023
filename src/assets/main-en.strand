@@ -74,7 +74,7 @@
 	});
 
 	// passenger
-	this.passenger = this.Model('passenger_plane', 'passenger_standing_sketch', { transparent: true, doubleSided: true });
+	this.passenger = this.Model('passenger_plane', 'passenger_standing_sketch', { transparent: true });
 	const passengerRef = this.passenger.model.getChildAt(0);
 	passengerRef.visible = true;
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
