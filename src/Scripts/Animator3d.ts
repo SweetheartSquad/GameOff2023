@@ -52,11 +52,6 @@ export class Animator3d extends Script {
 	}
 
 	updateTexture() {
-		console.log(
-			this.frameCount
-				? `${this.animation}.${this.frames[this.frame]}`
-				: this.animation
-		);
 		this.mat.setTexture(
 			this.frameCount
 				? `${this.animation}.${this.frames[this.frame]}`
