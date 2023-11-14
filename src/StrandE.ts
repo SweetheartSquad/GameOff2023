@@ -32,41 +32,12 @@ export class StrandE extends Strand {
 	delay = delay;
 
 	setSource(src: string) {
-		autolink = 0;
 		super.setSource(
 			src
-				// replacer link sugar
-				.replace(
-					/\[{2}(.*?)>(.*?)\]{2}/gm,
-					// @ts-ignore
-					(_: never, label: string, target: string) =>
-						`[[${label || promptDefault}|this.goto(\`${target}\`)]]`
-				)
-				// auto link sugar
-				.replace(
-					/^>(.*)/gm,
-					// @ts-ignore
-					(_: never, link: string) =>
-						link === '>'
-							? `>${link}`
-							: link
-									.split('|')
-									.map(
-										(l) =>
-											`[[${l || promptDefault}|this.goto('auto-${
-												autolink + 1
-											}')]]`
-									)
-									.concat(`\n::auto-${++autolink}`)
-									.join('\n')
-				)
-				// auto link escape
-				.replace(/^\\>/gm, '>')
 				// voice sugar
 				.replace(
 					/^voice(\w+)$/gm,
-					// @ts-ignore
-					(_: never, voice: string) => `<<do this.voice='${voice}'>>`
+					(_: string, voice: string) => `<<do this.voice='${voice}'>>`
 				)
 		);
 
