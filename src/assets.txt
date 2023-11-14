@@ -13,11 +13,11 @@ audio/door_open.mp3
 audio/door_close.mp3
 audio/bgm_ambient.mp3
 
-models/groundPlane_00.gltf
-models/groundPlane_10.gltf
-models/groundPlane_15.gltf
-models/birdwatcher_proxy.gltf
-models/camera_test.gltf
+models/groundPlane_00.glb
+models/groundPlane_10.glb
+models/groundPlane_15.glb
+models/birdwatcher_proxy.glb
+models/camera_test.glb
 
 textures/palette.png
 textures/floor.png
