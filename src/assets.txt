@@ -18,6 +18,7 @@ models/groundPlane_10.glb
 models/groundPlane_15.glb
 models/birdwatcher_proxy.glb
 models/camera_test.glb
+models/camera_test.gltf
 
 textures/palette.png
 textures/floor.png
