@@ -61,7 +61,7 @@ class CustomMaterial extends Material {
 	}
 }
 
-const materialCache: {
+export const materialCache: {
 	[key: string]: Material;
 } = {};
 

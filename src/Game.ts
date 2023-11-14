@@ -20,6 +20,7 @@ import { size } from './config';
 import * as fonts from './font';
 import { assets, enableHotReload, mainen } from './GameHotReload';
 import { getActiveScene, init } from './main';
+import { materialCache } from './Model';
 import { tex } from './utils';
 
 // PIXI configuration stuff
@@ -175,6 +176,14 @@ export class Game {
 			.map((i) => [i, (i as Textured)?.texture?.textureCacheIds[1]])
 			.filter(([, id]) => id) as [Textured, string][];
 
+		const materials = Object.values(materialCache)
+			.map((m) => [
+				m,
+				// @ts-ignore
+				m.baseColorTexture?.textureCacheIds[1],
+			])
+			.filter(([, id]) => id);
+
 		await Assets.unloadBundle('resources');
 		const assetsLoaded = await Assets.loadBundle('resources');
 		updateResourceCache(assetsLoaded);
@@ -184,6 +193,9 @@ export class Game {
 					tex(texId).baseTexture;
 			}
 			textured.texture = tex(texId);
+		});
+		materials.forEach(([m, texId]) => {
+			m.baseColorTexture = tex(texId);
 		});
 		scene?.screenFilter?.reload();
 		this.app.ticker.start();
