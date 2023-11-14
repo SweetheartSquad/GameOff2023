@@ -10,7 +10,7 @@ export class Prompt {
 	constructor(
 		onChange: (v: string) => void,
 		onSubmit: () => void,
-		{ defaultValue = '', max = Infinity } = {}
+		{ defaultValue = '', min = 1, max = 256 } = {}
 	) {
 		this.elForm = document.createElement('form');
 		// prevent form from affecting layout
@@ -24,7 +24,9 @@ export class Prompt {
 
 		this.elInput = document.createElement('input');
 		this.elInput.type = 'text';
+		this.elInput.minLength = min;
 		this.elInput.maxLength = max;
+		this.elInput.required = true;
 		this.elInput.oninput = this.elInput.onkeyup = () => {
 			requestAnimationFrame(() => {
 				const v = this.elInput.value;
