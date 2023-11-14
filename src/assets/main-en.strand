@@ -23,7 +23,6 @@
 
 	const cameraPlaceholder = this.cameraPlaceholder.model.getChildByName('Camera');
 	this.scene.camera3d.position = cameraPlaceholder.position;
-	console.log(cameraPlaceholder);
 	const camProps = window.resource('camera_test').descriptor.cameras[0].perspective;
 	this.scene.camera3d.fieldOfView = camProps.yfov * 100;
 	this.scene.camera3d.near = camProps.znear;
@@ -35,7 +34,6 @@
 	this.roadAngle = 10; // degrees
 
 	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
-	console.log(roadSegments);
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
