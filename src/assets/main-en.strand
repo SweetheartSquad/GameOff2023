@@ -191,31 +191,31 @@
 
 
 	// blinking and lip flaps
-	this.pose = 'normal';
-	this.blinking = false;
-	this.timeoutBlinking;
-	this.scene.dialogue.scripts.push({
-		gameObject: this.scene.dialogue,
-		update: () => {
-			if (!this.pose) return;
-			if (!this.timeoutBlinking) {
-				this.timeoutBlinking = setTimeout(() => {
-					this.blinking = !this.blinking;
-					this.timeoutBlinking = null;
-				}, this.blinking ? 100 : 2000+Math.random()*4000);
-			};
+	// this.pose = 'normal';
+	// this.blinking = false;
+	// this.timeoutBlinking;
+	// this.scene.dialogue.scripts.push({
+	// 	gameObject: this.scene.dialogue,
+	// 	update: () => {
+	// 		if (!this.pose) return;
+	// 		if (!this.timeoutBlinking) {
+	// 			this.timeoutBlinking = setTimeout(() => {
+	// 				this.blinking = !this.blinking;
+	// 				this.timeoutBlinking = null;
+	// 			}, this.blinking ? 100 : 2000+Math.random()*4000);
+	// 		};
 
-			const letter = this.scene.dialogue.strText[scene.dialogue.pos];
-			const isLetter = letter && letter.replace(/[^\w]/, '');
-			if (isLetter) {
-				this.setPose(this.pose, 'o');
-			} else if (this.blinking) {
-				this.setPose(this.pose, 'b');
-			} else {
-				this.setPose(this.pose, 'n');
-			}
-		},
-	});
+	// 		const letter = this.scene.dialogue.strText[scene.dialogue.pos];
+	// 		const isLetter = letter && letter.replace(/[^\w]/, '');
+	// 		if (isLetter) {
+	// 			this.setPose(this.pose, 'o');
+	// 		} else if (this.blinking) {
+	// 			this.setPose(this.pose, 'b');
+	// 		} else {
+	// 			this.setPose(this.pose, 'n');
+	// 		}
+	// 	},
+	// });
 
 	// add syntax sugar for poses like `:( - Blah blah`
 	const check = /^(.*) - /;
