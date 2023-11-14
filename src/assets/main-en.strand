@@ -72,7 +72,8 @@
 	});
 
 	// passenger
-	this.passenger = this.Model('passenger', 'passenger_sketch', { transparent: true });
+	const poseBase = 'passenger_sketch';
+	this.passenger = this.Model('passenger', `${poseBase}_n`, { transparent: true });
 	// fix alpha
 	this.passenger.model.children.forEach(i => i.visible = false);
 	this.passenger.model.getChildByName('passenger_plane').visible = true;
@@ -179,43 +180,49 @@
 		'o_o': 'facing_you',
 		'-_-': 'facing_away',
 	};
+
+	const terr = this.tex('error');
 	this.setPose = (pose, state) => {
 		this.pose = poses[pose] || pose;
 		const frame = this.passenger.animator.frame;
 		const offset = this.passenger.animator.offset;
-		// this.passenger.setAnimation(['passenger', this.pose, state].filter(i => i).join('_'));
-		// this.passenger.animator.frame = frame;
-		// this.passenger.animator.offset = offset;
-		// this.passenger.animator.updateTexture();
+		let t = [poseBase, this.pose, state].filter(i => i).join('_');
+		if (this.tex(t) === terr) t = [poseBase, 'normal', state].filter(i => i).join('_');
+		if (this.tex(t) === terr) t = [poseBase, state].filter(i => i).join('_');
+		if (this.tex(t) === terr) t = poseBase;
+		this.passenger.setAnimation(t);
+		this.passenger.animator.frame = frame;
+		this.passenger.animator.offset = offset;
+		this.passenger.animator.updateTexture();
 	};
 
 
 	// blinking and lip flaps
-	// this.pose = 'normal';
-	// this.blinking = false;
-	// this.timeoutBlinking;
-	// this.scene.dialogue.scripts.push({
-	// 	gameObject: this.scene.dialogue,
-	// 	update: () => {
-	// 		if (!this.pose) return;
-	// 		if (!this.timeoutBlinking) {
-	// 			this.timeoutBlinking = setTimeout(() => {
-	// 				this.blinking = !this.blinking;
-	// 				this.timeoutBlinking = null;
-	// 			}, this.blinking ? 100 : 2000+Math.random()*4000);
-	// 		};
+	this.pose = 'normal';
+	this.blinking = false;
+	this.timeoutBlinking;
+	this.scene.dialogue.scripts.push({
+		gameObject: this.scene.dialogue,
+		update: () => {
+			if (!this.pose) return;
+			if (!this.timeoutBlinking) {
+				this.timeoutBlinking = setTimeout(() => {
+					this.blinking = !this.blinking;
+					this.timeoutBlinking = null;
+				}, this.blinking ? 100 : 2000+Math.random()*4000);
+			};
 
-	// 		const letter = this.scene.dialogue.strText[scene.dialogue.pos];
-	// 		const isLetter = letter && letter.replace(/[^\w]/, '');
-	// 		if (isLetter) {
-	// 			this.setPose(this.pose, 'o');
-	// 		} else if (this.blinking) {
-	// 			this.setPose(this.pose, 'b');
-	// 		} else {
-	// 			this.setPose(this.pose, 'n');
-	// 		}
-	// 	},
-	// });
+			const letter = this.scene.dialogue.strText[scene.dialogue.pos];
+			const isLetter = letter && letter.replace(/[^\w]/, '');
+			if (isLetter) {
+				this.setPose(this.pose, 'o');
+			} else if (this.blinking) {
+				this.setPose(this.pose, 'b');
+			} else {
+				this.setPose(this.pose, 'n');
+			}
+		},
+	});
 
 	// add syntax sugar for poses like `:( - Blah blah`
 	const check = /^(.*) - /;

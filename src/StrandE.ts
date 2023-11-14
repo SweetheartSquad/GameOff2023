@@ -14,7 +14,7 @@ import { TweenManager } from './Tweens';
 import { fontIngame } from './font';
 import { setScene } from './main';
 import { Prompt } from './prompt';
-import { chunks, delay, removeFromArray, shuffle } from './utils';
+import { chunks, delay, removeFromArray, shuffle, tex } from './utils';
 
 export class StrandE extends Strand {
 	scene!: GameScene;
@@ -30,6 +30,8 @@ export class StrandE extends Strand {
 	language?: string;
 
 	delay = delay;
+
+	tex = tex;
 
 	setSource(src: string) {
 		super.setSource(

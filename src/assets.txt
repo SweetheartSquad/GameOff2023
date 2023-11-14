@@ -6,12 +6,10 @@ textures/dialogueBg.x6.png
 textures/dialogueChoiceBg.x3.png
 textures/dialogueDiamond.x3.png
 
-audio/bgm.mp3
 audio/voiceDefault.mp3
 audio/click.mp3
 audio/door_open.mp3
 audio/door_close.mp3
-audio/bgm_ambient.mp3
 
 models/groundPlane_00.glb
 models/groundPlane_10.glb
@@ -22,20 +20,9 @@ models/passenger.glb
 textures/palette.png
 textures/floor.png
 
-textures/passenger_sketch.png
-
-textures/passenger_normal_n.x2.png
-textures/passenger_normal_o.x2.png
-textures/passenger_normal_b.x2.png
-textures/passenger_sad_n.x2.png
-textures/passenger_sad_o.x2.png
-textures/passenger_sad_b.x2.png
-textures/passenger_facing_you_n.x2.png
-textures/passenger_facing_you_o.x2.png
-textures/passenger_facing_you_b.x2.png
-textures/passenger_facing_away_n.x2.png
-textures/passenger_facing_away_o.x2.png
-textures/passenger_facing_away_b.x2.png
+textures/passenger_sketch_n.png
+textures/passenger_sketch_o.png
+textures/passenger_sketch_b.png
 
 textures/skybox_y.png
 textures/skybox_posx.jpg
