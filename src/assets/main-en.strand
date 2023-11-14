@@ -77,8 +77,8 @@
 	const passengerRef = this.passenger.model.getChildAt(0);
 	passengerRef.visible = true;
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
-	this.scene.pointDialogue.position.y = passengerRef.position.y + 0.35;
-	this.scene.pointDialogue.position.z = passengerRef.position.z + 0.25;
+	this.scene.pointDialogue.position.y = passengerRef.position.y;
+	this.scene.pointDialogue.position.z = passengerRef.position.z;
 
 	// this.EnvModel = (model) => {
 	// 	const m = this.Model(model, 'palette', { doubleSided: true, depth: true });
