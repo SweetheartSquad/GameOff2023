@@ -20,6 +20,7 @@ models/birdwatcher_proxy.gltf
 models/camera_test.gltf
 
 textures/palette.png
+textures/floor.png
 textures/passenger_normal_n.x2.png
 textures/passenger_normal_o.x2.png
 textures/passenger_normal_b.x2.png
