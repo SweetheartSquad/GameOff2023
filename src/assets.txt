@@ -17,13 +17,12 @@ models/groundPlane_00.glb
 models/groundPlane_10.glb
 models/groundPlane_15.glb
 models/camera_test.glb
-models/passenger_plane.glb
-models/passenger_mouth.glb
+models/passenger.glb
 
 textures/palette.png
 textures/floor.png
 
-textures/passenger_standing_sketch.png
+textures/passenger_sketch.png
 
 textures/passenger_normal_n.x2.png
 textures/passenger_normal_o.x2.png
