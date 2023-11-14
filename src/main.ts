@@ -12,13 +12,13 @@ const gamepads = new Gamepads();
 // eslint-disable-next-line import/no-mutable-exports
 export let mouse: Mouse;
 let activeScene: GameScene | undefined;
-let newScene: GameScene | undefined;
+let newScene: GameScene | (() => GameScene) | undefined;
 
 export function getActiveScene(): GameScene | undefined {
 	return activeScene;
 }
 
-export function setScene(scene?: GameScene): void {
+export function setScene(scene?: NonNullable<typeof newScene>): void {
 	newScene = scene;
 }
 
@@ -164,8 +164,8 @@ function update(): void {
 	// switch scene
 	if (newScene && activeScene !== newScene) {
 		activeScene?.destroy();
-		// @ts-ignore
-		window.scene = activeScene = newScene;
+		window.scene = activeScene =
+			typeof newScene === 'function' ? newScene() : newScene;
 		newScene = undefined;
 		if (activeScene) {
 			game.app.stage.addChildAt(activeScene.camera.display.container, 1);
@@ -198,6 +198,7 @@ export function init(): void {
 	mouse = new Mouse(game.app.view as unknown as HTMLCanvasElement, true);
 
 	const fill = new Sprite(Texture.WHITE);
+	fill.name = 'fill';
 	fill.tint = 0x000000;
 	fill.width = size.x;
 	fill.height = size.x;

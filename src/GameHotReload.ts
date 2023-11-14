@@ -1,29 +1,58 @@
-/* eslint-disable import/no-import-module-exports */
-import { Application } from 'pixi.js';
-import main from './assets/main.strand';
+import { Assets } from 'pixi.js';
+import { game, resource, resources } from './Game';
+import assets from './assets.txt';
+import mainen from './assets/main-en.strand';
 import { DEBUG } from './debug';
+import { log } from './logger';
 
-export { main };
+export { mainen, assets };
 
-export function enableHotReload(app: Application) {
-	// allow hot-reloading main.strand
-	if (DEBUG) {
-		// @ts-ignore
-		if (module.hot) {
-			// @ts-ignore
-			module.hot.accept('./assets/main.strand', () => {
-				app.loader.reset();
-				app.loader.add('main', main);
-				app.loader.onComplete.once(() => {
-					// @ts-ignore
-					window.scene.strand.setSource(app.loader.resources.main.data);
-					// @ts-ignore
-					if (window.scene.strand.currentPassage?.title) {
-						// @ts-ignore
-						window.scene.strand.goto(window.scene.strand.currentPassage.title);
-					}
+export async function enableHotReload() {
+	async function onHotReloadStrand() {
+		game.app.ticker.stop();
+		Assets.unload('main-en');
+		const data = await Assets.load(mainen);
+		resources['main-en'] = data;
+		if (!window.scene) throw new Error('Could not find scene');
+		window.scene.strand.setSource(
+			resource<string>(`main-${window.scene.strand.language || 'en'}`) || ''
+		);
+		if (window.scene.strand.currentPassage?.title) {
+			await new Promise<void>((r) => {
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						if (!window.scene) return;
+						window.scene.strand.history.push(
+							window.scene.strand.currentPassage.title
+						);
+						window.scene.strand.back();
+						r();
+					});
 				});
-				app.loader.load();
+			});
+		}
+		game.app.ticker.start();
+	}
+	// allow hot-reloading main.strand
+	// and assets
+	if (DEBUG) {
+		let promiseReloading = Promise.resolve();
+		if (import.meta.webpackHot) {
+			import.meta.webpackHot.accept('./assets/main-en.strand', () => {
+				promiseReloading = promiseReloading.then(() => {
+					log('[HACKY HMR] Reloading strand');
+					return onHotReloadStrand();
+				});
+			});
+
+			const { client } = await import('webpack-dev-server/client/socket');
+			client.client.addEventListener('message', (e) => {
+				if ((JSON.parse(e.data) as { type: string }).type === 'still-ok') {
+					promiseReloading = promiseReloading.then(() => {
+						log('[HACKY HMR] Reloading assets');
+						return game.reloadAssets();
+					});
+				}
 			});
 		}
 	}

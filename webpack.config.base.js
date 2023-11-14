@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ChunkProgressWebpackPlugin = require('chunk-progress-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
 const pkg = require('./package');
 
 module.exports = (env, argv) => ({
@@ -30,14 +31,8 @@ module.exports = (env, argv) => ({
 				],
 			},
 			{
-				test: /(?<!\.fnt)\.(png|jpg|gif|wav|ogg|mp3|glsl|xml|strand|txt|gltf|glb|cubemap)$/,
-				use: {
-					loader: 'file-loader',
-					options: {
-						outputPath: 'assets/',
-						name: argv.mode === 'development' ? undefined : '[name].[ext]',
-					},
-				},
+				test: /(?<!\.fnt)\.(png|jpg|gif|webp|wav|ogg|mp3|glsl|xml|strand|txt|gltf|glb)$/,
+				type: 'asset/resource',
 			},
 			{
 				test: /(otf|ttf|woff)$/,
@@ -50,9 +45,49 @@ module.exports = (env, argv) => ({
 		fallback: {
 			path: false,
 		},
+		alias: {
+			'@pixi/sprite': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/sprite'
+			),
+			'@pixi/assets': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/assets'
+			),
+			'@pixi/display': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/display'
+			),
+			'@pixi/ticker': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/ticker'
+			),
+			'@pixi/utils': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/utils'
+			),
+			'@pixi/constants': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/constants'
+			),
+			'@pixi/math': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/math'
+			),
+			'@pixi/settings': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/settings'
+			),
+			'@pixi/core': path.resolve(
+				__dirname,
+				'node_modules/pixi.js/node_modules/@pixi/core'
+			),
+		},
 	},
 	output: {
 		filename: '[name].[contenthash].bundle.js',
+		assetModuleFilename:
+			argv.mode === 'development' ? undefined : 'assets/[name][ext][query]',
 		clean: true,
 	},
 	plugins: [
@@ -60,7 +95,7 @@ module.exports = (env, argv) => ({
 		new CopyPlugin({
 			patterns: [
 				{
-					from: 'assets/**/*.{png,jpg,mp3,ogg,txt,fnt,gltf,glb,cubemap}',
+					from: 'assets/**/*.{png,jpg,gif,webp,mp3,ogg,glsl,txt,fnt,gltf,glb}',
 					context: 'src',
 				},
 			],

@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler';
-import { resources } from './Game';
+import { resource } from './Game';
+import { warn } from './logger';
 import { delay } from './utils';
 
 let muted = false;
@@ -12,10 +13,10 @@ export function toggleMute(): void {
 	muted = !muted;
 }
 
-function getHowl(howl: string) {
-	const h = resources[howl]?.data as Maybe<Howl>;
+export function getHowl(howl: string) {
+	const h = resource<Howl>(howl);
 	if (!h) {
-		console.warn(`Audio "${howl}" not found`);
+		warn(`Audio "${howl}" not found`);
 	}
 	return h;
 }
@@ -32,23 +33,36 @@ let musicPlaying:
 
 export function sfx(
 	sfxName: string,
-	{ rate = 1, volume = 1 }: { rate?: number; volume?: number } = {}
+	{
+		rate = 1,
+		volume = 1,
+		loop = false,
+	}: { rate?: number; volume?: number; loop?: boolean } = {}
 ) {
 	const howl = getHowl(sfxName);
 	if (!howl) return undefined;
 	const id = howl.play();
 	howl.rate(rate, id);
+	howl.loop(loop, id);
 	howl.volume(volume, id);
 	return id;
 }
 
+const musicHowls: { [key: string]: number } = {};
 export function music(
 	musicName: string,
 	{
 		rate = 1,
 		volume = 0.5,
 		fade = 1000,
-	}: { rate?: number; volume?: number; fade?: number } = {}
+		restart = false,
+	}: {
+		rate?: number;
+		volume?: number;
+		fade?: number;
+		/** if true, restarts track; if false, resumes track */
+		restart?: boolean;
+	} = {}
 ) {
 	const playing = musicPlaying;
 	if (
@@ -60,14 +74,25 @@ export function music(
 	if (playing) {
 		playing.howl.fade(playing.volume, 0, fade, playing.id);
 		delay(fade).then(() => {
-			playing.howl.stop(playing.id);
+			if (playing.music !== musicPlaying?.music) {
+				playing.howl.pause(playing.id);
+			}
 		});
 	}
 	musicPlaying = undefined;
 	if (!musicName) return undefined;
 	const howl = getHowl(musicName);
 	if (!howl) return undefined;
-	const id = howl.play();
+	let id = musicHowls[musicName];
+	if (id) {
+		if (restart) {
+			howl.stop(id);
+		}
+		howl.play(id);
+	} else {
+		id = howl.play();
+		musicHowls[musicName] = id;
+	}
 	howl.rate(rate, id);
 	howl.loop(true, id);
 	howl.fade(0, volume, fade, id);

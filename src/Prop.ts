@@ -6,6 +6,8 @@ import { Transform } from './Scripts/Transform';
 import { tex } from './utils';
 
 export class Prop extends GameObject {
+	texture: string;
+
 	spr: Sprite;
 
 	animator?: Animator;
@@ -14,7 +16,12 @@ export class Prop extends GameObject {
 
 	display: Display;
 
+	offset: number;
+
+	name: string;
+
 	constructor({
+		name,
 		texture,
 		x = 0,
 		y = 0,
@@ -24,9 +31,11 @@ export class Prop extends GameObject {
 		animate = true,
 		flip,
 		blur,
-		offset,
+		offset = 0,
 		freq = 1 / 400,
+		tint,
 	}: {
+		name?: string;
 		texture: string;
 		x?: number;
 		y?: number;
@@ -38,17 +47,25 @@ export class Prop extends GameObject {
 		animate?: boolean;
 		offset?: number;
 		freq?: number;
+		tint?: number;
 	}) {
 		super();
+		this.name = name || texture;
+		this.texture = texture;
+		this.offset = offset;
 
 		const t = tex(texture);
 		this.spr = new Sprite(t);
+		this.spr.name = `prop ${texture}`;
 		if (blur) {
 			this.spr.texture.baseTexture.scaleMode = SCALE_MODES.LINEAR;
 		}
 		this.spr.anchor.x = 0.5;
 		this.spr.anchor.y = 1.0;
 		this.spr.alpha = alpha;
+		if (tint !== undefined) {
+			this.spr.tint = tint;
+		}
 		this.spr.scale.x = this.spr.scale.y = scale;
 		if (flip) {
 			this.spr.scale.x *= -1;
@@ -56,7 +73,7 @@ export class Prop extends GameObject {
 
 		this.scripts.push((this.transform = new Transform(this)));
 		this.scripts.push((this.display = new Display(this)));
-		if (animate && t.textureCacheIds[0].match(/\.\d+$/)) {
+		if (animate && t.textureCacheIds[1].match(/\.\d+$/)) {
 			this.scripts.push(
 				(this.animator = new Animator(this, {
 					spr: this.spr,
@@ -67,16 +84,25 @@ export class Prop extends GameObject {
 		}
 
 		this.display.container.addChild(this.spr);
-		this.display.container.angle = angle;
+		this.spr.angle = angle;
 		this.transform.x = x;
 		this.transform.y = y;
 
 		if (offset) {
-			this.spr.y -= offset;
-			this.transform.y += offset;
+			// @ts-ignore
+			this.display.container.offset = offset;
 		}
 
 		this.display.updatePosition();
 		this.init();
+	}
+
+	set(texture: string) {
+		if (this.animator) {
+			this.animator.setAnimation(texture);
+		} else {
+			const t = tex(texture);
+			this.spr.texture = t;
+		}
 	}
 }

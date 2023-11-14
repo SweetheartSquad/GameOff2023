@@ -1,11 +1,5 @@
 /* eslint-disable max-classes-per-file */
-import {
-	LoaderResource,
-	MIPMAP_MODES,
-	Program,
-	SCALE_MODES,
-	Texture,
-} from 'pixi.js';
+import { MIPMAP_MODES, Program, SCALE_MODES, Texture } from 'pixi.js';
 import {
 	Material,
 	Mesh3D,
@@ -14,8 +8,8 @@ import {
 	StandardMaterial,
 	StandardMaterialAlphaMode,
 	glTFAsset,
-} from 'pixi3d';
-import { resources } from './Game';
+} from 'pixi3d/pixi7';
+import { resource } from './Game';
 import { GameObject } from './GameObject';
 import { Animator3d } from './Scripts/Animator3d';
 import { getActiveScene } from './main';
@@ -57,7 +51,7 @@ class CustomMaterial extends Material {
 
 	updateUniforms(mesh: Mesh3D, shader: MeshShader) {
 		shader.uniforms.u_ViewProjection =
-			getActiveScene()?.camera3d.viewProjection;
+			getActiveScene()?.camera3d.viewProjection.array;
 		shader.uniforms.u_Model = mesh.worldTransform.array;
 		shader.uniforms.u_Color = this.baseColorTexture;
 	}
@@ -94,15 +88,13 @@ export class Model extends GameObject {
 		} = {}
 	) {
 		super();
-		const gltf = (
-			resources[model] as Maybe<LoaderResource & { gltf?: glTFAsset }>
-		)?.gltf;
+		const gltf = resource<glTFAsset>(model);
 		if (!gltf) {
 			throw new Error(`unknown model ${model}`);
 		}
 		const matTex = tex(texture);
 		let mat: CustomMaterial | StandardMaterial;
-		const matKey = `${matTex}_${depth}_${transparent}_${smooth}_${doubleSided}`;
+		const matKey = `${texture}_${depth}_${transparent}_${smooth}_${doubleSided}`;
 		if (depth) {
 			mat = materialCache[matKey] =
 				(materialCache[matKey] as CustomMaterial) || new CustomMaterial();
@@ -127,8 +119,13 @@ export class Model extends GameObject {
 		this.scripts.push(
 			(this.animator = new Animator3d(this, {
 				mat: {
-					getTexture: () => mat.baseColorTexture?.textureCacheIds[0] || '',
+					// @ts-ignore
+					t: '',
+					// @ts-ignore
+					getTexture: () => this.t,
 					setTexture: (newTexture) => {
+						// @ts-ignore
+						this.t = newTexture;
 						mat.baseColorTexture = tex(newTexture);
 					},
 				},

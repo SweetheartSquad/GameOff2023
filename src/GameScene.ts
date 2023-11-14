@@ -1,8 +1,16 @@
 import { Container, DisplayObject } from 'pixi.js';
-import { Camera as Camera3D, Cubemap, Mesh3D, Quat, Skybox } from 'pixi3d';
+import {
+	Camera as Camera3D,
+	Container3D,
+	Cubemap,
+	Mesh3D,
+	Quat,
+	Skybox,
+} from 'pixi3d/pixi7';
 import { Camera } from './Camera';
-import { game, resources } from './Game';
+import { game, resource } from './Game';
 import { GameObject } from './GameObject';
+import { ScreenFilter } from './ScreenFilter';
 import { Updater } from './Scripts/Updater';
 import { StrandE } from './StrandE';
 import { TweenManager } from './Tweens';
@@ -21,7 +29,7 @@ function depthCompare(a: DisplayObject, b: DisplayObject): number {
 export class GameScene extends GameObject {
 	container = new Container();
 
-	container3d = new Container();
+	container3d = new Container3D();
 
 	camera = new Camera();
 
@@ -36,6 +44,8 @@ export class GameScene extends GameObject {
 	strand: StrandE;
 
 	pointDialogue: Mesh3D;
+
+	screenFilter?: ScreenFilter;
 
 	interactive = true;
 
@@ -54,7 +64,7 @@ export class GameScene extends GameObject {
 	constructor() {
 		super();
 		this.strand = new StrandE({
-			source: resources.main.data,
+			source: resource<string>('main-en') || '',
 			renderer: {
 				displayPassage: (passage) => {
 					if (passage.title === 'close') {
@@ -193,7 +203,6 @@ export class GameScene extends GameObject {
 		}
 
 		const u = this.update;
-		// @ts-ignore
 		this.update = () => {};
 		GameObject.update();
 		this.update = u;

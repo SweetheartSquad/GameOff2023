@@ -1,30 +1,74 @@
-import HowlerMiddleware from 'howler-pixi-loader-middleware';
+import HowlerLoaderParser from 'howler-pixi-loader-middleware';
 import {
 	Application,
-	Loader,
+	Assets,
+	BaseTexture,
+	Container,
+	DisplayObject,
+	extensions,
+	loadTxt,
+	NineSlicePlane,
+	ProgressCallback,
 	Renderer,
 	SCALE_MODES,
 	settings,
+	Sprite,
 	Text,
+	utils,
 } from 'pixi.js';
-import assets from './assets.txt';
+import { size } from './config';
 import * as fonts from './font';
-import { enableHotReload, main } from './GameHotReload';
-import { init } from './main';
-import { size } from './size';
+import { assets, enableHotReload, mainen } from './GameHotReload';
+import { getActiveScene, init } from './main';
+import { tex } from './utils';
 
 // PIXI configuration stuff
-settings.SCALE_MODE = SCALE_MODES.NEAREST;
+BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 settings.ROUND_PIXELS = true;
 
 function cacheBust(url: string) {
 	const urlObj = new URL(url, window.location.href);
-	// @ts-ignore
-	urlObj.searchParams.set('t', process.env.HASH);
+	urlObj.searchParams.set('t', process.env.HASH || '');
 	return urlObj.toString();
 }
 
-class Game {
+let frameCounts: Record<string, number>;
+export const resources: Record<string, unknown> = {};
+
+export function resource<T>(key: string) {
+	return resources[key] as T | undefined;
+}
+
+export function getFrameCount(animation: string): number {
+	return frameCounts[animation] || 0;
+}
+
+window.resources = resources;
+window.resource = resource;
+
+function updateResourceCache(assetsLoaded: Record<string, unknown>) {
+	// cache frame sequence data
+	const animated = Object.keys(assetsLoaded)
+		.filter((i) => i.endsWith('.1'))
+		.map((i) => i.replace(/\.1$/, ''));
+	frameCounts = Object.fromEntries(
+		animated.map((i) => [
+			i,
+			Object.keys(assetsLoaded).filter((j) => j.startsWith(`${i}.`)).length,
+		])
+	);
+
+	// update public cache
+	Object.keys(resources).forEach((i) => delete resources[i]);
+	Object.entries(assetsLoaded).forEach(([key, value]) => {
+		resources[key] = value;
+	});
+	animated.forEach((i) => {
+		resources[i] = resources[`${i}.1`];
+	});
+}
+
+export class Game {
 	app: Application;
 
 	startTime: number;
@@ -42,66 +86,122 @@ class Game {
 			backgroundColor: 0x000000,
 		});
 		this.startTime = Date.now();
-
-		this.app.loader.pre(HowlerMiddleware);
 	}
 
-	load({
-		onLoad,
-		onComplete,
-		onError,
-	}: {
-		onLoad: Loader.OnLoadSignal;
-		onComplete: () => void;
-		onError: (error: Error) => void;
-	}): void {
-		this.app.loader.onError.add(onError);
-		this.app.loader.add({ name: 'assets', url: cacheBust(assets) });
-		this.app.loader.onComplete.once(() => {
-			const assetResources = (this.app.loader.resources.assets.data as string)
-				.trim()
-				.split(/\r?\n/)
-				.flatMap((i) => {
-					if (i.match(/\.x\d+\./)) {
-						const [base, count, ext] = i.split(/\.x(\d+)\./);
-						return new Array(parseInt(count, 10))
-							.fill('')
-							.map((_, idx) => `${base}.${idx + 1}.${ext}`);
-					}
-					return i;
-				})
-				.filter((i) => i && !i.startsWith('//'))
-				.map((i) => ({
-					url: cacheBust(i.startsWith('http') ? i : `assets/${i}`),
-					name: i.split('/').pop()?.split('.').slice(0, -1).join('.') || i,
-				}));
-			this.app.loader.reset();
-			this.app.loader.add(assetResources);
-			this.app.loader.add({ name: 'main', url: cacheBust(main) });
-			this.app.loader.onLoad.add(onLoad);
-			this.app.loader.onComplete.once(onComplete);
-			this.app.loader.onComplete.once(init);
-			this.app.loader.load();
-			// eslint-disable-next-line @typescript-eslint/no-use-before-define
-			resources = this.app.loader.resources;
+	async load(onLoad?: ProgressCallback) {
+		Assets.init();
 
-			// preload fonts
-			Object.values(fonts).forEach((i) => {
-				const t = new Text('preload', i);
-				t.alpha = 0;
-				this.app.stage.addChild(t);
-				this.app.stage.render(this.app.renderer as Renderer);
-				this.app.stage.removeChild(t);
-			});
+		// setup parsers
+		Assets.loader.parsers.push({
+			...loadTxt,
+			test(url) {
+				return utils.path.extname(url).includes('.strand');
+			},
 		});
-		this.app.loader.load();
+		Assets.loader.parsers.push({
+			...loadTxt,
+			test(url) {
+				return utils.path.extname(url).includes('.glsl');
+			},
+		});
+		extensions.add(HowlerLoaderParser);
+
+		// load assets list
+		const assetsData = (await Assets.load<string>(cacheBust(assets))) as string;
+		const assetResources = assetsData
+			.trim()
+			.split(/\r?\n/)
+			.flatMap((i) => {
+				if (i.match(/\.x\d+\./)) {
+					const [base, count, ext] = i.split(/\.x(\d+)\./);
+					return new Array(parseInt(count, 10))
+						.fill('')
+						.map((_, idx) => `${base}.${idx + 1}.${ext}`);
+				}
+				return i;
+			})
+			.filter((i) => i && !i.startsWith('//'))
+			.reduce<Record<string, string>>((acc, i) => {
+				const name = i.split('/').pop()?.split('.').slice(0, -1).join('.') || i;
+				const url = cacheBust(i.startsWith('http') ? i : `assets/${i}`);
+				if (acc[name])
+					throw new Error(`Asset name conflict: "${acc[name]}", "${url}"`);
+				acc[name] = url;
+				return acc;
+			}, {});
+
+		// add fixed assets
+		assetResources['main-en'] = cacheBust(mainen);
+
+		// load assets
+		Assets.addBundle('resources', assetResources);
+		const assetsLoaded = await Assets.loadBundle('resources', onLoad);
+
+		// verify assets loaded
+		const failedToLoad = Object.keys(assetResources)
+			.filter((i) => !assetsLoaded[i])
+			.join(', ');
+		if (failedToLoad) throw new Error(`Failed to load: ${failedToLoad}`);
+
+		updateResourceCache(assetsLoaded);
+
+		// preload fonts
+		Object.values(fonts).forEach((i) => {
+			const t = new Text('preload', i);
+			t.alpha = 0;
+			this.app.stage.addChild(t);
+			this.app.stage.render(this.app.renderer as Renderer);
+			this.app.stage.removeChild(t);
+		});
 	}
+
+	private async reloadAssetsRaw() {
+		this.app.ticker.stop();
+
+		function recurseChildren(
+			result: DisplayObject[],
+			obj: DisplayObject
+		): DisplayObject[] {
+			result = result.concat(obj);
+			if (!(obj instanceof Container)) return result;
+			return result.concat(
+				...(obj as Container).children.map((i) => recurseChildren([], i))
+			);
+		}
+		const scene = getActiveScene();
+		const objs = recurseChildren([], this.app.stage);
+		type Textured = Sprite | NineSlicePlane;
+		const textures = objs
+			.map((i) => [i, (i as Textured)?.texture?.textureCacheIds[1]])
+			.filter(([, id]) => id) as [Textured, string][];
+
+		await Assets.unloadBundle('resources');
+		const assetsLoaded = await Assets.loadBundle('resources');
+		updateResourceCache(assetsLoaded);
+		textures.forEach(([textured, texId]) => {
+			if ((textured as NineSlicePlane).shader) {
+				(textured as NineSlicePlane).shader.uniforms.uSampler.baseTexture =
+					tex(texId).baseTexture;
+			}
+			textured.texture = tex(texId);
+		});
+		scene?.screenFilter?.reload();
+		this.app.ticker.start();
+	}
+
+	private reloadingAssets = Promise.resolve();
+
+	async reloadAssets() {
+		this.reloadingAssets = this.reloadingAssets.then(() =>
+			this.reloadAssetsRaw()
+		);
+		return this.reloadingAssets;
+	}
+
+	init = init;
 }
 
 export const game = new Game();
-// @ts-ignore
 window.game = game;
-// eslint-disable-next-line import/no-mutable-exports
-export let resources: Loader['resources'];
 
-enableHotReload(game.app);
+enableHotReload();

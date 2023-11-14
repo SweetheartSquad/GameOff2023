@@ -1,15 +1,7 @@
 import { Sprite, Texture } from 'pixi.js';
-import { game, resources } from '../Game';
+import { game, getFrameCount, resource } from '../Game';
 import { GameObject } from '../GameObject';
 import { Script } from './Script';
-
-function getFrameCount(animation: string): number {
-	let count = 0;
-	while (resources[`${animation}.${count + 1}`]?.texture) {
-		++count;
-	}
-	return count;
-}
 
 export class Animator extends Script {
 	spr: Sprite;
@@ -39,7 +31,7 @@ export class Animator extends Script {
 		super(gameObject);
 		this.spr = spr;
 		this.freq = freq;
-		this.setAnimation(spr.texture.textureCacheIds[0]);
+		this.setAnimation(spr.texture.textureCacheIds[1]);
 	}
 
 	setAnimation(a: string, holds: { [frame: number]: number } = {}) {
@@ -62,11 +54,13 @@ export class Animator extends Script {
 
 	updateTexture() {
 		this.spr.texture =
-			resources[
+			resource<Texture>(
 				this.frameCount
 					? `${this.animation}.${this.frames[this.frame]}`
 					: this.animation
-			]?.texture || (resources.error.texture as Texture);
+			) ||
+			resource<Texture>('error') ||
+			Texture.EMPTY;
 	}
 
 	update(): void {
@@ -74,7 +68,8 @@ export class Animator extends Script {
 		const curTime = game.app.ticker.lastTime;
 		const oldFrame = this.frame;
 		this.frame =
-			Math.floor((curTime + this.offset) * this.freq) % this.frames.length;
+			Math.floor(Math.abs(curTime + this.offset) * this.freq) %
+			this.frames.length;
 		this.frameChanged = this.frame !== oldFrame;
 		this.updateTexture();
 	}

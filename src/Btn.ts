@@ -18,7 +18,6 @@ export class Btn extends GameObject {
 		spr.accessible = true;
 		spr.accessibleHint = texture;
 		spr.interactive = true;
-		spr.buttonMode = true;
 		spr.tabIndex = 0;
 		spr.on('click', onClick);
 		spr.on('pointerover', () => {

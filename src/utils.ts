@@ -1,5 +1,8 @@
 import { Point, Texture } from 'pixi.js';
-import { resources } from './Game';
+import { resizer } from '.';
+import { resource } from './Game';
+import { size } from './config';
+import { getActiveScene, mouse } from './main';
 
 export const zero = new Point(0, 0);
 
@@ -124,12 +127,45 @@ export function randRange(min: number, max: number) {
 	return Math.random() * (max - min) + min;
 }
 
+/** @returns random point, uniformly distributed inside circle */
+export function randCirc(radius: number) {
+	const r = radius * Math.sqrt(Math.random());
+	const a = randRange(0, Math.PI * 2);
+	return { x: r * Math.cos(a), y: r * Math.sin(a) };
+}
+
+/**
+ * Modifies a values between 0-100,
+ * weighted for diminishing returns and losses
+ * the closer you are to the extremes
+ *
+ * e.g.
+ * ```ts
+ * fairmath( 0,  50); // 50
+ * fairmath(50,  50); // 75
+ * fairmath(75,  50); // 88
+ * fairmath( 0, -50); //  0
+ * fairmath(50, -50); // 25
+ * fairmath(75, -50); // 38
+ * ```
+ *
+ * @param input original value (0 to 100)
+ * @param delta "percent" to change (-100 to 100)
+ * @returns "fairly" adjusted value
+ */
+export function fairmath(input: number, delta: number) {
+	input = clamp(0, input, 100);
+	delta = clamp(-100, delta, 100);
+	if (delta < 0) {
+		return input + input * (delta / 100);
+	}
+	return input + (100 - input) * (delta / 100);
+}
+
 export function tex(texture: string) {
-	let t = resources[texture]?.texture;
-	if (t) return t;
-	t = resources[`${texture}.1`]?.texture;
-	if (t) return t;
-	return resources.error.texture as Texture;
+	return (
+		resource<Texture>(texture) || resource<Texture>('error') || Texture.EMPTY
+	);
 }
 
 export function evalFn(fn: string) {
@@ -189,4 +225,47 @@ export function splitFirst(str: string, separator: string) {
 		str.substring(0, idx),
 		str.substring(idx + separator.length),
 	] as const;
+}
+
+/**
+ * replaces regular quotes with context-aware smart quotes
+ * also replaces -- with en dash
+ * also replaces last space with a nsbp to avoid orphaned words
+ * @param {string} str string to replace
+ */
+export function smartify(str = '') {
+	return str
+		.replace(
+			/("+)(.*?)("+)/g,
+			(_, l, i, r) => `${'“'.repeat(l.length)}${i}${'”'.repeat(r.length)}`
+		)
+		.replace(/(\w)'(\w)/g, '$1’$2')
+		.replace(
+			/('+)(.*?)('+)/g,
+			(_, l, i, r) => `${'‘'.repeat(l.length)}${i}${'’'.repeat(r.length)}`
+		)
+		.replace(/--/g, '–')
+		.replace(/^([^]+) (.+?)$/, '$1\u00A0$2');
+}
+
+export function mousePos(event: MouseEvent) {
+	const rect = (event.currentTarget as HTMLElement)?.getBoundingClientRect();
+	const x = (event.clientX - rect.left) / window.resizer.scaleMultiplier;
+	const y = (event.clientY - rect.top) / window.resizer.scaleMultiplier;
+	const p = getActiveScene()?.camera.display.container.toLocal({ x, y });
+	return p;
+}
+
+/** @returns mouse position in coordinates normalized to original game size (i.e. ignoring CSS scale) */
+export function relativeMouse() {
+	return {
+		x:
+			((mouse.x - resizer.childElement.offsetLeft) /
+				resizer.childElement.clientWidth) *
+			size.x,
+		y:
+			((mouse.y - resizer.childElement.offsetTop) /
+				resizer.childElement.clientHeight) *
+			size.y,
+	};
 }

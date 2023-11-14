@@ -1,8 +1,9 @@
-import { Sprite } from 'pixi.js';
-import { game, resources } from './Game';
+import { NineSlicePlane } from 'pixi.js';
+import { game } from './Game';
 import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
 import { size } from './config';
+import { tex } from './utils';
 
 export class Border extends GameObject {
 	display: Display;
@@ -10,10 +11,18 @@ export class Border extends GameObject {
 	constructor() {
 		super();
 		this.scripts.push((this.display = new Display(this)));
-		const spr = new Sprite(resources.border.texture);
+		const texBorder = tex('border');
+		const spr = new NineSlicePlane(
+			texBorder,
+			texBorder.width / 3,
+			texBorder.height / 3,
+			texBorder.width / 3,
+			texBorder.height / 3
+		);
+		spr.name = 'border';
+		spr.width = size.x;
+		spr.height = size.y;
 		this.display.container.addChild(spr);
-		this.display.container.width = size.x;
-		this.display.container.height = size.y;
 	}
 
 	init(): void {

@@ -1,14 +1,6 @@
-import { game, resources } from '../Game';
+import { game, getFrameCount } from '../Game';
 import { GameObject } from '../GameObject';
 import { Script } from './Script';
-
-function getFrameCount(animation: string): number {
-	let count = 0;
-	while (resources[`${animation}.${count + 1}`]?.texture) {
-		++count;
-	}
-	return count;
-}
 
 export class Animator3d extends Script {
 	mat: { getTexture: () => string; setTexture: (tex: string) => void };
@@ -60,6 +52,11 @@ export class Animator3d extends Script {
 	}
 
 	updateTexture() {
+		console.log(
+			this.frameCount
+				? `${this.animation}.${this.frames[this.frame]}`
+				: this.animation
+		);
 		this.mat.setTexture(
 			this.frameCount
 				? `${this.animation}.${this.frames[this.frame]}`

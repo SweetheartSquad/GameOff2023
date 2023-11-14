@@ -26,7 +26,9 @@ export class Toggler extends Script {
 		super(gameObject);
 		this.container = new Container();
 		this.sprA = new Sprite(tex('blank'));
+		this.sprA.name = 'toggler A';
 		this.sprB = new Sprite(tex('blank'));
+		this.sprA.name = 'toggler B';
 		this.sprA.anchor.x =
 			this.sprA.anchor.y =
 			this.sprB.anchor.x =
@@ -48,7 +50,7 @@ export class Toggler extends Script {
 	show(
 		texture?: string,
 		{
-			duration = 1000,
+			duration = 200,
 			x = 0,
 			y = 0,
 			scale = 1,
@@ -71,7 +73,10 @@ export class Toggler extends Script {
 			this.inactive =
 				this.active === this.animatorA ? this.animatorB : this.animatorA;
 			this.inactive.setAnimation(texture || 'blank');
-			this.container.addChild(this.inactive.spr);
+			this.container.addChildAt(
+				this.inactive.spr,
+				this.container.getChildIndex(this.active.spr)
+			);
 			[this.inactive, this.active] = [this.active, this.inactive];
 			this.tweens.forEach((i) => TweenManager.finish(i));
 			this.tweens.length = 0;

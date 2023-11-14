@@ -18,15 +18,15 @@
 	
 	// start with music off in debug
 	// camera
-	this.cameraPlaceholder = this.Model('camera_test');
-	this.cameraPlaceholder.visible = false;
+	// this.cameraPlaceholder = this.Model('camera_test');
+	// this.cameraPlaceholder.visible = false;
 
-	const cameraPlaceholder = this.cameraPlaceholder.model.getChildByName('Camera');
-	this.scene.camera3d.position = cameraPlaceholder.position;
-	const camProps = window.game.app.loader.resources.camera_test.gltf.descriptor.cameras[0].perspective;
-	this.scene.camera3d.fieldOfView = camProps.yfov * 100;
-	this.scene.camera3d.near = camProps.znear;
-	this.scene.camera3d.far = camProps.zfar;
+	// const cameraPlaceholder = this.cameraPlaceholder.model.getChildByName('Camera');
+	// this.scene.camera3d.position = cameraPlaceholder.position;
+	// const camProps = window.game.app.loader.resources.camera_test.gltf.descriptor.cameras[0].perspective;
+	// this.scene.camera3d.fieldOfView = camProps.yfov * 100;
+	// this.scene.camera3d.near = camProps.znear;
+	// this.scene.camera3d.far = camProps.zfar;
 
 	// road + sway
 	const roadSize = 200;
@@ -77,11 +77,11 @@
 	// this.passenger.model.children.forEach(i => i.visible = false);
 	// this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
 	const passengerRef = this.passenger.model.getChildByName('birdwatcher_Standin');
-	passengerRef.visible = true;
+	// passengerRef.visible = true;
 	// TODO: use ref obj
-	this.scene.pointDialogue.position.x = passengerRef.position.x;
-	this.scene.pointDialogue.position.y = passengerRef.position.y + 0.35;
-	this.scene.pointDialogue.position.z = passengerRef.position.z + 0.25;
+	// this.scene.pointDialogue.position.x = passengerRef.position.x;
+	// this.scene.pointDialogue.position.y = passengerRef.position.y + 0.35;
+	// this.scene.pointDialogue.position.z = passengerRef.position.z + 0.25;
 
 	// this.EnvModel = (model) => {
 	// 	const m = this.Model(model, 'palette', { doubleSided: true, depth: true });

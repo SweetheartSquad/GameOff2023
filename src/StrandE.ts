@@ -27,6 +27,8 @@ export class StrandE extends Strand {
 
 	ease = ease;
 
+	language?: string;
+
 	delay = delay;
 
 	setSource(src: string) {

@@ -1,15 +1,15 @@
-import { AlphaFilter } from '@pixi/filter-alpha';
-import type { EventEmitter } from '@pixi/utils';
 import { cubicIn, cubicOut } from 'eases';
 import {
+	AlphaFilter,
 	Container,
 	Graphics,
 	Rectangle,
 	Sprite,
 	Text,
 	TextMetrics,
+	utils,
 } from 'pixi.js';
-import { Camera, Mesh3D, ObservablePoint3D, Vec3 } from 'pixi3d';
+import { Camera, Mesh3D, Point3D, Vec3 } from 'pixi3d/pixi7';
 import Strand from 'strand-core';
 import { sfx } from './Audio';
 import { game } from './Game';
@@ -20,8 +20,8 @@ import { Toggler } from './Scripts/Toggler';
 import { Transform } from './Scripts/Transform';
 import { Tween, TweenManager } from './Tweens';
 import { V } from './VMath';
-import { fontChoice, fontDialogue } from './font';
 import { size } from './config';
+import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
 import { getInput } from './main';
 import { clamp, lerp, pointOnRect, tex } from './utils';
@@ -66,7 +66,7 @@ export class UIDialogue extends GameObject {
 
 	textText: Text;
 
-	choices: (Text & EventEmitter)[];
+	choices: (Text & utils.EventEmitter)[];
 
 	selected: number | undefined;
 
@@ -76,7 +76,7 @@ export class UIDialogue extends GameObject {
 
 	strand: Strand;
 
-	private pos: number;
+	public pos: number;
 
 	private posTime: number;
 
@@ -111,6 +111,8 @@ export class UIDialogue extends GameObject {
 		this.scripts.push((this.transform = new Transform(this)));
 		this.scripts.push((this.display = new Display(this)));
 		this.display.container.interactiveChildren = true;
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
 		this.display.container.filters = [new AlphaFilter()];
 		this.sprBg = new Sprite(tex('dialogueBg'));
 		this.sprChoiceBg = new Sprite(tex('dialogueChoiceBg'));
@@ -149,7 +151,7 @@ export class UIDialogue extends GameObject {
 		this.textText = new Text(this.strText, { ...fontDialogue });
 		this.display.container.accessible = true;
 		this.display.container.interactive = true;
-		(this.display.container as EventEmitter).on('pointerdown', () => {
+		(this.display.container as utils.EventEmitter).on('pointerdown', () => {
 			if (this.isOpen) this.complete();
 		});
 		this.containerChoices = new Container();
@@ -200,16 +202,8 @@ export class UIDialogue extends GameObject {
 
 		const pos3d = pointDialogue.position;
 		let pos = camera3d.worldToScreen(pos3d.x, pos3d.y, pos3d.z);
-		const pos3d2a = camera3d.screenToWorld(
-			pos.x,
-			pos.y,
-			1
-		) as ObservablePoint3D;
-		const pos3d2b = camera3d.screenToWorld(
-			pos.x,
-			pos.y,
-			-1
-		) as ObservablePoint3D;
+		const pos3d2a = camera3d.screenToWorld(pos.x, pos.y, 1) as Point3D;
+		const pos3d2b = camera3d.screenToWorld(pos.x, pos.y, -1) as Point3D;
 		if (
 			// looking away
 			Vec3.squaredDistance(pos3d2a.array, pos3d.array) >
@@ -393,11 +387,10 @@ export class UIDialogue extends GameObject {
 			const t = new Text(strText, {
 				...fontChoice,
 				wordWrapWidth: (this.textText.style.wordWrapWidth || 0) - 2,
-			}) as Text & EventEmitter;
+			}) as Text & utils.EventEmitter;
 			t.accessible = true;
 			t.accessibleHint = strText;
 			t.interactive = true;
-			t.buttonMode = true;
 			t.tabIndex = 0;
 
 			t.on('pointerover', () => {
