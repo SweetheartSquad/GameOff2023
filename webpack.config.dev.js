@@ -19,5 +19,10 @@ module.exports = (env, argv) =>
 			},
 			hot: true,
 			port: 80,
+			client: {
+				overlay: {
+					runtimeErrors: false,
+				},
+			},
 		},
 	});
