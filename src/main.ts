@@ -151,6 +151,8 @@ export function getInput() {
 		swipes.isDown()
 	) {
 		res.choiceDown = true;
+	} else if (swipes.press) {
+		res.interact = true;
 	}
 	res.choiceAny =
 		res.choiceLeft || res.choiceRight || res.choiceUp || res.choiceDown;
