@@ -16,8 +16,6 @@ import { setScene } from './main';
 import { Prompt } from './prompt';
 import { chunks, delay, removeFromArray, shuffle } from './utils';
 
-let autolink = 0;
-const promptDefault = ' ';
 export class StrandE extends Strand {
 	scene!: GameScene;
 
