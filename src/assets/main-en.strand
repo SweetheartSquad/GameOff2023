@@ -73,6 +73,10 @@
 
 	// passenger
 	this.passenger = this.Model('passenger_plane', 'passenger_standing_sketch', { transparent: true });
+	// fix alpha
+	this.passenger.model.children.forEach(i => i.visible = false);
+	this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
+	
 	const passengerRef = this.passenger.model.getChildAt(0);
 	passengerRef.visible = true;
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
