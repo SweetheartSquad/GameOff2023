@@ -4,15 +4,19 @@ const { execSync } = require('child_process');
 const glob = require('glob');
 
 const imagePool = new ImagePool();
+const globPattern = process.argv[2] || '*';
 
 (async () => {
-	const files = glob.sync('src/**/*.{png,jpg}');
+	const files = glob.sync(`src/**/${globPattern}.{png,jpg}`);
 	// eslint-disable-next-line no-restricted-syntax
 	for (const file of files) {
 		try {
-			execSync(`node --max-old-space-size=2048 ./optimize-image ${file}`, {
-				stdio: 'inherit',
-			});
+			execSync(
+				`node --no-experimental-fetch --max-old-space-size=2048 ./optimize-image "${file}"`,
+				{
+					stdio: 'inherit',
+				}
+			);
 		} catch (err) {
 			console.error(err);
 		}
