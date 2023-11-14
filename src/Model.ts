@@ -7,18 +7,18 @@ import {
 	Texture,
 } from 'pixi.js';
 import {
-	glTFAsset,
 	Material,
 	Mesh3D,
 	MeshShader,
 	Model as Pixi3dModel,
 	StandardMaterial,
 	StandardMaterialAlphaMode,
+	glTFAsset,
 } from 'pixi3d';
 import { resources } from './Game';
 import { GameObject } from './GameObject';
-import { getActiveScene } from './main';
 import { Animator3d } from './Scripts/Animator3d';
+import { getActiveScene } from './main';
 import { tex } from './utils';
 
 const vert = `

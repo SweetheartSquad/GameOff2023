@@ -1,18 +1,18 @@
 import { Container, DisplayObject } from 'pixi.js';
 import { Camera as Camera3D, Cubemap, Mesh3D, Quat, Skybox } from 'pixi3d';
 import { Camera } from './Camera';
-import { DEBUG } from './debug';
 import { game, resources } from './Game';
 import { GameObject } from './GameObject';
-import { getInput } from './main';
 import { Updater } from './Scripts/Updater';
 import { StrandE } from './StrandE';
 import { TweenManager } from './Tweens';
 import { UIDialogue } from './UIDialogue';
 import { UIPrompt } from './UIPrompt';
 import { UIScrim } from './UIScrim';
-import { lerp, tex } from './utils';
 import { distance2 } from './VMath';
+import { DEBUG } from './debug';
+import { getInput } from './main';
+import { lerp, tex } from './utils';
 
 function depthCompare(a: DisplayObject, b: DisplayObject): number {
 	return a.y - b.y;
@@ -67,7 +67,7 @@ export class GameScene extends GameObject {
 						delete this.strand.voice;
 					}
 					const text: string[] = [];
-					const actions: (typeof program[number] & {
+					const actions: ((typeof program)[number] & {
 						name: 'action';
 					})['value'][] = [];
 					program.forEach((node) => {

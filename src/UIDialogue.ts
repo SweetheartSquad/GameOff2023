@@ -12,19 +12,19 @@ import {
 import { Camera, Mesh3D, ObservablePoint3D, Vec3 } from 'pixi3d';
 import Strand from 'strand-core';
 import { sfx } from './Audio';
-import { fontChoice, fontDialogue } from './font';
 import { game } from './Game';
 import { GameObject } from './GameObject';
-import { KEYS, keys } from './input-keys';
-import { getInput } from './main';
 import { Animator } from './Scripts/Animator';
 import { Display } from './Scripts/Display';
 import { Toggler } from './Scripts/Toggler';
 import { Transform } from './Scripts/Transform';
-import { size } from './size';
 import { Tween, TweenManager } from './Tweens';
-import { clamp, lerp, pointOnRect, tex } from './utils';
 import { V } from './VMath';
+import { fontChoice, fontDialogue } from './font';
+import { KEYS, keys } from './input-keys';
+import { getInput } from './main';
+import { size } from './size';
+import { clamp, lerp, pointOnRect, tex } from './utils';
 
 const padding = {
 	top: 16,

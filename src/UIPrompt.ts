@@ -1,9 +1,9 @@
 import { Text } from 'pixi.js';
-import { fontPrompt } from './font';
 import { GameObject } from './GameObject';
-import { getInput, mouse } from './main';
 import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
+import { fontPrompt } from './font';
+import { getInput, mouse } from './main';
 import { size } from './size';
 import { lerp } from './utils';
 

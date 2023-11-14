@@ -2,8 +2,8 @@ import { Sprite, Texture } from 'pixi.js';
 import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
-import { size } from './size';
 import { Tween, TweenManager } from './Tweens';
+import { size } from './size';
 
 export class UIScrim extends GameObject {
 	sprScrim: Sprite;

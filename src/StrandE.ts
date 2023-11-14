@@ -3,17 +3,17 @@ import ease from 'eases';
 import { Text, TextStyle } from 'pixi.js';
 import Strand from 'strand-core';
 import { music, sfx } from './Audio';
-import { fontIngame } from './font';
 import { GameObject } from './GameObject';
 import { GameScene } from './GameScene';
-import { setScene } from './main';
 import { Model } from './Model';
-import { Prompt } from './prompt';
 import { Prop } from './Prop';
 import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
 import { Updater } from './Scripts/Updater';
 import { TweenManager } from './Tweens';
+import { fontIngame } from './font';
+import { setScene } from './main';
+import { Prompt } from './prompt';
 import { chunks, delay, removeFromArray, shuffle } from './utils';
 
 let autolink = 0;
@@ -88,11 +88,11 @@ export class StrandE extends Strand {
 		this.passages['passage select'] = this.passages['passage select 0'];
 	}
 
-	show(...args: Parameters<typeof this.scene['dialogue']['show']>) {
+	show(...args: Parameters<(typeof this.scene)['dialogue']['show']>) {
 		return this.scene.dialogue.show(...args);
 	}
 
-	tween(...args: Parameters<typeof TweenManager['tween']>) {
+	tween(...args: Parameters<(typeof TweenManager)['tween']>) {
 		// @ts-ignore
 		return TweenManager.tween(...args);
 	}
@@ -105,7 +105,7 @@ export class StrandE extends Strand {
 		return shuffle(...args);
 	}
 
-	scrim(...args: Parameters<typeof this.scene['scrim']['scrim']>) {
+	scrim(...args: Parameters<(typeof this.scene)['scrim']['scrim']>) {
 		this.scene.scrim.scrim(...args);
 	}
 
@@ -140,7 +140,7 @@ export class StrandE extends Strand {
 		return model;
 	}
 
-	InteractionRegion(region: typeof this.scene['interactionRegions'][number]) {
+	InteractionRegion(region: (typeof this.scene)['interactionRegions'][number]) {
 		this.scene.interactionRegions.push(region);
 		return () => {
 			removeFromArray(this.scene.interactionRegions, region);

@@ -2,9 +2,9 @@ import { DisplayObject } from 'pixi.js';
 import { game } from './Game';
 import { GameObject } from './GameObject';
 import { Display } from './Scripts/Display';
+import * as VMath from './VMath';
 import { size } from './size';
 import { zero } from './utils';
-import * as VMath from './VMath';
 
 export class Camera extends GameObject {
 	display: Display;
