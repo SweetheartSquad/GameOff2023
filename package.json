@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"description": "Taxi Quest 66",
 	"main": "./src/index.js",
-	"author": "SweetHeart Squad <sweetheartsquad@gmail.com>",
+	"author": "SweetHeart Squad <SweetHeartSquad@gmail.com>",
 	"scripts": {
 		"serve": "npx hs ./dist --cors -p 80",
 		"build:debug": "webpack --config webpack.config.dev.js --mode development",
