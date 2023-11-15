@@ -37,6 +37,7 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
+	const objs = this.Container3D();
 
 	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
@@ -46,8 +47,8 @@
 		} else {
 			rootRoad.model.addChild(road.model);
 		}
-		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
-		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
+		road.model.getChildAt(0).position.z = -i * roadSize * Math.cos(this.roadAngle);
+		road.model.getChildAt(0).position.y = i * roadSize * Math.sin(this.roadAngle);
 	}
 	const xRoot = rootRoad.model.position.x;
 	const yRoot = rootRoad.model.position.y;
@@ -57,16 +58,36 @@
 	let rootY = this.scene.camera3d.position.y;
 	this.stepping = 0;
 	this.Updater(() => {
+		objs.container.children.forEach(i => {
+			if (i.loops >= 2) {
+				this.destroy(i.gameObject);
+			}
+		});
+	});
+	this.Updater(() => {
 		const cTime = Date.now();
 		const dTime = cTime - pTime;
 		roadDelta = dTime/1000 * this.roadSpeed * this.ease.cubicInOut(this.stepping);
 		this.scene.camera3d.position.y = rootY + (1-this.ease.cubicInOut(Math.abs(0.5-this.ease.cubicInOut(this.stepping))*2))*0.01;
 		curPos += roadDelta;
-		curPos %= roadSize;
+		let oldz = objs.container.position.z;
+		let oldy = objs.container.position.y;
+		let looped = false;
+		if (curPos > roadSize) {
+			looped = true;
+			curPos -= roadSize;
+		}
 		let pos = curPos;
-		rootRoad.model.position.z = pos * Math.cos(this.roadAngle);
-		rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
+		objs.container.position.z = rootRoad.model.position.z = pos * Math.cos(this.roadAngle);
+		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
+		if (looped) {
+			objs.container.children.forEach(i => {
+				i.loops = (i.loops || 0) + 1;
+				i.position.z += oldz - objs.container.position.z;
+				i.position.y += oldy - objs.container.position.y;
+			});
+		}
 		// sway road back and forth
 		// const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
 		// rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
@@ -89,18 +110,14 @@
 	this.scene.pointDialogue.position.y = passengerRef.position.y;
 	this.scene.pointDialogue.position.z = passengerRef.position.z;
 
-	// this.EnvModel = (model) => {
-	// 	const m = this.Model(model, 'palette', { doubleSided: true, depth: true });
-	// 	m.model.position.z = -110;
-	// 	const remove = this.Updater(() => {
-	// 		m.model.position.z += roadDelta;
-	// 		if (m.model.position.z > 110) {
-	// 			remove();
-	// 			this.destroy(m);
-	// 		}
-	// 	});
-	// 	return m;
-	// };
+	this.EnvModel = (...args) => {
+		const m = this.Model(...args);
+		objs.container.addChild(m.model);
+		m.model.position.x -= objs.container.position.x;
+		m.model.position.y -= objs.container.position.y;
+		m.model.position.z -= objs.container.position.z;
+		return m;
+	};
 
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
@@ -240,6 +257,9 @@
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
+				const print = this.EnvModel('footprint', 'footprintWood', { transparent: true });
+				// offset left/right
+				print.model.position.x += 0.1 * Math.sign(this.passenger.animator.frame - 2);
 			}
 		}, 
 	});

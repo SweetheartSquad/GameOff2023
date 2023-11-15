@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import ease from 'eases';
 import { Text, TextStyle } from 'pixi.js';
+import { Container3D } from 'pixi3d/pixi7';
 import Strand from 'strand-core';
 import { music, sfx } from './Audio';
 import { GameObject } from './GameObject';
@@ -161,6 +162,15 @@ export class StrandE extends Strand {
 		go.transform = transform;
 		// @ts-ignore
 		go.text = text;
+		return go;
+	}
+
+	Container3D() {
+		const go = new GameObject();
+		// @ts-ignore
+		go.container = new Container3D();
+		// @ts-ignore
+		this.scene.container3d.addChildAt(go.container, 1);
 		return go;
 	}
 
