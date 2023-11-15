@@ -29,8 +29,8 @@
 	this.scene.camera3d.far = camProps.zfar;
 
 	// road + sway
-	const roadSize = 200;
 	this.roadSpeed = 1.5;
+	const roadSize = 100;
 	this.roadAngle = 10; // degrees
 
 	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
