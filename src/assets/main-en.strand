@@ -54,10 +54,13 @@
 	let pTime = Date.now();
 	let curPos = 0;
 	let roadDelta = 0;
+	let rootY = this.scene.camera3d.position.y;
+	this.stepping = 0;
 	this.Updater(() => {
 		const cTime = Date.now();
 		const dTime = cTime - pTime;
-		roadDelta = dTime/1000 * this.roadSpeed;
+		roadDelta = dTime/1000 * this.roadSpeed * this.ease.cubicInOut(this.stepping);
+		this.scene.camera3d.position.y = rootY + (1-this.ease.cubicInOut(Math.abs(0.5-this.ease.cubicInOut(this.stepping))*2))*0.01;
 		curPos += roadDelta;
 		curPos %= roadSize;
 		let pos = curPos;
@@ -231,6 +234,8 @@
 		gameObject: this.scene.dialogue,
 		update: () => {
 			if (this.passenger.animator.frameChanged && (this.passenger.animator.frame === 1 || this.passenger.animator.frame === 4)) {
+				this.tweenAbort(this.steppingTween);
+				this.steppingTween = this.tween(this, 'stepping', 0, 800, 1);
 				this.sfx('stepDefault', {
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
