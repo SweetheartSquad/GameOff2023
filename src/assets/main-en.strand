@@ -72,7 +72,7 @@
 	});
 
 	// passenger
-	const poseBase = 'passenger_sketch';
+	const poseBase = 'passenger_walk';
 	this.passenger = this.Model('passenger', `${poseBase}_n`, { transparent: true });
 	// fix alpha
 	this.passenger.model.children.forEach(i => i.visible = false);

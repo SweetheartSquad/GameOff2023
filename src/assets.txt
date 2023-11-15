@@ -20,9 +20,9 @@ models/passenger.glb
 textures/palette.png
 textures/floor.png
 
-textures/passenger_sketch_n.png
-textures/passenger_sketch_o.png
-textures/passenger_sketch_b.png
+textures/passenger_walk_n.x6.png
+textures/passenger_walk_b.x6.png
+textures/passenger_walk_o.x6.png
 
 textures/skybox_y.png
 textures/skybox_posx.jpg
