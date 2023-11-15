@@ -141,7 +141,7 @@ export class Model extends GameObject {
 
 	destroy(): void {
 		this.model.destroy({ children: true });
-		this.material.destroy();
+		// this.material.destroy();
 		super.destroy();
 	}
 }
