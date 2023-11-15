@@ -17,9 +17,11 @@ models/groundPlane_10.glb
 models/groundPlane_15.glb
 models/camera_test.glb
 models/passenger.glb
+models/footprint.glb
 
 textures/palette.png
 textures/floor.png
+textures/footprintWood.png
 
 textures/passenger_walk_n.x6.png
 textures/passenger_walk_b.x6.png
