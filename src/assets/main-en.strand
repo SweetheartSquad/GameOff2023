@@ -226,6 +226,20 @@
 		},
 	});
 
+	// footsteps
+	this.scene.dialogue.scripts.push({
+		gameObject: this.scene.dialogue,
+		update: () => {
+			if (this.passenger.animator.frameChanged && (this.passenger.animator.frame === 1 || this.passenger.animator.frame === 4)) {
+				this.sfx('stepDefault', {
+					rate: Math.random()*0.25+0.75,
+					volume: Math.random()*0.25+0.75,
+				});
+			}
+		}, 
+	});
+	
+
 	// add syntax sugar for poses like `:( - Blah blah`
 	const check = /^(.*) - /;
 	this.scene.dialogue.sayo = this.scene.dialogue.say;

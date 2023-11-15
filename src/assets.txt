@@ -7,6 +7,7 @@ textures/dialogueChoiceBg.x3.png
 textures/dialogueDiamond.x3.png
 
 audio/voiceDefault.mp3
+audio/stepDefault.mp3
 audio/click.mp3
 audio/door_open.mp3
 audio/door_close.mp3
