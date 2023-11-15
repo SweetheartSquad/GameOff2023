@@ -30,13 +30,15 @@
 
 	// road + sway
 	const roadSize = 200;
-	this.roadSpeed = 40;
+	this.roadSpeed = 1.5;
 	this.roadAngle = 10; // degrees
 
 	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
+
+	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_10', 'floor', { depth: true });
 		if (i === 0) {
