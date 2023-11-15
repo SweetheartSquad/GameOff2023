@@ -37,6 +37,7 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
+	const objs = this.Container3D();
 
 	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
@@ -57,16 +58,36 @@
 	let rootY = this.scene.camera3d.position.y;
 	this.stepping = 0;
 	this.Updater(() => {
+		objs.container.children.forEach(i => {
+			if (i.loops >= 2) {
+				this.destroy(i.gameObject);
+			}
+		});
+	});
+	this.Updater(() => {
 		const cTime = Date.now();
 		const dTime = cTime - pTime;
 		roadDelta = dTime/1000 * this.roadSpeed * this.ease.cubicInOut(this.stepping);
 		this.scene.camera3d.position.y = rootY + (1-this.ease.cubicInOut(Math.abs(0.5-this.ease.cubicInOut(this.stepping))*2))*0.01;
 		curPos += roadDelta;
-		curPos %= roadSize;
+		let oldz = objs.container.position.z;
+		let oldy = objs.container.position.y;
+		let looped = false;
+		if (curPos > roadSize) {
+			looped = true;
+			curPos -= roadSize;
+		}
 		let pos = curPos;
-		rootRoad.model.position.z = pos * Math.cos(this.roadAngle);
-		rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
+		objs.container.position.z = rootRoad.model.position.z = pos * Math.cos(this.roadAngle);
+		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
+		if (looped) {
+			objs.container.children.forEach(i => {
+				i.loops = (i.loops || 0) + 1;
+				i.position.z += oldz - objs.container.position.z;
+				i.position.y += oldy - objs.container.position.y;
+			});
+		}
 		// sway road back and forth
 		// const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
 		// rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
