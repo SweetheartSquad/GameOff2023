@@ -110,6 +110,8 @@ export class Model extends GameObject {
 		this.model = Pixi3dModel.from(gltf, {
 			create: () => mat,
 		});
+		// @ts-ignore
+		this.model.gameObject = this;
 		this.material = mat;
 		if (smooth) {
 			matTex.baseTexture.mipmap = MIPMAP_MODES.ON;
