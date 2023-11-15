@@ -32,3 +32,5 @@ textures/skybox_posx.jpg
 textures/skybox_posz.jpg
 textures/skybox_negx.jpg
 textures/skybox_negz.jpg
+
+models/forest.glb
