@@ -110,18 +110,14 @@
 	this.scene.pointDialogue.position.y = passengerRef.position.y;
 	this.scene.pointDialogue.position.z = passengerRef.position.z;
 
-	// this.EnvModel = (model) => {
-	// 	const m = this.Model(model, 'palette', { doubleSided: true, depth: true });
-	// 	m.model.position.z = -110;
-	// 	const remove = this.Updater(() => {
-	// 		m.model.position.z += roadDelta;
-	// 		if (m.model.position.z > 110) {
-	// 			remove();
-	// 			this.destroy(m);
-	// 		}
-	// 	});
-	// 	return m;
-	// };
+	this.EnvModel = (...args) => {
+		const m = this.Model(...args);
+		objs.container.addChild(m.model);
+		m.model.position.x -= objs.container.position.x;
+		m.model.position.y -= objs.container.position.y;
+		m.model.position.z -= objs.container.position.z;
+		return m;
+	};
 
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
@@ -261,6 +257,9 @@
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
+				const print = this.EnvModel('footprint', 'footprintWood', { transparent: true });
+				// offset left/right
+				print.model.position.x += 0.1 * Math.sign(this.passenger.animator.frame - 2);
 			}
 		}, 
 	});
