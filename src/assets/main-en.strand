@@ -29,7 +29,7 @@
 	this.scene.camera3d.far = camProps.zfar;
 
 	// road + sway
-	this.roadSpeed = 3;
+	this.roadSpeed = 2;
 	const roadSize = 100;
 	this.roadAngle = 10; // degrees
 
@@ -256,7 +256,7 @@
 		update: () => {
 			if (this.passenger.animator.frameChanged && (this.passenger.animator.frame === 1 || this.passenger.animator.frame === 4)) {
 				this.tweenAbort(this.steppingTween);
-				this.steppingTween = this.tween(this, 'stepping', 0, 800, 1);
+				this.steppingTween = this.tween(this, 'stepping', 0, 1300, 1);
 				this.sfx('stepDefault', {
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
