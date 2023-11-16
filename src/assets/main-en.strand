@@ -37,24 +37,22 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
-	let rootForest;
 	const objs = this.Container3D();
 
 	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_10', 'palette', { depth: true });
-		const forest = this.Model('forest', 'palette', { depth: true });
 		if (i === 0) {
 			rootRoad = road;
-			rootForest = forest;
 		} else {
 			rootRoad.model.addChild(road.model);
-			rootForest.model.addChild(forest.model);
 		}
-		road.model.getChildAt(0).position.z = -i * roadSize * Math.cos(this.roadAngle);
-		road.model.getChildAt(0).position.y = i * roadSize * Math.sin(this.roadAngle);
-		forest.model.getChildAt(0).position.z = -i * roadSize * Math.cos(this.roadAngle);
-		forest.model.getChildAt(0).position.y = i * roadSize * Math.sin(this.roadAngle);
+		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
+		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
+
+	
+		const forest = this.Model('forest', 'palette', { depth: true });
+		road.model.addChild(forest.model);
 	}
 	const xRoot = rootRoad.model.position.x;
 	const yRoot = rootRoad.model.position.y;
@@ -84,8 +82,8 @@
 			curPos -= roadSize;
 		}
 		let pos = curPos;
-		objs.container.position.z = rootRoad.model.position.z = rootForest.model.position.z =  pos * Math.cos(this.roadAngle);
-		objs.container.position.y = rootRoad.model.position.y = rootForest.model.position.y = -pos * Math.sin(this.roadAngle);
+		objs.container.position.z = rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
+		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
 		if (looped) {
 			objs.container.children.forEach(i => {
