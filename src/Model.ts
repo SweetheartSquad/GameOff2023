@@ -41,7 +41,7 @@ uniform sampler2D u_Color;
 void main() {
   vec3 color = texture2D(u_Color, v_UV1).rgb;
   const float posterize = 16.0;
-  color = mix(color, vec3(162.0/255.0, 166.0/255.0, 167.0/255.0), floor(clamp(0.0, 1.0, length(v_Position/32.0))*posterize)/posterize);
+  color = mix(color, vec3(176.0/255.0, 180.0/255.0, 183.0/255.0), floor(clamp(0.0, 1.0, length(v_Position/32.0))*posterize)/posterize);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
