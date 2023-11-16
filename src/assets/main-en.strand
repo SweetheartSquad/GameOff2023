@@ -33,7 +33,7 @@
 	const roadSize = 100;
 	this.roadAngle = 10; // degrees
 
-	const roadSegments = Math.max(2, Math.ceil(this.scene.camera3d.far*2 / roadSize));
+	const roadSegments = Math.max(3, Math.ceil(this.scene.camera3d.far*2 / roadSize));
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	let rootRoad;
@@ -81,7 +81,7 @@
 			looped = true;
 			curPos -= roadSize;
 		}
-		let pos = curPos;
+		let pos = curPos + roadSize/2;
 		objs.container.position.z = rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
 		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
