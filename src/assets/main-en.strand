@@ -101,7 +101,8 @@
 	});
 
 	// passenger
-	const poseBase = 'passenger_walk';
+	const poseBase = 'passenger';
+	const initialPose = 'walk';
 	this.passenger = this.Model('passenger', `${poseBase}_n`, { transparent: true });
 	this.passengerLegs = this.Model('passenger', `passenger_legs`, { transparent: true });
 	// fix alpha
@@ -216,20 +217,25 @@
 		const frame = this.passenger.animator.frame;
 		const offset = this.passenger.animator.offset;
 		let t = [poseBase, this.pose, state].filter(i => i).join('_');
-		if (this.tex(t) === terr) t = [poseBase, 'normal', state].filter(i => i).join('_');
+		if (this.tex(t) === terr) t = [poseBase, initialPose, state].filter(i => i).join('_');
 		if (this.tex(t) === terr) t = [poseBase, state].filter(i => i).join('_');
 		if (this.tex(t) === terr) t = poseBase;
 		this.passenger.setAnimation(t);
 		this.passenger.animator.frame = frame;
 		this.passenger.animator.offset = offset;
 		this.passenger.animator.updateTexture();
+		if (pose.includes('stand')) {
+			this.passengerLegs.setAnimation('blank');
+			this.passengerLegs.animator.updateTexture();
+		} else {
+			this.passengerLegs.setAnimation('passenger_legs');
+			this.passengerLegs.animator.updateTexture();
+		}
 	};
-	this.passengerLegs.setAnimation('passenger_legs');
-	this.passengerLegs.animator.updateTexture();
 
 
 	// blinking and lip flaps
-	this.pose = 'normal';
+	this.pose = initialPose;
 	this.blinking = false;
 	this.timeoutBlinking;
 	this.scene.dialogue.scripts.push({
@@ -254,6 +260,7 @@
 			}
 		},
 	});
+	this.setPose(this.pose, 'n');
 
 	// footsteps
 	this.scene.dialogue.scripts.push({
@@ -336,6 +343,14 @@ debug menu
 [[back|this.back()]]
 
 ::main
+test
+>
+walk - walk
+>
+stand - stand
+>
+walk - walk
+
 <<do this.goto('close');this.gotod(this.scenarios.pop() || 'end-scenario', this.debug ? 2000 : (Math.random()*10+12)*1000);>>
 
 ::end-scenario
