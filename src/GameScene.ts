@@ -115,8 +115,8 @@ export class GameScene extends GameObject {
 		this.pointDialogue.visible = false;
 
 		this.camera3d = Camera3D.main;
-		this.x = 44;
-		this.y = -7;
+		this.x = 0;
+		this.y = -10;
 		this.scripts.push(
 			new Updater(this, () => {
 				const input = getInput();
