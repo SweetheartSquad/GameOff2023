@@ -282,6 +282,15 @@
 			}
 		}, 
 	});
+
+	// walk direction
+	let baseScale = this.passenger.model.getChildAt(0).scale.x;
+	this.scene.dialogue.scripts.push({
+		gameObject: this.scene.dialogue,
+		update: () => {
+			this.passengerLegs.model.getChildAt(0).scale.x = this.passengerLegs.model.getChildAt(0).scale.x = this.passenger.model.getChildAt(0).scale.x = baseScale * Math.sign(this.roadSpeed);
+		},
+	});
 	
 
 	// add syntax sugar for poses like `:( - Blah blah`
