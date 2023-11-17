@@ -104,10 +104,14 @@
 	// passenger
 	const poseBase = 'passenger_walk';
 	this.passenger = this.Model('passenger', `${poseBase}_n`, { transparent: true });
+	this.passengerLegs = this.Model('passenger', `passenger_legs`, { transparent: true });
 	// fix alpha
 	this.passenger.model.children.forEach(i => i.visible = false);
 	this.passenger.model.getChildByName('passenger_plane').visible = true;
 	this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
+	this.passengerLegs.model.children.forEach(i => i.visible = false);
+	this.passengerLegs.model.getChildByName('passenger_plane').visible = true;
+	this.passengerLegs.model.parent.setChildIndex(this.passengerLegs.model, this.passengerLegs.model.parent.children.length-1);
 	
 	const passengerRef = this.passenger.model.getChildByName('passenger_mouth');
 	this.scene.pointDialogue.position.x = passengerRef.position.x;
@@ -221,6 +225,8 @@
 		this.passenger.animator.offset = offset;
 		this.passenger.animator.updateTexture();
 	};
+	this.passengerLegs.setAnimation('passenger_legs');
+	this.passengerLegs.animator.updateTexture();
 
 
 	// blinking and lip flaps
@@ -254,7 +260,7 @@
 	this.scene.dialogue.scripts.push({
 		gameObject: this.scene.dialogue,
 		update: () => {
-			if (this.passenger.animator.frameChanged && (this.passenger.animator.frame === 1 || this.passenger.animator.frame === 4)) {
+			if (this.passengerLegs.animator.frameChanged && (this.passengerLegs.animator.frame === 1 || this.passengerLegs.animator.frame === 4)) {
 				this.tweenAbort(this.steppingTween);
 				this.steppingTween = this.tween(this, 'stepping', 0, 1300, 1);
 				this.sfx('stepDefault', {
@@ -263,7 +269,7 @@
 				});
 				const print = this.EnvModel('footprint', 'footprintWood', { transparent: true });
 				// offset left/right
-				print.model.position.x += 0.1 * Math.sign(this.passenger.animator.frame - 2);
+				print.model.position.x += 0.1 * Math.sign(this.passengerLegs.animator.frame - 2);
 			}
 		}, 
 	});
