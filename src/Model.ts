@@ -102,7 +102,7 @@ export class Model extends GameObject {
 			mat = materialCache[matKey] =
 				(materialCache[matKey] as StandardMaterial) || new StandardMaterial();
 			if (transparent) {
-				mat.alphaMode = StandardMaterialAlphaMode.blend;
+				mat.alphaMode = StandardMaterialAlphaMode.mask;
 			}
 			mat.unlit = true;
 		}

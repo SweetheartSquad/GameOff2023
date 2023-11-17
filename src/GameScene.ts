@@ -122,15 +122,15 @@ export class GameScene extends GameObject {
 				const input = getInput();
 				this.x += -input.look.x;
 				this.y += input.look.y;
-				if (this.x < -130) {
-					this.x = lerp(this.x, -130, 0.1);
-				} else if (this.x > 130) {
-					this.x = lerp(this.x, 130, 0.1);
+				if (this.x < -150) {
+					this.x = lerp(this.x, -150, 0.1);
+				} else if (this.x > 150) {
+					this.x = lerp(this.x, 150, 0.1);
 				}
 				if (this.y < -70) {
 					this.y = lerp(this.y, -70, 0.1);
-				} else if (this.y > 70) {
-					this.y = lerp(this.y, 70, 0.1);
+				} else if (this.y > 50) {
+					this.y = lerp(this.y, 50, 0.1);
 				}
 				this.camera3d.rotationQuaternion.array = Quat.fromEuler(
 					this.y,

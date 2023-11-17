@@ -23,12 +23,15 @@ models/passenger.glb
 models/footprint.glb
 
 textures/palette.png
-textures/floor.png
 textures/footprintWood.png
 
-textures/passenger_walk_n.x6.png
-textures/passenger_walk_b.x6.png
-textures/passenger_walk_o.x6.png
+textures/passenger_legs.x6.png
+textures/passenger_walk_n.x2.png
+textures/passenger_walk_b.x2.png
+textures/passenger_walk_o.x2.png
+textures/passenger_stand_n.x2.png
+textures/passenger_stand_b.x2.png
+textures/passenger_stand_o.x2.png
 
 textures/skybox_posx.jpg
 textures/skybox_posy.png
