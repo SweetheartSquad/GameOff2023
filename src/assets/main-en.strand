@@ -102,8 +102,8 @@
 	// passenger
 	const poseBase = 'passenger';
 	const initialPose = 'walk';
-	this.passenger = this.Model('passenger', `${poseBase}_${initialPose}_n`, { transparent: true });
-	this.passengerLegs = this.Model('passenger', 'passenger_legs', { transparent: true });
+	this.passenger = this.Model('passenger', `${poseBase}_${initialPose}_n`, { transparent: true, doubleSided: true });
+	this.passengerLegs = this.Model('passenger', 'passenger_legs', { transparent: true, doubleSided: true });
 	// fix alpha
 	this.passenger.model.children.forEach(i => i.visible = false);
 	this.passenger.model.getChildByName('passenger_plane').visible = true;
