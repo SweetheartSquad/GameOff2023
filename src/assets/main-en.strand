@@ -75,10 +75,13 @@
 		curPos += roadDelta;
 		let oldz = objs.container.position.z;
 		let oldy = objs.container.position.y;
-		let looped = false;
+		let looped = 0;
 		if (curPos > roadSize) {
-			looped = true;
+			looped = 1;
 			curPos -= roadSize;
+		} else if (curPos < 0) {
+			looped = -1;
+			curPos += roadSize;
 		}
 		let pos = curPos + roadSize/2;
 		objs.container.position.z = rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
