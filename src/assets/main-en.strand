@@ -41,7 +41,7 @@
 
 	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
-		const road = this.Model('groundPlane_2_10', 'palette', { depth: true });
+		const road = this.Model('groundPlane_3_10', 'palette', { depth: true });
 		if (i === 0) {
 			rootRoad = road;
 		} else {
