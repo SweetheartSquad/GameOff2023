@@ -16,6 +16,7 @@ models/groundPlane_00.glb
 models/groundPlane_10.glb
 models/groundPlane_2_10.glb
 models/groundPlane_3_10.glb
+models/groundPlane_3_20.glb
 models/groundPlane_15.glb
 models/camera_test.glb
 models/passenger.glb
