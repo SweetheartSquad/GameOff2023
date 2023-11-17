@@ -24,7 +24,7 @@
 	const cameraPlaceholder = this.cameraPlaceholder.model.getChildByName('Camera');
 	this.scene.camera3d.position = cameraPlaceholder.position;
 	const camProps = window.resource('camera_test').descriptor.cameras[0].perspective;
-	this.scene.camera3d.fieldOfView = camProps.yfov * 100;
+	this.scene.camera3d.fieldOfView = camProps.yfov / Math.PI * 180;
 	this.scene.camera3d.near = camProps.znear;
 	this.scene.camera3d.far = camProps.zfar;
 
