@@ -55,7 +55,6 @@
 	}
 	const xRoot = rootRoad.model.position.x;
 	const yRoot = rootRoad.model.position.y;
-	let pTime = Date.now();
 	let curPos = 0;
 	let roadDelta = 0;
 	let rootY = this.scene.camera3d.position.y;
@@ -68,9 +67,7 @@
 		});
 	});
 	this.Updater(() => {
-		const cTime = Date.now();
-		const dTime = cTime - pTime;
-		roadDelta = dTime/1000 * this.roadSpeed * this.ease.cubicInOut(this.stepping);
+		roadDelta = game.app.ticker.deltaMS / 1000 * this.roadSpeed * this.ease.cubicInOut(this.stepping);
 		this.scene.camera3d.position.y = rootY + (1-this.ease.cubicInOut(Math.abs(0.5-this.ease.cubicInOut(this.stepping))*2))*0.01;
 		curPos += roadDelta;
 		let oldz = objs.container.position.z;
@@ -100,7 +97,6 @@
 
 		// bounce road
 		// rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
-		pTime = cTime;
 	});
 
 	// passenger
