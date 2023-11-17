@@ -30,10 +30,11 @@ textures/passenger_walk_n.x6.png
 textures/passenger_walk_b.x6.png
 textures/passenger_walk_o.x6.png
 
-textures/skybox_y.png
 textures/skybox_posx.jpg
+textures/skybox_posy.png
 textures/skybox_posz.jpg
 textures/skybox_negx.jpg
+textures/skybox_negy.png
 textures/skybox_negz.jpg
 
 models/forest.glb
