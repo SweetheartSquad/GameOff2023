@@ -217,6 +217,7 @@
 		const frame = this.passenger.animator.frame;
 		const offset = this.passenger.animator.offset;
 		let t = [poseBase, this.pose, state].filter(i => i).join('_');
+		if (this.tex(t) === terr) t = [poseBase, this.pose].filter(i => i).join('_');
 		if (this.tex(t) === terr) t = [poseBase, initialPose, state].filter(i => i).join('_');
 		if (this.tex(t) === terr) t = [poseBase, state].filter(i => i).join('_');
 		if (this.tex(t) === terr) t = poseBase;
