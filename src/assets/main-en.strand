@@ -39,7 +39,6 @@
 	let rootRoad;
 	const objs = this.Container3D();
 
-	this.tex('floor').baseTexture.scaleMode = 1;
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: true });
 		if (i === 0) {
