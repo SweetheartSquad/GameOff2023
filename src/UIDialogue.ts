@@ -23,7 +23,7 @@ import { V } from './VMath';
 import { size } from './config';
 import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
-import { getActiveScene, getInput } from './main';
+import { getActiveScene, getInput, mouse } from './main';
 import { clamp, lerp, pointOnRect, tex } from './utils';
 
 const padding = {
@@ -151,9 +151,13 @@ export class UIDialogue extends GameObject {
 		this.textText = new Text(this.strText, { ...fontDialogue });
 		this.display.container.accessible = true;
 		this.display.container.interactive = true;
-		(this.display.container as utils.EventEmitter).on('pointerdown', () => {
-			if (this.isOpen) this.complete();
-		});
+		(this.display.container as utils.EventEmitter).on(
+			'pointerdown',
+			(event) => {
+				if (event && event.button !== mouse.LEFT) return;
+				if (this.isOpen) this.complete();
+			}
+		);
 		this.containerChoices = new Container();
 		this.choices = [];
 		// @ts-ignore
@@ -402,8 +406,14 @@ export class UIDialogue extends GameObject {
 				t.alpha = 1;
 				this.selected = undefined;
 			});
-			t.on('pointerdown', () => {
+			t.on('click', (event) => {
+				if (event && event.button !== undefined && event.button !== mouse.LEFT)
+					return;
 				if (this.containerChoices.alpha > 0.5) {
+					if (this.choices.length > 1) {
+						// @ts-ignore
+						getActiveScene().strand.lastChoice = i.text;
+					}
 					i.action();
 				}
 			});
