@@ -47,6 +47,8 @@ models/mountainShape3.glb
 models/cloudPlane1.glb
 models/cloudPlane2.glb
 models/cloudShape1.glb
+models/cloudShape2.glb
+models/cloudShape3.glb
 
 textures/cloud1.png
 textures/cloud2.png
