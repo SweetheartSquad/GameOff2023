@@ -140,8 +140,7 @@
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
-	this.Model('cloudPlane1', 'cloud1');
-	this.Model('cloudPlane2', 'cloud2');
+	this.Model('cloudShape1', 'white', {depth: baseDepth});
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
 	// }, 1000 * 110);
