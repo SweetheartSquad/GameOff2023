@@ -362,6 +362,13 @@ walk - walk
 stand - stand
 >
 walk - walk
+>
+<<do this.roadSpeed *= -1>>
+walk - walk backwards
+>
+<<do this.roadSpeed *= -1>>
+walk - walk forwards
+>
 
 <<do this.goto('close');this.gotod(this.scenarios.pop() || 'end-scenario', this.debug ? 2000 : (Math.random()*10+12)*1000);>>
 
