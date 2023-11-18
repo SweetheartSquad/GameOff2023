@@ -127,7 +127,7 @@
 		m.model.position.z -= objs.container.position.z;
 		return m;
 	};
-	this.Model('mountainShape1', 'palette', { depth: true });
+	this.Model('mountainShape1', 'palette');
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
 	// }, 1000 * 110);
