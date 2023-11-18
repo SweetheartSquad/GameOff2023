@@ -121,8 +121,12 @@ export function getInput() {
 		}
 	}
 
-	res.look.x += (mouse.delta.x / Math.max(size.x, size.y)) * 80;
-	res.look.y += (mouse.delta.y / Math.max(size.x, size.y)) * 80;
+	if (Math.abs(mouse.delta.x) > 1) {
+		res.look.x += (mouse.delta.x / Math.max(size.x, size.y)) * 80;
+	}
+	if (Math.abs(mouse.delta.y) > 1) {
+		res.look.y += (mouse.delta.y / Math.max(size.x, size.y)) * 80;
+	}
 
 	res.move.x = clamp(-1.0, res.move.x, 1.0);
 	res.move.y = clamp(-1.0, res.move.y, 1.0);
