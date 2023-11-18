@@ -2,7 +2,6 @@ import { Container, DisplayObject } from 'pixi.js';
 import {
 	Camera as Camera3D,
 	Container3D,
-	Cubemap,
 	Mesh3D,
 	Quat,
 	Skybox,
@@ -18,9 +17,10 @@ import { UIDialogue } from './UIDialogue';
 import { UIPrompt } from './UIPrompt';
 import { UIScrim } from './UIScrim';
 import { distance2 } from './VMath';
+import { getCubemap } from './cubemap';
 import { DEBUG } from './debug';
 import { getInput } from './main';
-import { lerp, tex } from './utils';
+import { lerp } from './utils';
 
 function depthCompare(a: DisplayObject, b: DisplayObject): number {
 	return a.y - b.y;
@@ -166,16 +166,7 @@ export class GameScene extends GameObject {
 			})
 		);
 
-		const skybox = new Skybox(
-			Cubemap.fromFaces({
-				posx: tex('skybox_posx'),
-				posy: tex('skybox_posy'),
-				posz: tex('skybox_posz'),
-				negx: tex('skybox_negx'),
-				negy: tex('skybox_negy'),
-				negz: tex('skybox_negz'),
-			})
-		);
+		const skybox = new Skybox(getCubemap());
 		this.container3d.addChild(skybox);
 		this.container3d.addChild(this.pointDialogue);
 

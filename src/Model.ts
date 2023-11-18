@@ -12,6 +12,7 @@ import {
 import { resource } from './Game';
 import { GameObject } from './GameObject';
 import { Animator3d } from './Scripts/Animator3d';
+import { getCubemap } from './cubemap';
 import { getActiveScene } from './main';
 import { tex } from './utils';
 
@@ -19,29 +20,34 @@ const vert = `
 attribute vec3 a_Position;
 attribute vec2 a_UV1;
 
-varying vec4 v_Position;
+varying vec3 v_Position;
+varying vec4 v_Position2;
 varying vec2 v_UV1;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
 
 void main() {
-  v_Position = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
+  v_Position = (u_Model * vec4(a_Position.xyz, 1.0)).xyz;
+  v_Position2 = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
   v_UV1 = a_UV1;
-  gl_Position = v_Position;
+  gl_Position = v_Position2;
 }
 `;
 
 const frag = `
-varying vec4 v_Position;
+varying vec3 v_Position;
+varying vec4 v_Position2;
 varying vec2 v_UV1;
 
 uniform sampler2D u_Color;
+uniform samplerCube u_EnvironmentSampler;
 
 void main() {
+  vec4 sky = textureCube(u_EnvironmentSampler, v_Position);
   vec3 color = texture2D(u_Color, v_UV1).rgb;
   const float posterize = 16.0;
-  color = mix(color, vec3(176.0/255.0, 180.0/255.0, 183.0/255.0), floor(clamp(0.0, 1.0, length(v_Position/85.0))*posterize)/posterize);
+  color = mix(color, sky.rgb, floor(clamp(0.0, 1.0, length(v_Position2/85.0))*posterize)/posterize);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
@@ -54,6 +60,7 @@ class CustomMaterial extends Material {
 			getActiveScene()?.camera3d.viewProjection.array;
 		shader.uniforms.u_Model = mesh.worldTransform.array;
 		shader.uniforms.u_Color = this.baseColorTexture;
+		shader.uniforms.u_EnvironmentSampler = getCubemap();
 	}
 
 	createShader() {
