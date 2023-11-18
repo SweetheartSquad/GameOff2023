@@ -141,6 +141,10 @@
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
 	this.Model('cloudShape1', 'white', {depth: baseDepth});
+	// rotate clouds
+	this.Updater(() => {
+		clouds.model.rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
+	});
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
 	// }, 1000 * 110);
