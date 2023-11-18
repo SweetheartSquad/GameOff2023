@@ -122,10 +122,22 @@ export class GameScene extends GameObject {
 				const input = getInput();
 				this.x += -input.look.x;
 				this.y += input.look.y;
-				if (this.x < -150) {
-					this.x = lerp(this.x, -150, 0.1);
-				} else if (this.x > 150) {
-					this.x = lerp(this.x, 150, 0.1);
+				// @ts-ignore
+				if (this.strand.roadSpeed < 0) {
+					this.x += 180;
+					if (this.x < -150) {
+						this.x = lerp(this.x, -150, 0.1);
+					} else if (this.x > 150) {
+						this.x = lerp(this.x, 150, 0.1);
+					}
+					this.x -= 180;
+					// @ts-ignore
+				} else if (this.strand.roadSpeed > 0) {
+					if (this.x < -150) {
+						this.x = lerp(this.x, -150, 0.1);
+					} else if (this.x > 150) {
+						this.x = lerp(this.x, 150, 0.1);
+					}
 				}
 				if (this.y < -70) {
 					this.y = lerp(this.y, -70, 0.1);
