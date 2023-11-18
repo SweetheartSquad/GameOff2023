@@ -48,4 +48,4 @@ models/cloudPlane2.glb
 
 textures/cloud1.png
 textures/cloud2.png
-textures/mountainTexture.jpg
+textures/mountainTexture.png
