@@ -43,6 +43,7 @@ textures/skybox_negz.jpg
 models/forest.glb
 models/mountainShape1.glb
 models/mountainShape2.glb
+models/mountainShape3.glb
 models/cloudPlane1.glb
 models/cloudPlane2.glb
 models/cloudShape1.glb
@@ -50,3 +51,4 @@ models/cloudShape1.glb
 textures/cloud1.png
 textures/cloud2.png
 textures/mountainTexture.png
+textures/mountainTexture2.png
