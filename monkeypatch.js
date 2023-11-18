@@ -12,6 +12,6 @@ const fs = require('fs');
 	const pathPixi3d = path.resolve(__dirname, 'node_modules/pixi3d/dist/', p);
 
 	let pixi3d = fs.readFileSync(pathPixi3d, { encoding: 'utf-8' });
-	pixi3d = pixi3d.replace(/float GAMMA\s*?=\s*?2\.2/, 'float GAMMA = 1.0');
+	pixi3d = pixi3d.replace(/float GAMMA\s*?=\s*?2\.2/g, 'float GAMMA = 1.0');
 	fs.writeFileSync(pathPixi3d, pixi3d, { encoding: 'utf-8' });
 });

@@ -1,5 +1,6 @@
 import { Axes, Buttons, Gamepads } from 'input-gamepads.js';
 import { Sprite, Texture } from 'pixi.js';
+import { resizer } from '.';
 import { game } from './Game';
 import { GameScene } from './GameScene';
 import { fps, size } from './config';
@@ -121,8 +122,14 @@ export function getInput() {
 		}
 	}
 
-	res.look.x += (mouse.delta.x / Math.max(size.x, size.y)) * 80;
-	res.look.y += (mouse.delta.y / Math.max(size.x, size.y)) * 80;
+	if (Math.abs(mouse.delta.x) > 1) {
+		res.look.x +=
+			(mouse.delta.x / Math.max(size.x, size.y) / resizer.scaleMultiplier) * 80;
+	}
+	if (Math.abs(mouse.delta.y) > 1) {
+		res.look.y +=
+			(mouse.delta.y / Math.max(size.x, size.y) / resizer.scaleMultiplier) * 80;
+	}
 
 	res.move.x = clamp(-1.0, res.move.x, 1.0);
 	res.move.y = clamp(-1.0, res.move.y, 1.0);
