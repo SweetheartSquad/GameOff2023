@@ -15,7 +15,16 @@
 		}, delay);
 	};
 
-	
+	// middle mouse click to go back in debug
+	if (this.debug && !window.debugBack) {
+		window.debugBack = true;
+		window.addEventListener('pointerdown', (event) => {
+			if (event.button === 1) {
+				window.scene.strand.back();
+			}
+		});
+	}
+
 	// start with music off in debug
 	// camera
 	this.cameraPlaceholder = this.Model('camera_test');
