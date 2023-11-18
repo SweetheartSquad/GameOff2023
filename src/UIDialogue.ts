@@ -23,7 +23,7 @@ import { V } from './VMath';
 import { size } from './config';
 import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
-import { getInput } from './main';
+import { getActiveScene, getInput } from './main';
 import { clamp, lerp, pointOnRect, tex } from './utils';
 
 const padding = {
@@ -209,7 +209,8 @@ export class UIDialogue extends GameObject {
 			Vec3.squaredDistance(pos3d2a.array, pos3d.array) >
 			Vec3.squaredDistance(pos3d2b.array, pos3d.array)
 		) {
-			pos.x = max.x;
+			// @ts-ignore
+			pos.x = getActiveScene()?.strand.roadSpeed > 0 ? max.x : min.x;
 			pos.y = lerp(min.y, max.y, 0.25);
 		} else {
 			pos = this.graphics.toLocal(pos);
