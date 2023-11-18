@@ -42,6 +42,8 @@
 	const roadSize = 100;
 	this.roadAngle = 20; // degrees
 
+	const baseDepth = 85;
+
 	const roadSegments = Math.max(3, Math.ceil(this.scene.camera3d.far*2 / roadSize));
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
@@ -49,7 +51,7 @@
 	const objs = this.Container3D();
 
 	for(let i = 0; i < roadSegments; ++i) {
-		const road = this.Model('groundPlane_3_20', 'palette', { depth: true });
+		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
 		if (i === 0) {
 			rootRoad = road;
 		} else {
@@ -59,7 +61,7 @@
 		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
 
 	
-		const forest = this.Model('forest', 'palette', { depth: true });
+		const forest = this.Model('forest', 'palette', { depth: baseDepth });
 		road.model.addChild(forest.model);
 	}
 	const xRoot = rootRoad.model.position.x;

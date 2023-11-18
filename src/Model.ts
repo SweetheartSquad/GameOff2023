@@ -47,13 +47,17 @@ void main() {
   vec4 sky = textureCube(u_EnvironmentSampler, v_Position);
   vec3 color = texture2D(u_Color, v_UV1).rgb;
   const float posterize = 16.0;
-  color = mix(color, sky.rgb, floor(clamp(0.0, 1.0, length(v_Position2/85.0))*posterize)/posterize);
+  color = mix(color, sky.rgb, floor(clamp(0.0, 1.0, length(v_Position2/DEPTH))*posterize)/posterize);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
 
 class CustomMaterial extends Material {
 	baseColorTexture?: Texture;
+
+	constructor(private depth: number) {
+		super();
+	}
 
 	updateUniforms(mesh: Mesh3D, shader: MeshShader) {
 		shader.uniforms.u_ViewProjection =
@@ -64,7 +68,9 @@ class CustomMaterial extends Material {
 	}
 
 	createShader() {
-		return new MeshShader(Program.from(vert, frag));
+		return new MeshShader(
+			Program.from(vert, frag.replace('DEPTH', this.depth.toFixed(1)))
+		);
 	}
 }
 
@@ -86,12 +92,12 @@ export class Model extends GameObject {
 			smooth = false,
 			transparent = false,
 			doubleSided = false,
-			depth = false,
+			depth,
 		}: {
 			smooth?: boolean;
 			transparent?: boolean;
 			doubleSided?: boolean;
-			depth?: boolean;
+			depth?: number;
 		} = {}
 	) {
 		super();
@@ -104,7 +110,7 @@ export class Model extends GameObject {
 		const matKey = `${texture}_${depth}_${transparent}_${smooth}_${doubleSided}`;
 		if (depth) {
 			mat = materialCache[matKey] =
-				(materialCache[matKey] as CustomMaterial) || new CustomMaterial();
+				(materialCache[matKey] as CustomMaterial) || new CustomMaterial(depth);
 		} else {
 			mat = materialCache[matKey] =
 				(materialCache[matKey] as StandardMaterial) || new StandardMaterial();
