@@ -142,8 +142,9 @@
 	this.Model('mountainShape2', 'mountainTexture');
 	this.Model('cloudShape1', 'white', {depth: baseDepth});
 	// rotate clouds
+	clouds.model.rotationQuaternion.setEulerAngles(this.roadAngle * 180 / Math.PI, 0, 0);
 	this.Updater(() => {
-		clouds.model.rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
+		clouds.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
 	});
 	// setTimeout(() => {
 	// 	this.EnvModel('coyoteXsign');
