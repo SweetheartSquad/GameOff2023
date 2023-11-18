@@ -140,7 +140,7 @@
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
-	this.Model('cloudShape1', 'white', {depth: baseDepth});
+	const clouds = this.Model('cloudShape1', 'white', { depth: 256 });
 	// rotate clouds
 	clouds.model.rotationQuaternion.setEulerAngles(this.roadAngle * 180 / Math.PI, 0, 0);
 	this.Updater(() => {
