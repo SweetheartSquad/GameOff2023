@@ -138,7 +138,7 @@
 		m.model.position.z -= objs.container.position.z;
 		return m;
 	};
-	this.Model('mountainShape1', 'mountainTexture');
+	this.Model('mountainShape2', 'mountainTexture');
 	this.Model('cloudPlane1', 'cloud1');
 	this.Model('cloudPlane2', 'cloud2');
 	// setTimeout(() => {
