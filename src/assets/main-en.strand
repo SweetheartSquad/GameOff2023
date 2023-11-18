@@ -106,16 +106,18 @@
 	this.passengerLegs = this.Model('passenger', 'passenger_legs', { transparent: true, doubleSided: true });
 	// fix alpha
 	this.passenger.model.children.forEach(i => i.visible = false);
-	this.passenger.model.getChildByName('passenger_plane').visible = true;
+	this.passengerPlane = this.passenger.model.getChildByName('passenger_plane');
+	this.passengerLegsPlane = this.passengerLegs.model.getChildByName('passenger_plane');
+	this.passengerPlane.visible = true;
+	this.passengerPlane.position.x -= 0.0001;
 	this.passenger.model.parent.setChildIndex(this.passenger.model, this.passenger.model.parent.children.length-1);
 	this.passengerLegs.model.children.forEach(i => i.visible = false);
 	this.passengerLegs.model.getChildByName('passenger_plane').visible = true;
 	this.passengerLegs.model.parent.setChildIndex(this.passengerLegs.model, this.passengerLegs.model.parent.children.length-1);
 	
-	const passengerRef = this.passenger.model.getChildByName('passenger_mouth');
-	this.scene.pointDialogue.position.x = passengerRef.position.x;
-	this.scene.pointDialogue.position.y = passengerRef.position.y;
-	this.scene.pointDialogue.position.z = passengerRef.position.z;
+	const passengerMouthFront = this.passenger.model.getChildByName('mouth_front');
+	const passengerMouthBack = this.passenger.model.getChildByName('mouth_back');
+	this.scene.pointDialogue.position = passengerMouthFront.position;
 
 	this.EnvModel = (...args) => {
 		const m = this.Model(...args);
@@ -284,11 +286,12 @@
 	});
 
 	// walk direction
-	let baseScale = this.passenger.model.getChildAt(0).scale.x;
+	let baseScale = this.passengerPlane.scale.x;
 	this.scene.dialogue.scripts.push({
 		gameObject: this.scene.dialogue,
 		update: () => {
-			this.passengerLegs.model.getChildAt(0).scale.x = this.passengerLegs.model.getChildAt(0).scale.x = this.passenger.model.getChildAt(0).scale.x = baseScale * Math.sign(this.roadSpeed);
+			this.passengerLegsPlane.scale.x = this.passengerPlane.scale.x = baseScale * Math.sign(this.roadSpeed);
+			this.scene.pointDialogue.position = Math.sign(this.roadSpeed) > 0 ? passengerMouthFront.position : passengerMouthBack.position;
 		},
 	});
 	
