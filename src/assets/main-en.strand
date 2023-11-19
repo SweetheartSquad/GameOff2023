@@ -290,9 +290,15 @@
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
-				const print = this.EnvModel('footprint', 'black', { depth: baseDepth });
-				// offset left/right
-				print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.2 : 0.05;
+				if (this.roadSpeed > 0) {
+					const print = this.EnvModel('footprint', 'black', { depth: baseDepth });
+					// offset left/right
+					print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.2 : 0.05;
+				} else {
+					const print = this.EnvModel('footprint_backward', 'black', { depth: baseDepth });
+					// offset left/right
+					print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.35 : 0.2;
+				}
 			}
 		}, 
 	});
