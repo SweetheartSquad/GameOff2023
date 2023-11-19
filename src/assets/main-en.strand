@@ -142,7 +142,7 @@
 	// move clouds
 	clouds1.model.rotationQuaternion.setEulerAngles(this.roadAngle * 180 / Math.PI, 0, 0);
 	this.Updater(() => {
-		clouds1.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
+		clouds1.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.005, 0);
 		clouds2.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0005) + Math.sin(game.app.ticker.lastTime * 0.00023)*0.5;
 		clouds3.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0002) + Math.sin(game.app.ticker.lastTime * 0.00045)*0.5;
 	});
