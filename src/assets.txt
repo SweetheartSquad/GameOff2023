@@ -16,7 +16,7 @@ models/groundPlane_3_20.glb
 models/camera_test.glb
 models/passenger.glb
 models/footprint.glb
-
+models/footprint_backward.glb
 textures/palette.png
 
 textures/passenger_legs.x6.png
