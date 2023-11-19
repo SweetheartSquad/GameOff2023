@@ -120,8 +120,8 @@
 	this.passengerLegs.model.getChildByName('passenger_plane').visible = true;
 	this.passengerLegs.model.parent.setChildIndex(this.passengerLegs.model, this.passengerLegs.model.parent.children.length-1);
 	
-	const passengerMouthFront = this.passenger.model.getChildByName('mouth_front');
-	const passengerMouthBack = this.passenger.model.getChildByName('mouth_back');
+	const passengerMouthFront = this.passenger.model.getChildByName('mouth_forward');
+	const passengerMouthBack = this.passenger.model.getChildByName('mouth_backward');
 	this.scene.pointDialogue.position = passengerMouthFront.position;
 
 	this.EnvModel = (...args) => {
