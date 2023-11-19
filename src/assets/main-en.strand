@@ -144,12 +144,6 @@
 	this.Updater(() => {
 		clouds.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
 	});
-	// setTimeout(() => {
-	// 	this.EnvModel('coyoteXsign');
-	// }, 1000 * 110);
-	// setTimeout(() => {
-	// 	this.EnvModel('coyote');
-	// }, 1000 * 120);
 
 	// random props
 	// const props = [
