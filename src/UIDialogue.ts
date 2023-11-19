@@ -376,6 +376,20 @@ export class UIDialogue extends GameObject {
 
 	say(text: string, actions?: { text: string; action: () => void }[]) {
 		text = smartify(text);
+		// make &shy; delay a bit
+		text = text.replace(/&shy;/g, '\u200B\u200B\u200B\u200B');
+		// make punctuation delay a lot
+		text = text.replace(
+			/([.!?]"?)(\s)/g,
+			'$1\u200B\u200B\u200B\u200B\u200B\u200B\u200B\u200B$2'
+		);
+		// make cut-off dashes delay a lot
+		text = text.replace(
+			/([-–⁠—])(\s)/g,
+			'$1\u200B\u200B\u200B\u200B\u200B\u200B\u200B\u200B$2'
+		);
+		// make commas delay a bit
+		text = text.replace(/(,"?)(\s)/g, '$1\u200B\u200B\u200B\u200B$2');
 		this.selected = undefined;
 
 		this.strText = TextMetrics.measureText(
