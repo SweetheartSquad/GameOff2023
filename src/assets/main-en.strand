@@ -135,7 +135,7 @@
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
 	this.Model('mountainShape3', 'palette', {depth: 366});
-	
+	this.Model('mountainShape4', 'palette', {depth: 220});
 	const clouds1 = this.Model('cloudShape1', 'white', { depth: 366 });
 	const clouds2 = this.Model('cloudShape2', 'white', { depth: 256 });
 	const clouds3 = this.Model('cloudShape3', 'white', { depth: 300 });

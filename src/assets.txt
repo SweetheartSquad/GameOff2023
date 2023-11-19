@@ -38,6 +38,7 @@ models/forest.glb
 models/mountainShape1.glb
 models/mountainShape2.glb
 models/mountainShape3.glb
+models/mountainShape4.glb
 models/cloudPlane1.glb
 models/cloudPlane2.glb
 models/cloudShape1.glb
