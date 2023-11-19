@@ -24,7 +24,7 @@ import { size } from './config';
 import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
 import { getActiveScene, getInput, mouse } from './main';
-import { clamp, lerp, pointOnRect, tex } from './utils';
+import { clamp, lerp, pointOnRect, smartify, tex } from './utils';
 
 const padding = {
 	top: 16,
@@ -375,6 +375,7 @@ export class UIDialogue extends GameObject {
 	}
 
 	say(text: string, actions?: { text: string; action: () => void }[]) {
+		text = smartify(text);
 		this.selected = undefined;
 
 		this.strText = TextMetrics.measureText(
@@ -388,7 +389,7 @@ export class UIDialogue extends GameObject {
 		this.display.container.accessibleHint = text;
 		this.choices.forEach((i) => i.destroy());
 		this.choices = (actions || []).map((i, idx, a) => {
-			const strText = formatLabel(i.text, idx, a.length);
+			const strText = formatLabel(smartify(i.text), idx, a.length);
 			const t = new Text(strText, {
 				...fontChoice,
 				wordWrapWidth: (this.textText.style.wordWrapWidth || 0) - 2,
