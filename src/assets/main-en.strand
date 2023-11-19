@@ -292,7 +292,7 @@
 				});
 				const print = this.EnvModel('footprint', 'palette', { depth: baseDepth });
 				// offset left/right
-				print.model.position.x += 0.1 * Math.sign(this.passengerLegs.animator.frame - 2);
+				print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.2 : 0.05;
 			}
 		}, 
 	});
