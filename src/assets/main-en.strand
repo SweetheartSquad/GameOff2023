@@ -290,7 +290,7 @@
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
-				const print = this.EnvModel('footprint', 'palette', { depth: baseDepth });
+				const print = this.EnvModel('footprint', 'black', { depth: baseDepth });
 				// offset left/right
 				print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.2 : 0.05;
 			}
