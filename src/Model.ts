@@ -46,8 +46,12 @@ uniform samplerCube u_EnvironmentSampler;
 void main() {
   vec4 sky = textureCube(u_EnvironmentSampler, v_Position);
   vec3 color = texture2D(u_Color, v_UV1).rgb;
-  const float posterize = 16.0;
-  color = mix(color, sky.rgb, floor(clamp(0.0, 1.0, length(v_Position2/DEPTH))*posterize)/posterize);
+  const float posterize = 6.0;
+  float f = length(v_Position2/DEPTH);
+  f *= f;
+  float f2 = floor(clamp(0.0, 1.0, f)*posterize)/posterize;
+  f2 = mix(f, f2, pow(mod(f2,f), 1.2));
+  color = mix(color, sky.rgb, f2);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
