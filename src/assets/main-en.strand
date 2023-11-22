@@ -232,11 +232,11 @@
 	const poses = {
 		'._.': 'walk',
 		'o_o': 'walk_for',
-		'>_>': 'walk_bac',
+		'<_<': 'walk_bac',
 		'v_v': 'walk_write',
 		'🛑 ._.': 'stand',
 		'🛑 o_o': 'stand_for',
-		'🛑 >_>': 'stand_bac',
+		'🛑 <_<': 'stand_bac',
 		'🛑 v_v': 'stand_write',
 	};
 
