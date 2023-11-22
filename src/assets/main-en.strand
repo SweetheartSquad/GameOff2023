@@ -80,6 +80,11 @@
 	let roadDelta = 0;
 	let rootY = this.scene.camera3d.position.y;
 	this.stepping = 0;
+	this.clearObjs = () => {
+		objs.container.children.forEach(i => {
+			i.loops = 10
+		});
+	};
 	this.Updater(() => {
 		objs.container.children.forEach(i => {
 			if (i.loops >= 2) {
@@ -245,7 +250,7 @@
 	this.setPose = (pose, state) => {
 		this.pose = poses[pose] || pose;
 		const frame = this.passenger.animator.frame;
-		const offset = this.passenger.animator.offset;
+		let offset = this.passenger.animator.offset;
 		let t = [poseBase, this.pose, state].filter(i => i).join('_');
 		if (t === prev) return;
 		prev = t;
@@ -261,8 +266,10 @@
 			this.passengerLegs.setAnimation('blank');
 			this.passengerLegs.animator.updateTexture();
 		} else {
+			offset = this.passenger.animator.offset;
 			this.passengerLegs.setAnimation('passenger_legs');
 			this.passengerLegs.animator.updateTexture();
+			this.passengerLegs.animator.offset = offset;
 		}
 	};
 
@@ -491,6 +498,7 @@ test scenario walking up
 		this.scrim(0, 1000);
 		this.rootRoad.model.visible = false;
 		this.top.model.visible = true;
+		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-top2', 3000)
 	}, 3000);
@@ -541,46 +549,36 @@ test scenario walking down
 //  88        88     88 88    .8P
 //  88888888P dP     dP 8888888P
 ::scenario-end
-:) - Oh, is that a sign up ahead?
->
-<<do
-	this.scene.interactive = false;
-	this.scrim(1, 4000);
->>
-I think this is my exit.
+walk - ending
 >
 <<do
 	this.goto('close');
-	this.gotod('scenario-end2', 5000);
+	this.scrim(1, 1000);
+	setTimeout(() => {
+		this.scrim(0, 1000);
+		this.rootRoad.model.visible = false;
+		this.bottom.model.visible = true;
+		this.clearObjs();
+		this.setPose('stand', 'n');
+		this.gotod('scenario-end2', 3000)
+	}, 3000);
 >>
 
 ::scenario-end2
-This is it, huh?
->
-<<do this.sfx('door_open')>>
-...
->
-So, uh.
->
-How much do I owe you?
+ending bottom
 [[ |((async () => {
 		if (this.ended) return;
 		this.ended = true;
 
 		await this.delay(3000);
-		this.sfx('door_close');
 		this.goto('close');
+		this.scrim(1, 1000);
 
 		await this.delay(3000);
-		const e = this.EnvModel('exitSign');
-		e.model.rotationQuaternion.setEulerAngles(0, 180, 0);
-		e.model.position.x -= 7;
-		this.chimneys.model.rotationQuaternion.setEulerAngles(0, 180, 0);
 		this.scene.interactive = true;
-		this.scrim(0, 3000);
 		this.passenger.model.visible = false;
-		this.passengerProps.model.visible = false;
-		this.aloneProps.model.visible = true;
+		this.passengerLegs.model.visible = false;
+		this.scrim(0, 3000);
 
 		await this.delay(6000);
 		const t = this.Text('The End');
@@ -588,7 +586,6 @@ How much do I owe you?
 		t.text.anchor.y = 1.0;
 		t.display.container.x = game.app.renderer.width - 30;
 		t.display.container.y = game.app.renderer.height - 20;
-		this.sfx('door_open', { rate: 2.0 });
 		window.game.app.stage.addChild(t.display.container);
 	})());
 ]]
