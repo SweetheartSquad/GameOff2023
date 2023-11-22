@@ -24,7 +24,7 @@ import { size } from './config';
 import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
 import { getActiveScene, getInput, mouse } from './main';
-import { clamp, lerp, pointOnRect, tex } from './utils';
+import { clamp, lerp, pointOnRect, smartify, tex } from './utils';
 
 const padding = {
 	top: 16,
@@ -311,23 +311,23 @@ export class UIDialogue extends GameObject {
 						input.choiceUp ||
 						input.choiceDown)
 				) {
-					this.choices[0].emit('pointerdown');
+					this.choices[0].emit('click');
 				} else if (this.choices.length > 0 && this.choices.length <= 4) {
 					if (input.choiceLeft) {
-						this.choices[0].emit('pointerdown');
+						this.choices[0].emit('click');
 					} else if (input.choiceRight) {
-						this.choices[1].emit('pointerdown');
+						this.choices[1].emit('click');
 					} else if (this.choices[2] && input.choiceUp) {
-						this.choices[2].emit('pointerdown');
+						this.choices[2].emit('click');
 					} else if (this.choices[3] && input.choiceDown) {
-						this.choices[3].emit('pointerdown');
+						this.choices[3].emit('click');
 					}
 				} else {
 					// keys 1-9 select choices
 					this.choices
 						.slice(0, 9)
 						.find((_, idx) => keys.isJustDown(KEYS.ONE + idx))
-						?.emit('pointerdown');
+						?.emit('click');
 
 					// menu select
 					if (this.selected === undefined) {
@@ -343,7 +343,7 @@ export class UIDialogue extends GameObject {
 					}
 					this.choices[this.selected].alpha = 0.75;
 					if (input.interact && this.selected !== undefined) {
-						this.choices[this.selected].emit('pointerdown');
+						this.choices[this.selected].emit('click');
 					}
 				}
 			}
@@ -375,6 +375,21 @@ export class UIDialogue extends GameObject {
 	}
 
 	say(text: string, actions?: { text: string; action: () => void }[]) {
+		text = smartify(text);
+		// make &shy; delay a bit
+		text = text.replace(/&shy;/g, '\u200B\u200B\u200B\u200B');
+		// make punctuation delay a lot
+		text = text.replace(
+			/([.!?]"?)(\s)/g,
+			'$1\u200B\u200B\u200B\u200B\u200B\u200B\u200B\u200B$2'
+		);
+		// make cut-off dashes delay a lot
+		text = text.replace(
+			/([-–⁠—])(\s)/g,
+			'$1\u200B\u200B\u200B\u200B\u200B\u200B\u200B\u200B$2'
+		);
+		// make commas delay a bit
+		text = text.replace(/(,"?)(\s)/g, '$1\u200B\u200B\u200B\u200B$2');
 		this.selected = undefined;
 
 		this.strText = TextMetrics.measureText(
@@ -388,7 +403,7 @@ export class UIDialogue extends GameObject {
 		this.display.container.accessibleHint = text;
 		this.choices.forEach((i) => i.destroy());
 		this.choices = (actions || []).map((i, idx, a) => {
-			const strText = formatLabel(i.text, idx, a.length);
+			const strText = formatLabel(smartify(i.text), idx, a.length);
 			const t = new Text(strText, {
 				...fontChoice,
 				wordWrapWidth: (this.textText.style.wordWrapWidth || 0) - 2,

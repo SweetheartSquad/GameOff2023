@@ -47,25 +47,35 @@
 	const roadSegments = Math.max(3, Math.ceil(this.scene.camera3d.far*2 / roadSize));
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
-	let rootRoad;
 	const objs = this.Container3D();
+
+	this.top = this.Model('top', 'palette', { depth: baseDepth });
+	this.top.model.visible = false;
+	this.bottom = this.Model('bottom', 'palette', { depth: baseDepth });
+	this.bottom.model.visible = false;
 
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
 		if (i === 0) {
-			rootRoad = road;
+			this.rootRoad = road;
 		} else {
-			rootRoad.model.addChild(road.model);
+			this.rootRoad.model.addChild(road.model);
 		}
 		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
 		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
 
-	
+
 		const forest = this.Model('forest', 'palette', { depth: baseDepth });
 		road.model.addChild(forest.model);
+		const forest2 = this.Model('forest2', 'palette', { depth: baseDepth });
+		road.model.addChild(forest2.model);
+		const rocks1 = this.Model('rocks1', 'palette', { depth: baseDepth });
+		road.model.addChild(rocks1.model);
+		const topTrees = this.Model('topTrees', 'palette', { depth: baseDepth });
+		road.model.addChild(topTrees.model);
 	}
-	const xRoot = rootRoad.model.position.x;
-	const yRoot = rootRoad.model.position.y;
+	const xRoot = this.rootRoad.model.position.x;
+	const yRoot = this.rootRoad.model.position.y;
 	let curPos = 0;
 	let roadDelta = 0;
 	let rootY = this.scene.camera3d.position.y;
@@ -92,8 +102,8 @@
 			curPos += roadSize;
 		}
 		let pos = curPos + roadSize/2;
-		objs.container.position.z = rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
-		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
+		objs.container.position.z = this.rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
+		objs.container.position.y = this.rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
 		if (looped) {
 			objs.container.children.forEach(i => {
@@ -102,12 +112,6 @@
 				i.position.y += oldy - objs.container.position.y;
 			});
 		}
-		// sway road back and forth
-		// const sway = Math.sin(Date.now()/2300)*2 + Math.sin(Date.now()/3200)*4;
-		// rootRoad.model.position.x = xRoot + sway * 0.1 * Math.min(1, this.roadSpeed/50);
-
-		// bounce road
-		// rootRoad.model.position.y = yRoot + Math.sin(cTime/20) * 0.01;
 	});
 
 	// passenger
@@ -125,9 +129,9 @@
 	this.passengerLegs.model.children.forEach(i => i.visible = false);
 	this.passengerLegs.model.getChildByName('passenger_plane').visible = true;
 	this.passengerLegs.model.parent.setChildIndex(this.passengerLegs.model, this.passengerLegs.model.parent.children.length-1);
-	
-	const passengerMouthFront = this.passenger.model.getChildByName('mouth_front');
-	const passengerMouthBack = this.passenger.model.getChildByName('mouth_back');
+
+	const passengerMouthFront = this.passenger.model.getChildByName('mouth_forward');
+	const passengerMouthBack = this.passenger.model.getChildByName('mouth_backward');
 	this.scene.pointDialogue.position = passengerMouthFront.position;
 
 	this.EnvModel = (...args) => {
@@ -140,19 +144,20 @@
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
-	this.Model('mountainShape3', 'mountainTexture2');
-	const clouds = this.Model('cloudShape1', 'white', { depth: 256 });
-	// rotate clouds
-	clouds.model.rotationQuaternion.setEulerAngles(this.roadAngle * 180 / Math.PI, 0, 0);
+	this.Model('mountainShape3', 'palette', {depth: 366});
+	this.Model('mountainShape4', 'palette', {depth: 220});
+	const clouds1 = this.Model('cloudShape1', 'white', { depth: 366 });
+	const clouds2 = this.Model('cloudShape2', 'white', { depth: 256 });
+	const clouds3 = this.Model('cloudShape3', 'white', { depth: 300 });
+	const clouds4 = this.Model('cloudShape4', 'white', { depth: 300 });
+	// move clouds
+	clouds1.model.rotationQuaternion.setEulerAngles(this.roadAngle * 180 / Math.PI, 0, 0);
 	this.Updater(() => {
-		clouds.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.01, 0);
+		clouds1.model.getChildAt(0).rotationQuaternion.setEulerAngles(0, game.app.ticker.lastTime * 0.005, 0);
+		clouds2.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0005) + Math.sin(game.app.ticker.lastTime * 0.00023)*0.5;
+		clouds3.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0002) + Math.sin(game.app.ticker.lastTime * 0.00045)*0.5;
+		clouds4.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0002) + Math.sin(game.app.ticker.lastTime * 0.00055)*0.5;
 	});
-	// setTimeout(() => {
-	// 	this.EnvModel('coyoteXsign');
-	// }, 1000 * 110);
-	// setTimeout(() => {
-	// 	this.EnvModel('coyote');
-	// }, 1000 * 120);
 
 	// random props
 	// const props = [
@@ -297,11 +302,17 @@
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
-				const print = this.EnvModel('footprint', 'footprintWood', { transparent: true });
-				// offset left/right
-				print.model.position.x += 0.1 * Math.sign(this.passengerLegs.animator.frame - 2);
+				if (this.roadSpeed > 0) {
+					const print = this.EnvModel('footprint', 'black', { depth: baseDepth });
+					// offset left/right
+					print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.2 : 0.05;
+				} else {
+					const print = this.EnvModel('footprint_backward', 'black', { depth: baseDepth });
+					// offset left/right
+					print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.35 : 0.2;
+				}
 			}
-		}, 
+		},
 	});
 
 	// walk direction
@@ -313,7 +324,7 @@
 			this.scene.pointDialogue.position = Math.sign(this.roadSpeed) > 0 ? passengerMouthFront.position : passengerMouthBack.position;
 		},
 	});
-	
+
 
 	// add syntax sugar for poses like `:( - Blah blah`
 	const check = /^(.*) - /;
@@ -332,36 +343,7 @@
 
 	// start
 	this.started=true;
-	this.goto('close');
-	requestAnimationFrame(async () => {
-		this.scene.container3d.visible = true;
-		this.scenarios = this.shuffle(Object.keys(this.passages).filter(i => i.startsWith('scenario-')));
-
-		await this.delay(556*8);
-		const t = scene.strand.Text('TAXI');
-		game.app.stage.addChild(t.display.container);
-		t.text.style.fontSize = 50;
-		t.text.style.fill = 0x406885;
-		t.text.x = 30;
-		t.text.y = 30;
-
-		await this.delay(556*2);
-		t.text.text = 'TAXI QUEST';
-
-
-		await this.delay(556*2);
-		const t2 = scene.strand.Text('66');
-		game.app.stage.addChild(t2.display.container);
-		t2.text.style.fontSize = 240;
-		t2.text.style.fill = 0x406885;
-		t2.text.x = 30;
-		t2.text.y = 10;
-
-		await this.delay(556*6);
-		t.destroy();
-		t2.destroy();
-		this.goto('main');
-	});
+	this.goto('start2');
 >>
 <<endif>>
 
@@ -376,26 +358,166 @@ debug menu
 [[get interaction region|console.log(this.scene.x, this.scene.y)]]
 [[back|this.back()]]
 
+::start2
+<<do
+	this.setPose('stand', 'n');
+	this.goto('close');
+	(async () => {
+		this.scene.container3d.visible = true;
+		this.scenarios = [].concat(
+			...this.shuffle(Object.keys(this.passages).filter(i => i.startsWith('scenario-up-'))),
+			'scenario-top',
+			...this.shuffle(Object.keys(this.passages).filter(i => i.startsWith('scenario-down-'))),
+			'scenario-end',
+		);
+		this.scenarios.reverse();
+
+		// await this.delay(556*8);
+		// const t = scene.strand.Text('TAXI');
+		// game.app.stage.addChild(t.display.container);
+		// t.text.style.fontSize = 50;
+		// t.text.style.fill = 0x406885;
+		// t.text.x = 30;
+		// t.text.y = 30;
+
+		// await this.delay(556*2);
+		// t.text.text = 'TAXI QUEST';
+
+
+		// await this.delay(556*2);
+		// const t2 = scene.strand.Text('66');
+		// game.app.stage.addChild(t2.display.container);
+		// t2.text.style.fontSize = 240;
+		// t2.text.style.fill = 0x406885;
+		// t2.text.x = 30;
+		// t2.text.y = 10;
+
+		// await this.delay(556*6);
+		// t.destroy();
+		// t2.destroy();
+
+		this.scrim(1);
+		this.scrim(0, 1000);
+		this.rootRoad.model.visible = false;
+		this.bottom.model.visible = true;
+		this.gotod('start3', 3000)
+	})();
+>>
+
+::start3
+stand - talking at the bottom
+>
+starting the trip
+>
+<<do
+	this.goto('close');
+	this.scrim(1, 1000);
+	setTimeout(() => {
+		this.scrim(0, 1000);
+		this.rootRoad.model.visible = true;
+		this.bottom.model.visible = false;
+		this.setPose('walk', 'n');
+		this.gotod('start4', 3000)
+	}, 3000);
+>>
+
+
+::start4
+intro walking up
+[[>main]]
+
 ::main
-test
->
-walk - walk
->
-stand - stand
->
-walk - walk
->
-<<do this.roadSpeed *= -1>>
-walk - walk backwards
->
-<<do this.roadSpeed *= -1>>
-walk - walk forwards
->
+<<do
+	this.goto('close');
+	this.gotod(this.scenarios.pop() || 'scenario-end', this.debug ? 2000 : (Math.random()*10+12)*1000);
+>>
 
-<<do this.goto('close');this.gotod(this.scenarios.pop() || 'end-scenario', this.debug ? 2000 : (Math.random()*10+12)*1000);>>
 
-::end-scenario
-<<do this.EnvModel('exitSign')>>
+
+
+
+
+
+
+
+//  dP     dP  888888ba
+//  88     88  88    `8b
+//  88     88 a88aaaa8P'
+//  88     88  88
+//  Y8.   .8P  88
+//  `Y88888P'  dP
+
+::scenario-up-test1
+test scenario walking up
+[[>main]]
+
+
+
+
+// d888888P  .88888.   888888ba
+//    88    d8'   `8b  88    `8b
+//    88    88     88 a88aaaa8P'
+//    88    88     88  88
+//    88    Y8.   .8P  88
+//    dP     `8888P'   dP
+::scenario-top
+<<do
+	this.goto('close');
+	this.scrim(1, 1000);
+	setTimeout(() => {
+		this.scrim(0, 1000);
+		this.rootRoad.model.visible = false;
+		this.top.model.visible = true;
+		this.setPose('stand', 'n');
+		this.gotod('scenario-top2', 3000)
+	}, 3000);
+>>
+
+::scenario-top2
+stand - test mountain top
+>
+<<do
+	this.goto('close');
+	this.scrim(1, 1000);
+	setTimeout(() => {
+		this.scrim(0, 1000);
+		this.rootRoad.model.visible = true;
+		this.top.model.visible = false;
+		this.roadSpeed *= -1;
+		this.scene.x = -180;
+		this.scene.y = 20;
+		this.setPose('walk', 'n');
+		this.gotod('scenario-top3', 3000)
+	}, 3000);
+>>
+
+::scenario-top3
+walk - walking back down
+[[>main]]
+
+
+
+// 888888ba   .88888.  dP   dP   dP 888888ba
+// 88    `8b d8'   `8b 88   88   88 88    `8b
+// 88     88 88     88 88  .8P  .8P 88     88
+// 88     88 88     88 88  d8'  d8' 88     88
+// 88    .8P Y8.   .8P 88.d8P8.d8P  88     88
+// 8888888P   `8888P'  8888' Y88'   dP     dP
+
+::scenario-down-test1
+test scenario walking down
+[[>main]]
+
+
+
+
+//  88888888b 888888ba  888888ba
+//  88        88    `8b 88    `8b
+// a88aaaa    88     88 88     88
+//  88        88     88 88     88
+//  88        88     88 88    .8P
+//  88888888P dP     dP 8888888P
+::scenario-end
 :) - Oh, is that a sign up ahead?
 >
 <<do
@@ -406,10 +528,10 @@ I think this is my exit.
 >
 <<do
 	this.goto('close');
-	this.gotod('end-scenario2', 5000);
+	this.gotod('scenario-end2', 5000);
 >>
 
-::end-scenario2
+::scenario-end2
 This is it, huh?
 >
 <<do this.sfx('door_open')>>
@@ -447,657 +569,3 @@ How much do I owe you?
 		window.game.app.stage.addChild(t.display.container);
 	})());
 ]]
-
-
-
-
-
-
-
-
-
-::honk-limit
-o_o - Is that REALLY necessary?
->Yeah|Nah
-:) - We haven't passed another car in hours!
->
-And it's the middle of the night.
->
-I should be asleep right now!
->
--_- - ...Hmph.
-[[>main]]
-
-
-
-//  ██████  ██████ ███████ ███    ██  █████  ██████  ██  ██████   ██████
-// ██      ██      ██      ████   ██ ██   ██ ██   ██ ██ ██    ██ ██     
-// ███████ ██      █████   ██ ██  ██ ███████ ██████  ██ ██    ██ ███████
-//      ██ ██      ██      ██  ██ ██ ██   ██ ██   ██ ██ ██    ██      ██
-// ██████   ██████ ███████ ██   ████ ██   ██ ██   ██ ██  ██████  ██████ 
-
-::scenario-busy
-:) - Been a busy night?
->Yeah|Nah
-Lot of folks I know've been trying to leave the city.
->
-My mom's been nagging me for the past year.
->
--_- - Going on about how dangerous it's gotten.
->
-Thought she was just being annoying but it's gotten outta hand lately...
->
-...
->
-o_o - I uh, saw your rifle in the back...
->
-Is that for hunting out here?
-[[Yeah>busy-yes]]
-[[Nah>busy-no]]
-
-::busy-no
-Oh...
->
-Have you ever had to use it on the job?
-[[Yeah>busy-no-yes]]
-[[Nah>busy-no-no]]
-[[...>busy-no-ignore]]
-[[Once>busy-no-yes]]
-
-::busy-no-no
-...Hm.
->
-:( - Well, probably for the best.
-[[>main]]
-
-::busy-no-ignore
-...
->
-:( - Yeah, probably better you don't answer that.
-[[>main]]
-
-::busy-no-yes
-Oh.
->
-:( - Well, I won't ask.
-[[>main]]
-
-::busy-yes
-Cool! I've never been hunting before.
->
-:) - So do you like, catch desert hares or something?
-[[Yeah>hares]]
-[[Nah>no-hares]]
-[[...>Bigger game]]
-[[Bigger game]]
-
-::hares
-Ah. Wonder if I'll have to start hunting back at home, ha ha.
->
-Apparently they're having a hard time finding truckers to make the journey out. Supply chain's out of wack or something.
->
-Never seen the stores so empty...
->
--_- - Wonder how long all this will last for.
-[[>main]]
-
-::no-hares
-No? I thought they were common out here...
->
--_- - Though... come to think of it, I guess I haven't seen any.
->
-Wonder where they all went...
-[[>main]]
-
-::Bigger game
-Deer, then?
->
--_- - I hear there are some deer in this desert.
->
-Never seen one, though.
->
-...
->
-I don't think I could shoot a deer.
->
-:) - Probably not a hare either, heh.
->
-:( - In fact, I think continuing to live my life in a way that does not involve me shooting things would be best.
->
-Just in general.
-[[>main]]
-
-::scenario-two-seater
-:) - So... a two seater huh?
->
-Haven't seen many taxis like that, ha ha.
->
-Some more supply issues? Not enough yellow cabs to go 'round?
-[[Yeah>two-seater-yeah]]
-[[Nah>two-seater-nah]]
-
-::two-seater-nah
-Oh, just dealer's choice then?
->
-It is kinda cozy.
-[[>two-seater-yeah]]
-
-::two-seater-yeah
-o_o - Must be a pain if you get flagged down by a family of four.
->
-Guess you could stick the kids in the trunk, ha ha.
-[[Yeah>two-seater-yeah-yeah]]
-[[Nah>two-seater-yeah-nah]]
-[[...>two-seater-yeah-nah]]
-[[Not many families around]]
-
-::two-seater-yeah-yeah
-:) - Heh.
->
-...
->
-o_o - You are joking, right?
-[[>main]]
-
-::two-seater-yeah-nah
-:) - Heh.
->
-...
-[[>main]]
-
-::Not many families around
-Oh...
->
-:( - Guess that makes things simpler then.
-[[>main]]
-
-
-::scenario-out-of-town
-More people from the city have been going out of town lately...
->
-:) - Must be nice, lot less hectic out here.
->
-...
->
-Does it feel weird?
->
-o_o - I mean, when all day, you're just watching people leave?
-[[Yeah>town-yeah]]
-[[Nah>town-nah]]
-[[...>town-yeah]]
-
-::town-nah
-Hmm.
->
-:) - S'pose it's less strange if you're always coming and going yourself.
-[[>town-yeah]]
-
-::town-yeah
-I appreciate the late night trip by the way.
->
--_- - Had to leave in a bit of a hurry.
-[[>main]]
-
-::scenario-love
-o_o - You ever been in love?
->
-:( - I mean- Sorry, that's a weird question, isn't it?
-[[Yeah>awkward]]
-[[Nah>okay]]
-
-::awkward
-Gahhh sorry, I'm really sorry.
->
-I just... It's a long trip, you know? It's a lot of waiting.
->
-I don't like waiting. Especially away from home.
->
-:) - But you gotta have ice-breakers. Conversation starters.
->
--_- - I met a guy once, and that was the first thing he asked me.
->
-"You ever been in love?"
->
-Just came out with it like that.
->
-:) - He asked it like he knew the answer.
->
-o_o - Like he could look right past me and see it floating above my head.
->
-It was... really scary, to be honest. But also kind of cool?
->
-...
->
-:( - Sorry, I'll drop it.
-[[>main]]
-
-::okay
-You sure? You can say if it's not, I know I kind of sprang that out of nowhere... It's really okay?
-[[Yeah>okay2]]
-[[Nah>awkward]]
-
-::okay2
-Okay. Yeah? Okay!
->
-:) - Cool.
->
-So...
->
-Have you?
->
-o_o - Ever been in love, that is?
-[[Yeah>love]]
-[[Nah>no-love]]
-
-::love
-Huh.
->
-...
->
-Would you recommend it?
->Yeah|Nah
-Okay.
->
-:) - I'll keep that in mind.
-[[>main]]
-
-::no-love
-Oh.
->
-:( - That's a shame.
->
-I mean- I wouldn't know. But still...
->
-Kinda feels like we've missed the bus on it sometimes.
->
-:) - ...Heh.
->
-You know, when I miss a bus, I usually call a cab.
->
-:( - ...
->
-Sorry, I'll drop it.
-[[>main]]
-
-::scenario-speed
--_- - We're going pretty fast, huh?
->
-:) - Guess they don't care much about speed limits out here.
->Yeah|Nah
-Hard to imagine a cop pulling someone over for a traffic ticket these days.
->
--_- - Silver linings, heh.
-[[>main]]
-
-
-::scenario-there-yet
-:) - You know, I was just thinking...
->
-It's a good thing we're not making this trip with like, a kid, or something.
->
-o_o - Can you imagine? Just "are we there yet" "are we there yet" the whole way there, non-stop.
->
-Nightmare.
->
-:) - Can't stand kids, honestly.
->
-I know it's not their fault but it's just like... Grow up!
->
-Ugh.
->
-o_o - ...You don't have kids, do you?
-[[I do>kids]]
-[[I don't>no-kids]]
-[[...>oof-kids]]
-[[I did>oof-kids]]
-
-::kids
-Oh. Well, you know, no offense.
->
-:) - I'm sure yours are nice.
->
-You seem like- well, you know. I'm sure they're nice.
->
--_- - Still, glad they're not here right now, ha ha.
->
-...
->
-:) - Again, no offense. You know, it's just- you know.
->
-:( - Kids. Ugh.
-[[>main]]
-
-::no-kids
-Yeah, that's what I thought.
->
-:) - You don't seem like the "having kids" type.
->
-Takes one to know one, ha ha.
->
-Who needs 'em.
->
--_- - "Are we there yet" "are we there yet" "are we there yet".
->
-"No, now stow it you little brat!!"
->
-:) - That's what I'd say.
->
-Ughhh.
-[[>main]]
-
-::oof-kids
-...Sorry.
->
-:( - I, uh... I'll shut up now.
-[[>main]]
-
-::scenario-flood
--_- - Huh, is that a flood warning?
->
-Do you get floods out here often?
-[[Yeah>flood-yes]]
-[[Nah>flood-no]]
-
-::flood-yes
-Weird. Floods in a desert?
->
-:) - Isn't the whole deal that it's dry out here?
->
-Guess I don't really know how floods work though...
->
-o_o - Never know when a flood's gonna get you!
->
-:) - Or, well- they put a sign up, so I suppose that's how you know.
->
-Heh.
-[[>main]]
-
-::flood-no
-Can't always trust what you read, I guess.
->
-:( - Makes sense though, don't even remember when it last rained.
->
-Just about triggered a riot last time they raised the water tax.
->
-...
->
--_- - Least that's not my problem anymore.
-[[>main]]
-
-
-::scenario-met
-o_o - Say...
->
-Have... have we met before?
-[[Yeah>met]]
-[[Nah>no-met]]
-
-::met
-Wait, don't tell me!
->
-I can guess:
-[[>met-main]]
-
-::no-met
-Hmm, no, I'm sure we have...
-[[>met-main]]
-
-::met-main
-<<do
-	this.guesses = this.guesses || this.shuffle([
-		'couch',
-		'stash',
-		'cookout',
-		'pastlife',
-		'cousin',
-		'froyo',
-		'killer',
-		'met-stall',
-		'met-stall',
-	]);
-	const guess = this.guesses.pop();
-	this.goto(`met-main-${guess || 'done'}`);
->>
-
-::met-main-couch
-You used to do haul jobs, in a big van, helped my mom offload that awful green couch of hers?
-[[Yeah>met-couch]]
-[[Nah>met-main]]
-
-::met-couch
-God that thing reeked.
->
-:) - Comfy as hell though, RIP to a real one.
-[[>main]]
-
-::met-main-stash
-Did you sit in front of me during last month's stash game?
-[[Yeah>met-stash]]
-[[Nah>met-main]]
-
-::met-stash
-Of course!
->
-:) - Can't believe I didn't realize it earlier.
->
-You must've had a great view of the foul in the second half.
->
-:( - Kinda glad I didn't. RIP to a real one.
-[[>main]]
-
-::met-main-cookout
-Were you at Dave's cookout thing?
-[[Yeah>met-cookout]]
-[[Nah>met-main]]
-
-::met-cookout
-I knew it!
->
-:) - What a party...
->
--_- - Wonder what Dave would think of me now.
->
-:( - Probably would say I'm slinking away like a coward.
->
-I probably wouldn't even disagree.
->
-Still, RIP to a real one.
-[[>main]]
-
-::met-main-pastlife
-We... met in a past life?
-[[Yeah>met-pastlife]]
-[[Nah>met-main]]
-
-::met-pastlife
-:) - C'mon, I was kidding.
->
--_- - I don't go in for all that reincarnation jazz.
->
-Real ones gotta RIP, right?
-[[>main]]
-
-::met-main-cousin
-Did you try to date my cousin?
-[[Yeah>met-cousin]]
-[[Nah>met-main]]
-
-::met-cousin
-Riiiiiiiight.
->
-:) - You know, that explains a lot.
->
-:( - You heard already, yeah?
->
-Yeah, you must have.
->
-RIP to a real one.
-[[>main]]
-
-::met-main-froyo
-You broke the froyo machine on Bakers' Street?
-[[Yeah>met-froyo]]
-[[Nah>met-main]]
-
-::met-froyo
-Wow, it really is you.
->
-:) - Never managed to get that thing working again...
->
-RIP to a real one.
-[[>main]]
-
-::met-main-killer
-Wait... You aren't with that killer, are you?!
-[[Yeah>met-killer]]
-[[Nah>met-main]]
-
-::met-killer
-Oh god.
->
-:) - Oh GOD.
->
--_- - This can't be happening.
->
-:) - But- wait.
->
-o_o - If that's true, why would you tell me?
->
-:( - You're just messing with me.
->
-You think that's funny?
->
-:) - Well I wasn't even really scared.
->
-I'm too much of a real one to RIP it in the middle of nowhere with a joker for a driver.
-[[>main]]
-
-::met-main-met-stall
-<<print this.shuffle([
-	'Hm... I can get this...',
-	'Is it- no, that can\'t be it.',
-	'Hold on, hold on, I\'ll get it...',
-	'No, that\'s not it...',
-])[0]>>
-[[>met-main]]
-
-::met-main-done
-...Okay, but we've definitely met.
->
-Absolutely, one hundred percent certain.
->
-:) - I've got an eye for these things, you know?
->
-Never forget a face.
->
-o_o - ...
->
-This is gonna bug me all night...
-[[>main]]
-
-
-::scenario-hit-something
-:) - Woah! Did you feel that?
->Yeah|Nah
-That was a big bump!
->
--_- - What even was that?
->
-Did... did we hit something?
-[[Yeah>hit]]
-[[Nah>hit-no]]
-
-::hit-no
-Are you sure?
->
-:) - Maybe we should pull over just in case.
->
-o_o - We could go check.
-[[Yeah>hit-stop]]
-[[Nah>hit-ignore]]
-[[...>hit-ignore]]
-[[No point>hit-reject]]
-
-::hit
-What was that?
->
-:) - I barely got a look... Hope it wasn't a coyote or something.
->
-o_o - Maybe we should pull over. We could go check on it.
-[[Yeah>hit-stop]]
-[[Nah>hit-ignore]]
-[[...>hit-ignore]]
-[[No point>hit-reject]]
-
-::hit-ignore
-...
->
-:) - We're just... going to ignore it?
->
--_- - ...
->
-It was probably nothing, but... I don't know.
->
-:( - Bad omen.
-[[>main]]
-
-::hit-reject
-...
->
-:( - I guess.
->
-...
->
--_- - Maybe we should-
->
-No, nevermind. You're right.
-[[>main]]
-
-
-::hit-stop
-<<do
-	this.oldSpeed = this.roadSpeed;
-	this.tween(this, 'roadSpeed', 0, 4000);
-	this.goto('close');
-	this.gotod('hit-stop2', 5000);
-	this.setPose(':)', 'n');
->>
-
-::hit-stop2
-Okay.
->
-Back in a sec.
->
-<<do
-	this.car.model.getChildByName('taxiDoor').rotationQuaternion.setEulerAngles(0,50,0);
-	this.sfx('door_open');
-	this.passenger.model.visible = false;
-	this.goto('close');
-	this.gotod('hit-stop3', 10000);
->>
-
-::hit-stop3
-<<do
-	this.car.model.getChildByName('taxiDoor').rotationQuaternion.setEulerAngles(0,0,0);
-	this.sfx('door_close');
-	this.passenger.model.visible = true;
-	this.goto('close');
-	this.gotod('hit-stop4', 1000);
->>
-
-::hit-stop4
-:) - It's, uh...
->
-:( - It's really dark out there.
->
-...
->
-I'm sure it's fine. We should go.
->
-Thanks for stopping, though.
-<<do
-	setTimeout(() => {
-		this.tween(this, 'roadSpeed', this.oldSpeed, 4000);
-	}, 1500);
->>
-[[>main]]

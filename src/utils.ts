@@ -229,6 +229,7 @@ export function splitFirst(str: string, separator: string) {
 
 /**
  * replaces regular quotes with context-aware smart quotes
+ * also replaces --- with em dash
  * also replaces -- with en dash
  * also replaces last space with a nsbp to avoid orphaned words
  * @param {string} str string to replace
@@ -244,6 +245,7 @@ export function smartify(str = '') {
 			/('+)(.*?)('+)/g,
 			(_, l, i, r) => `${'‘'.repeat(l.length)}${i}${'’'.repeat(r.length)}`
 		)
+		.replace(/---/g, '—')
 		.replace(/--/g, '–')
 		.replace(/^([^]+) (.+?)$/, '$1\u00A0$2');
 }

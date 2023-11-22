@@ -12,18 +12,12 @@ audio/click.mp3
 audio/door_open.mp3
 audio/door_close.mp3
 
-models/groundPlane_00.glb
-models/groundPlane_10.glb
-models/groundPlane_2_10.glb
-models/groundPlane_3_10.glb
 models/groundPlane_3_20.glb
-models/groundPlane_15.glb
 models/camera_test.glb
 models/passenger.glb
 models/footprint.glb
-
+models/footprint_backward.glb
 textures/palette.png
-textures/footprintWood.png
 
 textures/passenger_legs.x6.png
 textures/passenger_walk_n.x2.png
@@ -40,15 +34,19 @@ textures/skybox_negx.jpg
 textures/skybox_negy.png
 textures/skybox_negz.jpg
 
+models/top.glb
+models/bottom.glb
+
 models/forest.glb
-models/mountainShape1.glb
+models/forest2.glb
+models/rocks1.glb
+models/topTrees.glb
 models/mountainShape2.glb
 models/mountainShape3.glb
-models/cloudPlane1.glb
-models/cloudPlane2.glb
+models/mountainShape4.glb
 models/cloudShape1.glb
+models/cloudShape2.glb
+models/cloudShape3.glb
+models/cloudShape4.glb
 
-textures/cloud1.png
-textures/cloud2.png
 textures/mountainTexture.png
-textures/mountainTexture2.png
