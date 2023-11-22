@@ -230,10 +230,14 @@
 
 	// pose helper
 	const poses = {
-		':(': 'sad',
-		':)': 'normal',
-		'o_o': 'facing_you',
-		'-_-': 'facing_away',
+		'._.': 'walk',
+		'o_o': 'walk_for',
+		'>_>': 'walk_bac',
+		'v_v': 'walk_write',
+		'🛑 ._.': 'stand',
+		'🛑 o_o': 'stand_for',
+		'🛑 >_>': 'stand_bac',
+		'🛑 v_v': 'stand_write',
 	};
 
 	const terr = this.tex('error');

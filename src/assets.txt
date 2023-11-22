@@ -20,12 +20,26 @@ models/footprint_backward.glb
 textures/palette.png
 
 textures/passenger_legs.x6.png
-textures/passenger_walk_n.x2.png
-textures/passenger_walk_b.x2.png
-textures/passenger_walk_o.x2.png
 textures/passenger_stand_n.x2.png
 textures/passenger_stand_b.x2.png
 textures/passenger_stand_o.x2.png
+textures/passenger_stand_for_n.x2.png
+textures/passenger_stand_for_b.x2.png
+textures/passenger_stand_for_o.x2.png
+textures/passenger_stand_bac.x2.png
+textures/passenger_stand_write_n.x2.png
+textures/passenger_stand_write_b.x2.png
+textures/passenger_stand_write_o.x2.png
+textures/passenger_walk_n.x2.png
+textures/passenger_walk_b.x2.png
+textures/passenger_walk_o.x2.png
+textures/passenger_walk_for_n.x2.png
+textures/passenger_walk_for_b.x2.png
+textures/passenger_walk_for_o.x2.png
+textures/passenger_walk_bac.x2.png
+textures/passenger_walk_write_n.x2.png
+textures/passenger_walk_write_b.x2.png
+textures/passenger_walk_write_o.x2.png
 
 textures/skybox_posx.jpg
 textures/skybox_posy.png
