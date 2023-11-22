@@ -40,6 +40,7 @@ export class UIScrim extends GameObject {
 	scrim(amount: number, duration = 0) {
 		if (this.tweenScrim) TweenManager.abort(this.tweenScrim);
 		if (!duration) {
+			this.tweenScrim = undefined;
 			this.sprScrim.alpha = amount;
 			return;
 		}
