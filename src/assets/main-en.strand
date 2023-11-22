@@ -428,7 +428,8 @@ starting the trip
 
 ::start4
 intro walking up
-[[>main]]
+[[animation test]]
+[[start>main]]
 
 ::main
 <<do
@@ -436,6 +437,24 @@ intro walking up
 	this.gotod(this.scenarios.pop() || 'scenario-end', this.debug ? 2000 : (Math.random()*10+12)*1000);
 >>
 
+::animation test
+._. - walking normally
+>
+o_o - walking while looking at you
+>
+<_< - walking while looking away
+>
+v_v - walking while writing
+>
+🛑 ._. - standing normally
+>
+🛑 o_o - standing while looking at you
+>
+🛑 <_< - standing while looking away
+>
+🛑 v_v - standing while writing
+[[animation test]]
+[[start>main]]
 
 
 
