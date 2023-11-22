@@ -40,6 +40,7 @@ models/bottom.glb
 models/forest.glb
 models/forest2.glb
 models/rocks1.glb
+models/topTrees.glb
 models/mountainShape2.glb
 models/mountainShape3.glb
 models/mountainShape4.glb
