@@ -250,7 +250,7 @@
 	this.setPose = (pose, state) => {
 		this.pose = poses[pose] || pose;
 		const frame = this.passenger.animator.frame;
-		const offset = this.passenger.animator.offset;
+		let offset = this.passenger.animator.offset;
 		let t = [poseBase, this.pose, state].filter(i => i).join('_');
 		if (t === prev) return;
 		prev = t;
@@ -266,8 +266,10 @@
 			this.passengerLegs.setAnimation('blank');
 			this.passengerLegs.animator.updateTexture();
 		} else {
+			offset = this.passenger.animator.offset;
 			this.passengerLegs.setAnimation('passenger_legs');
 			this.passengerLegs.animator.updateTexture();
+			this.passengerLegs.animator.offset = offset;
 		}
 	};
 
