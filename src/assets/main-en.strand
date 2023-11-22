@@ -80,6 +80,11 @@
 	let roadDelta = 0;
 	let rootY = this.scene.camera3d.position.y;
 	this.stepping = 0;
+	this.clearObjs = () => {
+		objs.container.children.forEach(i => {
+			i.loops = 10
+		});
+	};
 	this.Updater(() => {
 		objs.container.children.forEach(i => {
 			if (i.loops >= 2) {
@@ -491,6 +496,7 @@ test scenario walking up
 		this.scrim(0, 1000);
 		this.rootRoad.model.visible = false;
 		this.top.model.visible = true;
+		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-top2', 3000)
 	}, 3000);
