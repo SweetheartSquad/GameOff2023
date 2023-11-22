@@ -47,15 +47,14 @@
 	const roadSegments = Math.max(3, Math.ceil(this.scene.camera3d.far*2 / roadSize));
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
-	let rootRoad;
 	const objs = this.Container3D();
 
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
 		if (i === 0) {
-			rootRoad = road;
+			this.rootRoad = road;
 		} else {
-			rootRoad.model.addChild(road.model);
+			this.rootRoad.model.addChild(road.model);
 		}
 		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
 		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
@@ -66,8 +65,8 @@
 		const forest2 = this.Model('forest2', 'palette', { depth: baseDepth });
 		road.model.addChild(forest2.model);
 	}
-	const xRoot = rootRoad.model.position.x;
-	const yRoot = rootRoad.model.position.y;
+	const xRoot = this.rootRoad.model.position.x;
+	const yRoot = this.rootRoad.model.position.y;
 	let curPos = 0;
 	let roadDelta = 0;
 	let rootY = this.scene.camera3d.position.y;
@@ -94,8 +93,8 @@
 			curPos += roadSize;
 		}
 		let pos = curPos + roadSize/2;
-		objs.container.position.z = rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
-		objs.container.position.y = rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
+		objs.container.position.z = this.rootRoad.model.position.z =  pos * Math.cos(this.roadAngle);
+		objs.container.position.y = this.rootRoad.model.position.y = -pos * Math.sin(this.roadAngle);
 
 		if (looped) {
 			objs.container.children.forEach(i => {
