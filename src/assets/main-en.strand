@@ -243,6 +243,7 @@
 		'🛑 o_o': 'stand_for',
 		'🛑 <_<': 'stand_bac',
 		'🛑 v_v': 'stand_write',
+		'🛑 ^_^': 'stand_bino',
 	};
 
 	const terr = this.tex('error');
