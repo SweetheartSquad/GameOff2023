@@ -48,7 +48,7 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	const objs = this.Container3D();
-	
+
 	this.top = this.Model('top', 'palette', { depth: baseDepth });
 	this.top.model.visible = false;
 	this.bottom = this.Model('bottom', 'palette', { depth: baseDepth });
@@ -64,7 +64,7 @@
 		road.model.position.z = -i * roadSize * Math.cos(this.roadAngle);
 		road.model.position.y = i * roadSize * Math.sin(this.roadAngle);
 
-	
+
 		const forest = this.Model('forest', 'palette', { depth: baseDepth });
 		road.model.addChild(forest.model);
 		const forest2 = this.Model('forest2', 'palette', { depth: baseDepth });
@@ -127,7 +127,7 @@
 	this.passengerLegs.model.children.forEach(i => i.visible = false);
 	this.passengerLegs.model.getChildByName('passenger_plane').visible = true;
 	this.passengerLegs.model.parent.setChildIndex(this.passengerLegs.model, this.passengerLegs.model.parent.children.length-1);
-	
+
 	const passengerMouthFront = this.passenger.model.getChildByName('mouth_forward');
 	const passengerMouthBack = this.passenger.model.getChildByName('mouth_backward');
 	this.scene.pointDialogue.position = passengerMouthFront.position;
@@ -310,7 +310,7 @@
 					print.model.position.x += Math.sign(this.passengerLegs.animator.frame - 2) > 0 ? 0.35 : 0.2;
 				}
 			}
-		}, 
+		},
 	});
 
 	// walk direction
@@ -322,7 +322,7 @@
 			this.scene.pointDialogue.position = Math.sign(this.roadSpeed) > 0 ? passengerMouthFront.position : passengerMouthBack.position;
 		},
 	});
-	
+
 
 	// add syntax sugar for poses like `:( - Blah blah`
 	const check = /^(.*) - /;
