@@ -67,6 +67,8 @@
 		road.model.addChild(forest2.model);
 		const rocks1 = this.Model('rocks1', 'palette', { depth: baseDepth });
 		road.model.addChild(rocks1.model);
+		const topTrees = this.Model('topTrees', 'palette', { depth: baseDepth });
+		road.model.addChild(topTrees.model);
 	}
 	const xRoot = rootRoad.model.position.x;
 	const yRoot = rootRoad.model.position.y;
