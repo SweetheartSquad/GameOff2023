@@ -48,6 +48,11 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	const objs = this.Container3D();
+	
+	this.top = this.Model('top', 'palette', { depth: baseDepth });
+	this.top.model.visible = false;
+	this.bottom = this.Model('bottom', 'palette', { depth: baseDepth });
+	this.bottom.model.visible = false;
 
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
