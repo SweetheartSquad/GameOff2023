@@ -66,6 +66,4 @@ models/cloudShape2.glb
 models/cloudShape3.glb
 models/cloudShape4.glb
 
-models/mountainTopScene.glb
-
 textures/mountainTexture.png
