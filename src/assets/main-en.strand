@@ -513,6 +513,8 @@ stand - test mountain top
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.scene.x = 0;
+		this.scene.y = 0;
 		this.rootRoad.model.visible = true;
 		this.top.model.visible = false;
 		this.roadSpeed *= -1;
