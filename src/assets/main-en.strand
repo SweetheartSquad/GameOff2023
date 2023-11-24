@@ -51,6 +51,10 @@
 
 	this.top = this.Model('top', 'palette', { depth: baseDepth });
 	this.top.model.visible = false;
+
+	this.topFarTrees = this.Model('topFarTrees', 'palette', { depth: baseDepth });
+	this.topFarTrees.model.visible = false;
+
 	this.bottom = this.Model('bottom', 'palette', { depth: baseDepth });
 	this.bottom.model.visible = false;
 
@@ -499,6 +503,8 @@ test scenario walking up
 		this.scrim(0, 1000);
 		this.rootRoad.model.visible = false;
 		this.top.model.visible = true;
+		this.topFarTrees.model.visible = true;
+		this.bottom.model.visible = false;
 		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-top2', 3000)
@@ -517,6 +523,7 @@ stand - test mountain top
 		this.scene.y = 0;
 		this.rootRoad.model.visible = true;
 		this.top.model.visible = false;
+		this.topFarTrees.model.visible = false;
 		this.roadSpeed *= -1;
 		this.scene.x = -180;
 		this.scene.y = 20;

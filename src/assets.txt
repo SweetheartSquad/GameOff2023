@@ -52,6 +52,8 @@ textures/skybox_negy.png
 textures/skybox_negz.jpg
 
 models/top.glb
+models/topFarTrees.glb
+
 models/bottom.glb
 
 models/forest.glb
