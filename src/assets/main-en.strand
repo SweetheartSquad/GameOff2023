@@ -37,6 +37,12 @@
 	this.scene.camera3d.near = camProps.znear;
 	this.scene.camera3d.far = camProps.zfar;
 
+	this.groupTop = this.Container3D();
+	this.groupMiddle = this.Container3D();
+	this.groupBottom = this.Container3D();
+	this.groupTop.visible = false;
+	this.groupBottom.visible = false;
+
 	// road + sway
 	this.roadSpeed = 2;
 	const roadSize = 100;
@@ -48,20 +54,22 @@
 
 	this.roadAngle = this.roadAngle / 180 * Math.PI;
 	const objs = this.Container3D();
+	this.groupMiddle.container.addChild(objs.container);
 
-	this.top = this.Model('top', 'palette', { depth: baseDepth });
-	this.top.model.visible = false;
+	const top = this.Model('top', 'palette', { depth: baseDepth });
+	this.groupTop.container.addChild(top.model);
 
-	this.topFarTrees = this.Model('topFarTrees', 'palette', { depth: baseDepth });
-	this.topFarTrees.model.visible = false;
+	const topFarTrees = this.Model('topFarTrees', 'palette', { depth: baseDepth });
+	this.groupTop.container.addChild(topFarTrees.model);
 
-	this.bottom = this.Model('bottom', 'palette', { depth: baseDepth });
-	this.bottom.model.visible = false;
+	const bottom = this.Model('bottom', 'palette', { depth: baseDepth });
+	this.groupBottom.container.addChild(bottom.model);
 
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
 		if (i === 0) {
 			this.rootRoad = road;
+			this.groupMiddle.container.addChild(this.rootRoad.model);
 		} else {
 			this.rootRoad.model.addChild(road.model);
 		}
@@ -78,6 +86,7 @@
 		const topTrees = this.Model('topTrees', 'palette', { depth: baseDepth });
 		road.model.addChild(topTrees.model);
 	}
+
 	const xRoot = this.rootRoad.model.position.x;
 	const yRoot = this.rootRoad.model.position.y;
 	let curPos = 0;
@@ -167,7 +176,6 @@
 		clouds3.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0002) + Math.sin(game.app.ticker.lastTime * 0.00045)*0.5;
 		clouds4.model.position.y = Math.sin(game.app.ticker.lastTime * 0.0002) + Math.sin(game.app.ticker.lastTime * 0.00055)*0.5;
 	});
-
 
 	// pose helper
 	const poses = {
@@ -346,8 +354,9 @@ debug menu
 
 		this.scrim(1);
 		this.scrim(0, 1000);
-		this.rootRoad.model.visible = false;
-		this.bottom.model.visible = true;
+		this.groupBottom.container.visible = true;
+		this.groupMiddle.container.visible = false;
+		this.groupTop.container.visible = false;
 		this.gotod('start3', 3000)
 	})();
 >>
@@ -362,8 +371,9 @@ starting the trip
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
-		this.rootRoad.model.visible = true;
-		this.bottom.model.visible = false;
+		this.groupBottom.container.visible = false;
+		this.groupMiddle.container.visible = true;
+		this.groupTop.container.visible = false;
 		this.setPose('walk', 'n');
 		this.gotod('start4', 3000)
 	}, 3000);
@@ -433,10 +443,9 @@ test scenario walking up
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
-		this.rootRoad.model.visible = false;
-		this.top.model.visible = true;
-		this.topFarTrees.model.visible = true;
-		this.bottom.model.visible = false;
+		this.groupBottom.container.visible = false;
+		this.groupMiddle.container.visible = false;
+		this.groupTop.container.visible = true;
 		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-top2', 3000)
@@ -453,9 +462,9 @@ stand - test mountain top
 		this.scrim(0, 1000);
 		this.scene.x = 0;
 		this.scene.y = 0;
-		this.rootRoad.model.visible = true;
-		this.top.model.visible = false;
-		this.topFarTrees.model.visible = false;
+		this.groupBottom.container.visible = false;
+		this.groupMiddle.container.visible = true;
+		this.groupTop.container.visible = false;
 		this.roadSpeed *= -1;
 		this.scene.x = -180;
 		this.scene.y = 20;
@@ -498,8 +507,9 @@ walk - ending
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
-		this.rootRoad.model.visible = false;
-		this.bottom.model.visible = true;
+		this.groupBottom.container.visible = true;
+		this.groupMiddle.container.visible = false;
+		this.groupTop.container.visible = false;
 		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-end2', 3000)
