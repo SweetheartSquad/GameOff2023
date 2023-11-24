@@ -56,10 +56,10 @@
 	const objs = this.Container3D();
 	this.groupMiddle.container.addChild(objs.container);
 
-	const top = this.Model('top', 'palette', { depth: baseDepth });
+	const top = this.Model('top', 'palette', { depth: 60 });
 	this.groupTop.container.addChild(top.model);
 
-	const topFarTrees = this.Model('topFarTrees', 'palette', { depth: baseDepth });
+	const topFarTrees = this.Model('topFarTrees', 'palette', { depth: 75 });
 	this.groupTop.container.addChild(topFarTrees.model);
 
 	const bottom = this.Model('bottom', 'palette', { depth: baseDepth });
@@ -162,8 +162,11 @@
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
 	this.Model('mountainShape2', 'mountainTexture');
-	this.Model('mountainShape3', 'palette', {depth: 366});
-	this.Model('mountainShape4', 'palette', {depth: 220});
+	this.groupMiddle.container.addChild(this.Model('mountainShape3', 'palette', {depth: 366}).model);
+	this.groupTop.container.addChild(this.Model('mountainShape3', 'palette', {depth: 300}).model);
+
+	this.groupMiddle.container.addChild(this.Model('mountainShape4', 'palette', {depth: 220}).model);
+	this.groupTop.container.addChild(this.Model('mountainShape4', 'palette', {depth: 90}).model);
 	const clouds1 = this.Model('cloudShape1', 'white', { depth: 366 });
 	const clouds2 = this.Model('cloudShape2', 'white', { depth: 256 });
 	const clouds3 = this.Model('cloudShape3', 'white', { depth: 300 });
