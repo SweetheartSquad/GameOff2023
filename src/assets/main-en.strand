@@ -365,10 +365,20 @@ debug menu
 >>
 
 ::start3
-stand - talking at the bottom
+🛑 o_o - You're the taxi driver, right?
 >
-starting the trip
+Good to meet you.
 >
+I'm just going up the mountain and then coming back down. Round trip.
+>Sure.|Works for me.
+Thanks.
+>
+Just doing a little bird watching.
+>
+🛑 ._. - ...
+>
+🛑 o_o - So! Shall we head up?
+>Yep.|Let's go.
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
@@ -384,7 +394,27 @@ starting the trip
 
 
 ::start4
-intro walking up
+<_< - Perfect weather, isn't it?
+>I guess|Is it?
+._. - Yep. just perfect.
+>
+<_< - Overcast, not too cold, enough light...
+>
+._. - Perfect.
+>
+...
+>
+Should be like this through the weekend. 
+>
+Who knows, though. The weather's so unpredictable now.
+>
+o_o - You're okay if it starts to rain?
+>Yep|I'll be fine.
+._. - I figured.
+>
+o_o - I do have an extra poncho, anyway.
+>
+._. - Hopefully we won't need them.
 [[animation test]]
 [[start>main]]
 
@@ -410,6 +440,8 @@ v_v - walking while writing
 🛑 <_< - standing while looking away
 >
 🛑 v_v - standing while writing
+>
+🛑 ^_^ - standing while using binoculars
 [[animation test]]
 [[start>main]]
 
@@ -427,11 +459,49 @@ v_v - walking while writing
 //  Y8.   .8P  88
 //  `Y88888P'  dP
 
-::scenario-up-test1
-test scenario walking up
+::scenario-up-1
+o_o - See many birds around here?
+>No.|Not really.
+v_v - Interesting.
+>
+<_< - I've heard there might be an eagle nest up here.  
+>
+._. - And I'd love to see a chickadee.
+>
+v_v - You never know what you'll find, bird-watching.
+>
+v_v - That's the fun part.
+>
+._. - One of the fun parts, anyway.
 [[>main]]
 
-
+::scenario-up-2
+🛑 ._. - Wait.
+>What?|Okay.
+🛑 o_o - Shh!
+>
+🛑 <_< - ...
+>
+🛑 ._. - Hmm.
+>
+🛑 ^_^ - ...
+>
+Huh.
+>
+🛑 v_v - Interesting.
+>
+Just a sec.
+>
+...
+>
+🛑 o_o - Okay, let's go.
+>OK|Sure.
+v_v - ...
+>
+I just can't believe this weather.
+>
+It's perfect.
+[[>main]]
 
 
 // d888888P  .88888.   888888ba
@@ -456,7 +526,57 @@ test scenario walking up
 >>
 
 ::scenario-top2
-stand - test mountain top
+🛑 o_o - Well, we made it!
+>
+🛑 <_< - Look at that view...
+>
+It looks like it goes on forever.
+>
+...
+>
+🛑 ._. - It's a shame there's no eagle nest.
+>
+I guess my intel was bad.
+>
+🛑 o_o - Have you been up here before?
+>Yeah.|A bunch.
+That's fun.
+>
+🛑 ^_^ - Well, maybe it's less fun if you have to do it all the time.
+>
+Hmm.
+>
+...
+>
+Oh!
+>
+Oh my gosh!
+>
+Do you see that?
+>Not really.|Where?
+Over there!
+>
+It's...
+>
+Hmm.
+>
+No, nothing.
+>
+🛑 o_o - Sorry. Wishful thinking, I guess.
+>
+🛑 ^_^ - I really hoped there's be something up here.
+>
+🛑 v_v - ...
+>
+🛑 o_o - Do you mind waiting a little longer? Just in case?
+>Fine.|No rush.
+Thanks.
+>
+🛑 ^_^ - Hmm.
+>
+🛑 v_v - ...
+>
+🛑 o_o - Okay, let's head back down.
 >
 <<do
 	this.goto('close');
@@ -520,7 +640,18 @@ walk - ending
 >>
 
 ::scenario-end2
-ending bottom
+🛑 o_o - Well, this is me.
+>
+Thanks for the ride.
+>
+It turned out to be a pretty eventful trip.
+>Sure.|No problem
+Well, if I don't see you again, take care.
+>
+Don't work too hard.
+>
+Bye.
+>
 [[ |((async () => {
 		if (this.ended) return;
 		this.ended = true;
