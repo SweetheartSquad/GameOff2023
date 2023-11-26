@@ -7,7 +7,7 @@ textures/dialogueChoiceBg.x3.png
 textures/dialogueDiamond.x3.png
 
 audio/voiceDefault.mp3
-audio/stepDefault.mp3
+audio/step.x4.mp3
 
 models/groundPlane_3_20.glb
 models/camera_test.glb

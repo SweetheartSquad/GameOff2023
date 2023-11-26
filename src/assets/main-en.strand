@@ -257,7 +257,7 @@
 			if (this.passengerLegs.animator.frameChanged && (this.passengerLegs.animator.frame === 1 || this.passengerLegs.animator.frame === 4)) {
 				this.tweenAbort(this.steppingTween);
 				this.steppingTween = this.tween(this, 'stepping', 0, 1300, 1);
-				this.sfx('stepDefault', {
+				this.sfx(`step.${Math.floor(Math.random()*4)+1}`, {
 					rate: Math.random()*0.25+0.75,
 					volume: Math.random()*0.25+0.75,
 				});
