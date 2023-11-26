@@ -259,7 +259,7 @@
 				this.steppingTween = this.tween(this, 'stepping', 0, 1300, 1);
 				this.sfx(`step.${Math.floor(Math.random()*4)+1}`, {
 					rate: Math.random()*0.25+0.75,
-					volume: Math.random()*0.25+0.75,
+					volume: Math.random()*0.25 + (this.scene.dialogue.isOpen ? 0.5 : 0.7),
 				});
 				if (this.roadSpeed > 0) {
 					const print = this.EnvModel('footprint', 'black', { depth: baseDepth });
