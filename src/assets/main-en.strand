@@ -65,6 +65,9 @@
 	const bottom = this.Model('bottom', 'palette', { depth: 65 });
 	this.groupBottom.container.addChild(bottom.model);
 
+	const van = this.Model('van', 'palette', {depth: 28});
+	this.groupBottom.container.addChild(van.model);
+
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
 		if (i === 0) {
