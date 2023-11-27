@@ -521,6 +521,98 @@ It's perfect.
 [[>main]]
 
 
+
+::scenario-up-kill
+._. - Have you ever killed someone?
+[[Yeah>kill-yeah]]
+[[Nah>kill-nah]]
+[[...>kill-silent]]
+
+::kill-yeah
+._. - Yeah, makes sense.
+>
+<_< - Not a ton of people around here, but...
+>
+._. - The kind of people who would come out here are probably capable of anything.
+>
+o_o - Well, not me. I'm pretty harmless.
+>
+._. - But you know what I mean.
+>
+<<do this.goto('close');this.gotod('kill-2', 3000)>>
+
+::kill-nah
+o_o - Really?
+>
+._. - Huh.
+>
+<_< - I guess there's not a lot of people out here.
+>
+._. - That's probably for the best.
+>
+<<do this.goto('close');this.gotod('kill-2', 3000)>>
+
+::kill-silent
+._. - You don't have to say.
+>
+<_< - I'm just making conversation.
+>
+<<do this.goto('close');this.gotod('kill-2', 3000)>>
+
+::kill-2
+o_o - I'm not armed, by the way.
+>
+I wasn't trying to imply anything.
+>
+._. - I really am just a bird-watcher.
+<<do this.goto('close');this.gotod('main', 3000)>>
+
+
+
+::scenario-up-hobby
+o_o - Do you have something like bird-watching? A hobby?
+[[Yeah>hobby-yeah]]
+[[Nah>hobby-nah]]
+[[...>hobby-silent]]
+
+::hobby-yeah
+._. - That's good.
+>
+All work and no play, as they say.
+[[>hobby-2]]
+
+::hobby-nah
+._. - Fair enough.
+>
+<_< - Everybody's different.
+[[>hobby-2]]
+
+::hobby-silent
+._. - Sorry if I'm being too chatty.
+>
+It's sort of a habit I have.
+>
+<_< - My friend always says I probably scare the birds away.
+<<do this.goto('close');this.gotod('hobby-joke', 3000)>>
+
+
+::hobby-joke
+o_o - She's joking.
+>
+<<do this.goto('close');this.gotod('hobby-2', 2000)>>
+
+::hobby-2
+<_< - I'd go crazy if I didn't have bird-watching.
+>
+._. - It's nice to do something that my very survival doesn't hinge on.
+>
+Whenever I feel like I'm not being "productive" enough, I go out and bird-watch.
+>
+o_o - I try to remind myself that breaks can be productive too.
+>
+._. - I guess that's just my opinion, though.
+[[>main]]
+
 // d888888P  .88888.   888888ba
 //    88    d8'   `8b  88    `8b
 //    88    88     88 a88aaaa8P'
