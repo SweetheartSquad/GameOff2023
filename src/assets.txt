@@ -60,6 +60,7 @@ models/topTrees.glb
 models/mountainShape2.glb
 models/mountainShape3.glb
 models/mountainShape4.glb
+models/mountainShape5.glb
 models/cloudShape1.glb
 models/cloudShape2.glb
 models/cloudShape3.glb
