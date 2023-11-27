@@ -372,19 +372,18 @@ debug menu
 
 ::start3
 🛑 o_o - You're the taxi driver, right?
->
+>Yeah|Yep
 Good to meet you.
 >
 I'm just going up the mountain and then coming back down. Round trip.
->Sure.|Works for me.
-Thanks.
 >
-Just doing a little bird watching.
+🛑 ._. - Just doing a little bird watching.
 >
-🛑 ._. - ...
->
+<<do this.goto('close');this.gotod('start4', 3000)>>
+
+::start4
 🛑 o_o - So! Shall we head up?
->Yep.|Let's go.
+>Yeah|Yep
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
@@ -394,15 +393,15 @@ Just doing a little bird watching.
 		this.groupMiddle.container.visible = true;
 		this.groupTop.container.visible = false;
 		this.setPose('walk', 'n');
-		this.gotod('start4', 3000)
+		this.gotod('start5', 3000)
 	}, 3000);
 >>
 
 
-::start4
+::start5
 <_< - Perfect weather, isn't it?
->I guess|Is it?
-._. - Yep. just perfect.
+>Yeah|I guess
+._. - Yep. Just perfect.
 >
 <_< - Overcast, not too cold, enough light...
 >
@@ -415,14 +414,26 @@ Should be like this through the weekend.
 Who knows, though. The weather's so unpredictable now.
 >
 o_o - You're okay if it starts to rain?
->Yep|I'll be fine.
+
+[[Yeah>start5-yeah]]
+[[Nah>start5-nah]]
+[[...>start5-yeah]]
+
+::start5-yeah
 ._. - I figured.
 >
 o_o - I do have an extra poncho, anyway.
 >
 ._. - Hopefully we won't need them.
-[[animation test]]
-[[start>main]]
+[[>main]]
+
+::start5-nah
+o_o - Oh. Well, I have an extra poncho in my bag.
+>
+You can borrow it.
+>
+._. - Hopefully we won't need them, though.
+[[>main]]
 
 ::main
 <<do
@@ -467,8 +478,8 @@ v_v - walking while writing
 
 ::scenario-up-1
 o_o - See many birds around here?
->No.|Not really.
-v_v - Interesting.
+>Nah|Nope
+v_v - In&shy;ter&shy;est&shy;ing.
 >
 <_< - I've heard there might be an eagle nest up here.  
 >
@@ -483,7 +494,7 @@ v_v - That's the fun part.
 
 ::scenario-up-2
 🛑 ._. - Wait.
->What?|Okay.
+>Yeah|What
 🛑 o_o - Shh!
 >
 🛑 <_< - ...
@@ -501,10 +512,10 @@ Just a sec.
 ...
 >
 🛑 o_o - Okay, let's go.
->OK|Sure.
+>
 v_v - ...
 >
-I just can't believe this weather.
+I can't believe this weather.
 >
 It's perfect.
 [[>main]]
@@ -538,28 +549,44 @@ It's perfect.
 >
 It looks like it goes on forever.
 >
-...
->
+<<do this.goto('close');this.gotod('top2-1', 2000)>>
+
+::top2-1
 🛑 ._. - It's a shame there's no eagle nest.
 >
 I guess my intel was bad.
 >
 🛑 o_o - Have you been up here before?
->Yeah.|A bunch.
+
+[[Yeah>top2-yeah]]
+[[Nah>top2-nah]]
+
+::top2-yeah
 That's fun.
 >
-🛑 ^_^ - Well, maybe it's less fun if you have to do it all the time.
+🛑 ^_^ - Well, maybe it's not fun if you have to do it all the time.
 >
-Hmm.
+<<do this.goto('close');this.gotod('top2-2', 3000)>>
+
+::top2-nah
+Isn't that your job?
+<<do this.goto('close');this.gotod('top2-nah-2', 2000)>>
+
+::top2-nah-2
+Oh. Sarcasm.
 >
-...
+🛑 ^_^ - Well, I guess it's not fun if you have to do it all the time.
 >
+<<do this.goto('close');this.gotod('top2-2', 3000)>>
+
+
+::top2-2
 Oh!
 >
 Oh my gosh!
 >
 Do you see that?
->Not really.|Where?
+>Nah|What
 Over there!
 >
 It's...
@@ -570,19 +597,52 @@ No, nothing.
 >
 🛑 o_o - Sorry. Wishful thinking, I guess.
 >
-🛑 ^_^ - I really hoped there'd be something up here.
+🛑 ^_^ - I really thought there'd be something up here.
 >
-🛑 v_v - ...
+<<do this.goto('close');this.gotod('top2-3', 3000)>>
+
+::top2-3
+🛑 ._. - Darn.
 >
-🛑 o_o - Do you mind waiting a little longer? Just in case?
->Fine.|No rush.
+🛑 o_o - Can we stay a little longer? Just in case?
+[[Yeah|top2-yes]]
+[[Nah|top2-no]]
+
+::top2-yes
 Thanks.
 >
-🛑 ^_^ - Hmm.
->
-🛑 v_v - ...
+🛑 ^_^ - Okay...
+<<do this.goto('close');this.gotod('top2-4', 4000)>>
+
+::top2-4
+🛑 v_v - Oh well.
 >
 🛑 o_o - Okay, let's head back down.
+>
+<<do
+	this.goto('close');
+	this.scrim(1, 1000);
+	setTimeout(() => {
+		this.scrim(0, 1000);
+		this.scene.x = 0;
+		this.scene.y = 0;
+		this.groupBottom.container.visible = false;
+		this.groupMiddle.container.visible = true;
+		this.groupTop.container.visible = false;
+		this.roadSpeed *= -1;
+		this.scene.x = -180;
+		this.scene.y = 20;
+		this.setPose('walk', 'n');
+		this.gotod('scenario-top3', 3000)
+	}, 3000);
+>>
+
+::top2-no
+Oh.
+>
+Um, okay.
+>
+I guess we're heading back&shy; then.
 >
 <<do
 	this.goto('close');
@@ -738,8 +798,8 @@ walk - ending
 Thanks for the ride.
 >
 It turned out to be a pretty eventful trip.
->Sure.|No problem
-Well, if I don't see you again, take care.
+>
+W&shy;ell, if I don't see you again, take care.
 >
 Don't work too hard.
 >
