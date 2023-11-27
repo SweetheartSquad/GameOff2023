@@ -705,8 +705,8 @@ No, nothing.
 🛑 ._. - Darn.
 >
 🛑 o_o - Can we stay a little longer? Just in case?
-[[Yeah|top2-yes]]
-[[Nah|top2-no]]
+[[Yeah>top2-yes]]
+[[Nah>top2-no]]
 
 ::top2-yes
 Thanks.
@@ -808,8 +808,8 @@ o_o - ...Sorry, you're here to do a job, not to hear me lecture.
 I'm being rude, aren't I? You can tell me if I am.
 
 [[Yeah>rude]]
-[[Nah|this.goto('close');this.gotod('not rude', 2500)]]
-[[...|this.goto('close');this.gotod('silent rude', 3000)]]
+[[Nah>this.goto('close');this.gotod('not rude', 2500)]]
+[[...>this.goto('close');this.gotod('silent rude', 3000)]]
 
 ::rude
 Thanks for being honest.
