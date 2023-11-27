@@ -698,8 +698,8 @@ No, nothing.
 🛑 ._. - Darn.
 >
 🛑 o_o - Can we stay a little longer? Just in case?
-[[Yeah|top2-yes]]
-[[Nah|top2-no]]
+[[Yeah>top2-yes]]
+[[Nah>top2-no]]
 
 ::top2-yes
 Thanks.
