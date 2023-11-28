@@ -862,6 +862,54 @@ Maybe I've been talking over the birdsong all this time.
 v_v - Wouldn't that be something...
 [[>main]]
 
+::scenario-down-love
+o_o - You ever been in love?
+<<do this.loveDelayed=false;setTimeout(() => this.loveDelayed=true, 3000)>>
+[[Yeah>love2]]
+[[Nah>love2]]
+[[...|this.goto('close');this.gotod('love-silent', 3000)]]
+
+::love2
+<<if this.loveDelayed>>
+Had to think about that one, huh?
+<<else>>
+Wow, didn't miss a beat... You're very sure of that answer, huh?
+<<endif>>
+[[>love3]]
+
+::love-silent
+o_o - That bad, huh?
+[[>love3]]
+
+::love3
+._. - It's okay, I won't pry.
+>
+<<do this.goto('close');this.gotod('love4', 5000)>>
+
+::love4
+<_< - You know, most people say birds are devoted partners.
+>
+So faithful by nature they can't even imagine an alternative.
+>
+._. - I don't know where people get these ideas...
+>
+I'd like to think it's just innocent ignorance.
+>
+But if that were true, they shouldn't mind being corrected.
+>
+o_o - You know what I think?
+>
+I think it's "romantics".
+>
+._. - People just like the idea of it.
+>
+It's a nice little lie to make your own partner swoon.
+>
+<_< - I don't think there's any romance in that, though.
+>
+Lying about birds...
+[[>main]]
+
 //  88888888b 888888ba  888888ba
 //  88        88    `8b 88    `8b
 // a88aaaa    88     88 88     88
