@@ -1,9 +1,16 @@
+import { SCALE_MODES } from 'pixi.js';
 import { Cubemap } from 'pixi3d/pixi7';
 import { tex } from './utils';
 
 let cubemap: Cubemap;
 
 export function getCubemap() {
+	tex('skybox_posx').baseTexture.scaleMode = SCALE_MODES.LINEAR;
+	tex('skybox_posy').baseTexture.scaleMode = SCALE_MODES.LINEAR;
+	tex('skybox_posz').baseTexture.scaleMode = SCALE_MODES.LINEAR;
+	tex('skybox_negx').baseTexture.scaleMode = SCALE_MODES.LINEAR;
+	tex('skybox_negy').baseTexture.scaleMode = SCALE_MODES.LINEAR;
+	tex('skybox_negz').baseTexture.scaleMode = SCALE_MODES.LINEAR;
 	cubemap =
 		cubemap ||
 		Cubemap.fromFaces({
