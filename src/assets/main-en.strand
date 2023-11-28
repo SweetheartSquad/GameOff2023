@@ -612,53 +612,6 @@ o_o - Really&shy; competitive.
 
 
 
-::scenario-up-hobby
-o_o - Do you have something like bird watching? A hobby?
-[[Yeah>hobby-yeah]]
-[[Nah>hobby-nah]]
-[[...|this.goto('close');this.gotod('hobby-silent', 3000)]]
-
-::hobby-yeah
-._. - That's good.
->
-All work and no play, as they say.
-[[>hobby-2]]
-
-::hobby-nah
-._. - Fair enough.
->
-<_< - Everybody's different.
-[[>hobby-2]]
-
-::hobby-silent
-._. - Sorry if I'm being too chatty.
->
-It's sort of a habit I have.
->
-<_< - My friend always says I probably scare the birds away.
->
-<<do this.goto('close');this.gotod('hobby-joke', 3000)>>
-
-
-::hobby-joke
-o_o - She's joking.
->
-<<do this.goto('close');this.gotod('hobby-2', 2000)>>
-
-::hobby-2
-<_< - I'd go crazy if I didn't have bird watching.
->
-._. - It's nice to do something that my very survival doesn't hinge on.
->
-Whenever I feel like I'm not being "productive" enough, I go out and bird watch.
->
-o_o - I try to remind myself that breaks can be productive too.
->
-._. - I guess that's just my opinion, though.
-[[>main]]
-
-
-
 ::scenario-up-missing
 <_< - Huh...
 >
@@ -1149,6 +1102,56 @@ I've got a keen eye, you know.
 o_o - Very&shy; keen.
 >
 <<do this.setPose('._.', 'n');this.goto('main')>>
+
+
+
+::scenario-down-hobby
+o_o - Do you have something like bird watching? A hobby?
+[[Yeah>hobby-yeah]]
+[[Nah>hobby-nah]]
+[[...|this.goto('close');this.gotod('hobby-silent', 3000)]]
+
+::hobby-yeah
+._. - That's good.
+>
+All work and no play, as they say.
+[[>hobby-2]]
+
+::hobby-nah
+._. - Fair enough.
+>
+<_< - Everybody's different.
+[[>hobby-2]]
+
+::hobby-silent
+._. - Sorry if I'm being too chatty.
+>
+It's sort of a habit I have.
+>
+<_< - My friend always says I probably scare the birds away.
+>
+<<do this.goto('close');this.gotod('hobby-joke', 3000)>>
+
+
+::hobby-joke
+o_o - She's joking.
+>
+<<do this.goto('close');this.gotod('hobby-2', 2000)>>
+
+::hobby-2
+<_< - I'd go crazy if I didn't have bird watching.
+>
+._. - It's nice to do something that my very survival doesn't hinge on.
+>
+Whenever I feel like I'm not being "productive" enough, I go out and bird watch.
+>
+o_o - I try to remind myself that breaks can be productive too.
+>
+._. - I guess that's just my opinion, though.
+[[>main]]
+
+
+
 
 //  88888888b 888888ba  888888ba
 //  88        88    `8b 88    `8b
