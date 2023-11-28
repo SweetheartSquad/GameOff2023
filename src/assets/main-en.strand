@@ -762,6 +762,7 @@ That's fun.
 
 ::top2-nah
 Isn't that your job?
+>
 <<do this.goto('close');this.gotod('top2-nah-2', 2000)>>
 
 ::top2-nah-2
