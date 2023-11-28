@@ -775,11 +775,6 @@ walk - walking back down
 // 88    .8P Y8.   .8P 88.d8P8.d8P  88     88
 // 8888888P   `8888P'  8888' Y88'   dP     dP
 
-::scenario-down-test1
-test scenario walking down
-[[>main]]
-
-
 ::scenario-down-good-life
 ._. - You know, I'm jealous of you.
 >
