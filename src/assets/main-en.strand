@@ -382,7 +382,7 @@ I'm just going up the mountain and then coming back down. Round trip.
 >
 🛑 ._. - Just doing a little bird watching.
 >
-<<do this.goto('close');this.gotod('start4', 3000)>>
+<<do this.setPose('🛑 v_v', 'n');this.goto('close');this.gotod('start4', 3000)>>
 
 ::start4
 🛑 o_o - So! No time like the present.
