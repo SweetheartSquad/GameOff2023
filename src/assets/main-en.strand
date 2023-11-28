@@ -371,8 +371,8 @@ debug menu
 >>
 
 ::start3
-🛑 o_o - You're the taxi driver, right?
->Yeah|Yep
+🛑 o_o - I assume you're the taxi driver?
+>
 Good to meet you.
 >
 I'm just going up the mountain and then coming back down. Round trip.
@@ -382,8 +382,8 @@ I'm just going up the mountain and then coming back down. Round trip.
 <<do this.goto('close');this.gotod('start4', 3000)>>
 
 ::start4
-🛑 o_o - So! Shall we head up?
->Yeah|Yep
+🛑 o_o - So! No time like the present.
+>
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
