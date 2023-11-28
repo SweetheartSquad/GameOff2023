@@ -712,6 +712,62 @@ Oh. Why not?
 ._. - Hope it's not much further...
 [[>main]]
 
+::scenario-up-quake
+<<do
+	this.goto('close');
+	this.shake = 0;
+	// TODO: quake sound
+	let t = this.tween(this, 'shake', 1, 500, undefined, this.ease.cubicOut);
+	setTimeout(() => {
+		this.tweenAbort(t);
+		this.goto('quake2');
+	}, 500);
+	const quake = () => {
+		if (this.shake === undefined) return;
+		this.scene.y += (Math.random()-0.5)*2*this.shake*0.1;
+		this.scene.x += (Math.random()-0.5)*2*this.shake*0.1;
+		requestAnimationFrame(quake);
+	};
+	quake();
+>>
+
+::quake2
+🛑 <_< - What is that?!
+>
+🛑 o_o - An earthquake?!
+>
+<<do
+	this.tween(this, 'shake', 0, 5000, undefined, this.ease.cubicIn);
+	setTimeout(() => {
+		this.shake = undefined;
+	}, 5500);
+
+	this.goto('close');
+	this.setPose('🛑 <_<', 'n');
+	setTimeout(() => {
+		this.setPose('🛑 o_o', 'n');
+		setTimeout(() => {
+			this.setPose('🛑 <_<', 'n');
+			setTimeout(() => {
+				this.goto('quake3');
+			}, 2000);
+		}, 1000);
+	}, 1000);
+>>
+
+::quake3
+🛑 o_o - Is it-- I guess it's stopped.
+>
+Is that normal?
+>Yeah|Nah
+.&shy;.&shy;.&shy;And&shy;&shy; that's not&shy; concerning?
+>Yeah|Nah
+Okay. Well.
+>
+._. - I suppose it'd be silly to turn back now.
+>
+<_< - Very&shy; silly.
+[[>main]]
 
 // d888888P  .88888.   888888ba
 //    88    d8'   `8b  88    `8b
