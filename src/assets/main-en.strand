@@ -161,6 +161,9 @@
 		m.model.position.x -= objs.container.position.x;
 		m.model.position.y -= objs.container.position.y;
 		m.model.position.z -= objs.container.position.z;
+	
+		m.model.position.y -= (args[2].offset || 0) * Math.sin(this.roadAngle);
+		m.model.position.z += (args[2].offset || 0) * Math.cos(this.roadAngle);
 		return m;
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
