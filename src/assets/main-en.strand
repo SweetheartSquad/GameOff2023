@@ -734,7 +734,7 @@ Oh. Why not?
 ::quake2
 🛑 <_< - What is that?!
 >
-🛑 o_o - An earthquake?!
+🛑 o_o - An earthquake?! Mudslide?!
 >
 <<do
 	this.tween(this, 'shake', 0, 5000, undefined, this.ease.cubicIn);
@@ -758,9 +758,9 @@ Oh. Why not?
 ::quake3
 🛑 o_o - Is it-- I guess it's stopped.
 >
-Is that normal?
+🛑 <_< - Is that normal?
 >Yeah|Nah
-.&shy;.&shy;.&shy;And&shy;&shy; that's not&shy; concerning?
+🛑 o_o - .&shy;.&shy;.&shy;And&shy;&shy; that's not&shy; concerning?
 >Yeah|Nah
 Okay. Well.
 >
