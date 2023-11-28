@@ -543,7 +543,7 @@ Just a sec.
 ._. - Have you ever killed someone?
 [[Yeah>kill-yeah]]
 [[Nah>kill-nah]]
-[[...>kill-silent]]
+[[...|this.goto('close');this.gotod('kill-silent', 2000)]]
 
 ::kill-yeah
 ._. - Yeah, makes sense.
@@ -597,7 +597,7 @@ o_o - Really&shy; competitive.
 o_o - Do you have something like bird watching? A hobby?
 [[Yeah>hobby-yeah]]
 [[Nah>hobby-nah]]
-[[...>hobby-silent]]
+[[...|this.goto('close');this.gotod('hobby-silent', 3000)]]
 
 ::hobby-yeah
 ._. - That's good.
