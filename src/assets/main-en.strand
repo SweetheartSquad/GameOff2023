@@ -424,7 +424,7 @@ o_o - You're okay if it starts to rain?
 
 [[Yeah>start5-yeah]]
 [[Nah>start5-nah]]
-[[...>start5-yeah]]
+[[...|this.goto('close');this.gotod('start5-silent', 2000)]]
 
 ::start5-yeah
 ._. - I figured.
@@ -440,6 +440,12 @@ o_o - Oh. Well, I have an extra poncho in my bag.
 You can borrow it.
 >
 ._. - Hopefully we won't need them, though.
+[[>main]]
+
+::start5-silent
+o_o - I do have an extra poncho, anyway.
+>
+._. - Hopefully we won't need them.
 [[>main]]
 
 ::main
