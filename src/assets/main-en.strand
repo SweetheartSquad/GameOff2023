@@ -702,7 +702,7 @@ Oh. Why not?
 <<do
 	this.goto('close');
 	this.shake = 0;
-	// TODO: quake sound
+	this.sfx('rumble');
 	let t = this.tween(this, 'shake', 1, 500, undefined, this.ease.cubicOut);
 	setTimeout(() => {
 		this.tweenAbort(t);
