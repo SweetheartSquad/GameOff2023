@@ -621,6 +621,95 @@ o_o - I try to remind myself that breaks can be productive too.
 ._. - I guess that's just my opinion, though.
 [[>main]]
 
+
+
+::scenario-up-missing
+<_< - Huh...
+>
+<<do
+	this.goto('close');
+	let state = 0;
+	const couldSeePassenger = () => {
+		const x = this.scene.x;
+		const y = this.scene.y;
+		return !(
+			x < -120 ||
+			x > 20 ||
+			y < -50 ||
+			(x > 14 && y < 50) ||
+			(x > 7 && y < 25) ||
+			(x > -2 && y < 17) ||
+			(x > -11 && y < 3)
+		);
+	};
+	const check = () => {
+		const x = this.scene.x;
+		const y = this.scene.y;
+		if (state === 0) {
+			if (!couldSeePassenger()) {
+				this.passenger.model.visible = false;
+				this.passengerLegs.model.visible = false;
+				state = 1;
+			}
+			requestAnimationFrame(check);
+		} else if (state === 1) {
+			if (couldSeePassenger()) {
+				state = 2;
+				this.setPose('stand', 'n');
+				setTimeout(() => check(), 4000);
+			} else {
+				requestAnimationFrame(check);
+			}
+		} else if (state === 2) {
+			if (!couldSeePassenger()) {
+				setTimeout(() => {
+					if (couldSeePassenger()) {
+						requestAnimationFrame(check);
+					} else {
+						this.passenger.model.visible = true;
+						this.passengerLegs.model.visible = true;
+						this.goto('missing2');
+					}
+				}, 1000);
+			} else {
+				requestAnimationFrame(check);
+			}
+		}
+	};
+	check();
+>>
+
+::missing2
+🛑 v_v - Phew, sorry about that...
+>
+Just-- just a moment...
+>
+<<do this.goto('close');this.gotod('missing3', 3000)>>
+
+::missing3
+Okay.
+>
+🛑 o_o - Shall we move on?
+[[Yeah>move-on]]
+[[Nah>dont-move]]
+[[...>move-on]]
+
+
+::dont-move
+Oh. Why not?
+>
+🛑 <_< - Is it because I-- Look, don't worry about it.
+>
+🛑 o_o - I'll stick to the trail from now.
+>
+._. - Promise!
+[[>main]]
+
+::move-on
+._. - Hope it's not much further...
+[[>main]]
+
+
 // d888888P  .88888.   888888ba
 //    88    d8'   `8b  88    `8b
 //    88    88     88 a88aaaa8P'
