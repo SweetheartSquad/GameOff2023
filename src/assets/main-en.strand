@@ -497,10 +497,11 @@ v_v - That's the fun part.
 >Yeah|What
 🛑 o_o - Shh!
 >
-<<do this.goto('close');this.gotod('wait-2', 4000)>>
+<<do this.setPose('stand', 'n');this.goto('close');this.gotod('wait-2', 4000)>>
 
 ::wait-2
 🛑 ^_^ - Hmm.
+>
 <<do this.goto('close');this.gotod('wait-3', 5000)>>
 
 ::wait-3
@@ -509,11 +510,13 @@ Huh.
 🛑 v_v - Interesting.
 >
 Just a sec.
+>
 <<do this.goto('close');this.gotod('wait-4', 6000)>>
 
 ::wait-4
 🛑 o_o - Okay, let's go.
-<<do this.goto('close');this.gotod('wait-5', 3000)>>
+>
+<<do this.setPose('walk', 'n');this.goto('close');this.gotod('wait-5', 3000)>>
 
 ::wait-5
 <_< - I just can't believe this weather.
