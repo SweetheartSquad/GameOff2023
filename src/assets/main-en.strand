@@ -1196,8 +1196,10 @@ Bye.
 		this.ended = true;
 		await this.delay(1000);
 		this.scrim(1, 1000);
+		await this.delay(500);
+		this.sfx('car');
 
-		await this.delay(3000);
+		await this.delay(2500);
 		this.scene.interactive = true;
 		this.passenger.model.visible = false;
 		this.passengerLegs.model.visible = false;
