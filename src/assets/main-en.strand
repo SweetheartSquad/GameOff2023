@@ -617,6 +617,7 @@ All work and no play, as they say.
 It's sort of a habit I have.
 >
 <_< - My friend always says I probably scare the birds away.
+>
 <<do this.goto('close');this.gotod('hobby-joke', 3000)>>
 
 
