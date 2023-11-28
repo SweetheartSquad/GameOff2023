@@ -822,14 +822,14 @@ That's fun.
 ::top2-nah
 Isn't that your job?
 >
-<<do this.goto('close');this.gotod('top2-nah-2', 2000)>>
+<<do this.goto('close');this.gotod('top2-nah-2', 1500)>>
 
 ::top2-nah-2
 Oh. Sarcasm.
 >
-🛑 ^_^ - Well, I guess it's not fun if you have to do it all the time.
+🛑 ._. - Well, I guess it's not fun if you have to do it all the time.
 >
-<<do this.goto('close');this.gotod('top2-2', 3000)>>
+<<do this.setPose('🛑 ^_^');this.goto('close');this.gotod('top2-2', 3000)>>
 
 
 ::top2-2
@@ -895,7 +895,7 @@ Oh.
 >
 Um, okay.
 >
-I guess we're heading back&shy; then.
+🛑 <_< - I guess we're heading back&shy; then.
 >
 <<do
 	this.goto('close');
