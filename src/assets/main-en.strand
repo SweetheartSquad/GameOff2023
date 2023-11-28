@@ -871,24 +871,7 @@ Thanks.
 🛑 v_v - Oh well.
 >
 🛑 o_o - Okay, let's head back down.
->
-<<do
-	this.goto('close');
-	this.scrim(1, 1000);
-	setTimeout(() => {
-		this.scrim(0, 1000);
-		this.scene.x = 0;
-		this.scene.y = 0;
-		this.groupBottom.container.visible = false;
-		this.groupMiddle.container.visible = true;
-		this.groupTop.container.visible = false;
-		this.roadSpeed *= -1;
-		this.scene.x = -180;
-		this.scene.y = 20;
-		this.setPose('walk', 'n');
-		this.gotod('scenario-top3', 3000)
-	}, 3000);
->>
+[[>go-down]]
 
 ::top2-no
 Oh.
