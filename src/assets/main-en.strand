@@ -161,6 +161,9 @@
 		m.model.position.x -= objs.container.position.x;
 		m.model.position.y -= objs.container.position.y;
 		m.model.position.z -= objs.container.position.z;
+	
+		m.model.position.y -= (args[2].offset || 0) * Math.sin(this.roadAngle);
+		m.model.position.z += (args[2].offset || 0) * Math.cos(this.roadAngle);
 		return m;
 	};
 	this.tex('mountainTexture').baseTexture.scaleMode = 1;
@@ -476,7 +479,7 @@ v_v - walking while writing
 //  Y8.   .8P  88
 //  `Y88888P'  dP
 
-::scenario-up-1
+::scenario-up-birds
 o_o - See many birds around here?
 >Nope|Nah
 v_v - In&shy;ter&shy;est&shy;ing.
@@ -819,14 +822,14 @@ That's fun.
 ::top2-nah
 Isn't that your job?
 >
-<<do this.goto('close');this.gotod('top2-nah-2', 2000)>>
+<<do this.goto('close');this.gotod('top2-nah-2', 1500)>>
 
 ::top2-nah-2
 Oh. Sarcasm.
 >
-🛑 ^_^ - Well, I guess it's not fun if you have to do it all the time.
+🛑 ._. - Well, I guess it's not fun if you have to do it all the time.
 >
-<<do this.goto('close');this.gotod('top2-2', 3000)>>
+<<do this.setPose('🛑 ^_^');this.goto('close');this.gotod('top2-2', 3000)>>
 
 
 ::top2-2
@@ -846,9 +849,9 @@ No, nothing.
 >
 🛑 o_o - Sorry. Wishful thinking, I guess.
 >
-🛑 ^_^ - I really thought there'd be something up here.
+🛑 ._. - I really thought there'd be something up here.
 >
-<<do this.goto('close');this.gotod('top2-3', 3000)>>
+<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('top2-3', 3000)>>
 
 ::top2-3
 🛑 ._. - Darn.
@@ -892,8 +895,10 @@ Oh.
 >
 Um, okay.
 >
-I guess we're heading back&shy; then.
->
+🛑 <_< - I guess we're heading back&shy; then.
+[[>go-down]]
+
+::go-down
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
@@ -1061,6 +1066,76 @@ It's a nice little lie to make your own partner swoon.
 >
 Lying about birds...
 [[>main]]
+
+::scenario-down-tree
+<<do
+	this.goto('close');
+	const tree = this.EnvModel('fallenTree', 'palette', { depth: 85, offset: 90 });
+	this.gotod('tree2', 12000);
+	setTimeout(() => this.goto('tree3'), 30000);
+	this.pauseTimeout = setTimeout(() => {
+		this.pauseTimeout = null;
+		this.setPose('🛑 ._.', 'n');
+	}, 38000);
+>>
+
+::tree2
+This is a lot easier on the way down.
+>
+Though it's a little bit more&shy; dizzying.
+[[>close]]
+
+::tree3
+What's that up ahead?
+>
+Wow, that definitely wasn't here on the way up.
+>
+Is this because of the tremors from earlier?
+[[Yeah>tremors]]
+[[Nah>what-else]]
+
+::tremors
+Well, I'd prefer to get going before there's another.
+>
+<<do clearTimeout(this.pauseTimeout); this.setPose('._.', 'n');this.goto('close');this.gotod('tree4', 4000)>>
+
+::what-else
+Then what did-- no, I don't want to know.
+>
+Let's just keep going.
+>
+<<do clearTimeout(this.pauseTimeout); this.setPose('._.', 'n');this.goto('close');this.gotod('tree4', 4000)>>
+
+::tree4
+Is&shy; it&shy; safe&shy;&shy; to walk through here?
+>
+o_o - You'd stop if it wasn't, right?
+[[Yeah>safe]]
+[[Nah|this.goto('close');this.gotod('not-safe', 1500)]]
+[[...|this.goto('close');setTimeout(() => this.setPose('._.', 'n'), 2000);this.gotod('safe-silent', 4000)]]
+
+::safe
+I'd like to believe that.
+>
+._. - Not that I don't trust you.
+>
+But I don't always get to choose my doubts.
+[[>main]]
+
+::not-safe
+I'd really prefer if you didn't joke around right now.
+>
+._. - It's not very funny.
+>
+<_< - Not funny at all.
+[[>main]]
+
+::safe-silent
+I've got a keen eye, you know.
+>
+o_o - Very&shy; keen.
+>
+<<do this.setPose('._.', 'n');this.goto('main')>>
 
 //  88888888b 888888ba  888888ba
 //  88        88    `8b 88    `8b
