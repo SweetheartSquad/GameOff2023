@@ -216,7 +216,7 @@
 		this.passenger.animator.frame = frame;
 		this.passenger.animator.offset = offset;
 		this.passenger.animator.updateTexture();
-		if (pose.includes('stand')) {
+		if (this.pose.includes('stand')) {
 			this.passengerLegs.setAnimation('blank');
 			this.passengerLegs.animator.updateTexture();
 		} else {
