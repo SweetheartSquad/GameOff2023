@@ -65,8 +65,8 @@
 	const bottom = this.Model('bottom', 'palette', { depth: 65 });
 	this.groupBottom.container.addChild(bottom.model);
 
-	const van = this.Model('van', 'palette', {depth: 28});
-	this.groupBottom.container.addChild(van.model);
+	this.van = this.Model('van', 'palette', {depth: 28});
+	this.groupBottom.container.addChild(this.van.model);
 
 	for(let i = 0; i < roadSegments; ++i) {
 		const road = this.Model('groundPlane_3_20', 'palette', { depth: baseDepth });
@@ -1173,18 +1173,19 @@ Don't work too hard.
 >
 Bye.
 >
-[[ |((async () => {
-		if (this.ended) return;
-		this.ended = true;
-
+<<do
+	this.goto('close');
+	if (this.ended) return;
+	this.ended = true;
+	(async () => {
 		await this.delay(3000);
-		this.goto('close');
 		this.scrim(1, 1000);
 
 		await this.delay(3000);
 		this.scene.interactive = true;
 		this.passenger.model.visible = false;
 		this.passengerLegs.model.visible = false;
+		this.van.model.visible = false;
 		this.scrim(0, 3000);
 
 		await this.delay(6000);
@@ -1194,5 +1195,5 @@ Bye.
 		t.display.container.x = game.app.renderer.width - 30;
 		t.display.container.y = game.app.renderer.height - 20;
 		window.game.app.stage.addChild(t.display.container);
-	})());
-]]
+	})();
+>>
