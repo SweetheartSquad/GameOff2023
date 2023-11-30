@@ -402,8 +402,9 @@ I'm just going up the mountain and then coming back down. Round trip.
 		game.app.stage.addChild(t.display.container);
 		t.text.style.fontSize = 50;
 		t.text.style.fill = 0xd4dde2;
-		t.text.x = 30;
-		t.text.y = 30;
+		t.text.x = this.size.x - 330;
+		t.text.y = this.size.y - 240;
+		t.text.anchor.y = 1.0;
 
 		await this.delay(556*2);
 		t.text.text = 'TAXI QUEST';
@@ -414,8 +415,9 @@ I'm just going up the mountain and then coming back down. Round trip.
 		game.app.stage.addChild(t2.display.container);
 		t2.text.style.fontSize = 240;
 		t2.text.style.fill = 0xd4dde2;
-		t2.text.x = 30;
-		t2.text.y = 10;
+		t2.text.x = this.size.x - 350;
+		t2.text.y = this.size.y + 30;
+		t2.text.anchor.y = 1.0;
 
 		await this.delay(556*6);
 		t.destroy();
