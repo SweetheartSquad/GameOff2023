@@ -11,6 +11,7 @@ import { Display } from './Scripts/Display';
 import { Transform } from './Scripts/Transform';
 import { Updater } from './Scripts/Updater';
 import { TweenManager } from './Tweens';
+import { size } from './config';
 import { fontIngame } from './font';
 import { setScene } from './main';
 import { Container3D } from './pixi3d';
@@ -29,6 +30,8 @@ export class StrandE extends Strand {
 	ease = ease;
 
 	language?: string;
+
+	size = size;
 
 	delay = delay;
 
