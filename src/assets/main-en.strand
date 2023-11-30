@@ -525,9 +525,21 @@ v_v - walking while writing
 
 ::scenario-up-birds
 o_o - See many birds around here?
->Nope|Nah
+[[Nope>no-birds]]
+[[Nah>no-birds]]
+[[...|this.goto('close');this.gotod('silent-birds', 2000)]]
+
+::no-birds
 v_v - In&shy;ter&shy;est&shy;ing.
 >
+<<do this.goto('close');this.gotod('birds2', 1500)>>
+
+::silent-birds
+v_v - It's fine, nothing to be embarrassed about.
+>
+<<do this.goto('close');this.gotod('birds2', 1500)>>
+
+::birds2
 <_< - I've heard there might be an eagle nest up here.
 >
 ._. - And I'd love to see a chickadee.
