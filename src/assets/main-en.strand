@@ -826,8 +826,11 @@ It looks like it goes on forever.
 ::top2-1
 🛑 ._. - It's a shame there's no eagle nest.
 >
-I guess my intel was bad.
+🛑 v_v - I guess my intel was bad.
 >
+<<do this.goto('close');this.gotod('top2-12', 3000)>>
+
+::top2-12
 🛑 o_o - Have you been up here before?
 
 [[Yeah>top2-yeah]]
@@ -836,9 +839,9 @@ I guess my intel was bad.
 ::top2-yeah
 That's fun.
 >
-🛑 ^_^ - Well, maybe it's not fun if you have to do it all the time.
+🛑 ._. - Well, maybe it's not fun if you have to do it all the time.
 >
-<<do this.goto('close');this.gotod('top2-2', 3000)>>
+<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('top2-2', 3000)>>
 
 ::top2-nah
 Isn't that your job?
