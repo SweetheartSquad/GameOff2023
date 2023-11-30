@@ -364,7 +364,7 @@ debug menu
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
-		this.gotod('start3', 3000)
+		this.gotod('start3', 4000)
 	})();
 >>
 
