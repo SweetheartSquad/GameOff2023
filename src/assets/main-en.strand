@@ -1216,6 +1216,8 @@ o_o - I try to remind myself that breaks can be productive too.
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
+		this.scene.x = -160;
+		this.scene.y = 2;
 		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-end2', 3000)
