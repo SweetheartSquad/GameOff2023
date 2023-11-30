@@ -785,6 +785,9 @@ Okay. Well.
 >
 ._. - I suppose it'd be silly to turn back now.
 >
+<<do this.goto('close');this.gotod('quake4', 1500)>>
+
+::quake4
 <_< - Very&shy; silly.
 [[>main]]
 
