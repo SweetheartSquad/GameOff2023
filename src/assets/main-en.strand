@@ -885,13 +885,9 @@ Um, okay.
 		this.scene.x = -180;
 		this.scene.y = 20;
 		this.setPose('walk', 'n');
-		this.gotod('scenario-top3', 3000)
+		this.gotod('main', 3000)
 	}, 3000);
 >>
-
-::scenario-top3
-walk - walking back down
-[[>main]]
 
 
 
