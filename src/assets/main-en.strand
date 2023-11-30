@@ -437,8 +437,9 @@ I'm just going up the mountain and then coming back down. Round trip.
 >
 ._. - Perfect.
 >
-...
->
+<<do this.goto('close');this.gotod('start5-2', 1500)>>
+
+::start5-2
 Should be like this through the weekend.
 >
 Who knows, though. The weather's so unpredictable now.
