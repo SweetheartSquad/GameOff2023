@@ -578,7 +578,7 @@ Just a sec.
 ::wait-4
 🛑 o_o - Okay, let's go.
 >
-<<do this.setPose('walk', 'n');this.goto('close');this.gotod('wait-5', 3000)>>
+<<do this.setPose('walk', 'n');this.goto('close');this.gotod('wait-5', 4000)>>
 
 ::wait-5
 <_< - I just can't believe this weather.
