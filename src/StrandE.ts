@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import ease from 'eases';
 import { Text, TextStyle } from 'pixi.js';
-import { Container3D } from 'pixi3d/pixi7';
 import Strand from 'strand-core';
 import { music, sfx } from './Audio';
 import { GameObject } from './GameObject';
@@ -14,6 +13,7 @@ import { Updater } from './Scripts/Updater';
 import { TweenManager } from './Tweens';
 import { fontIngame } from './font';
 import { setScene } from './main';
+import { Container3D } from './pixi3d';
 import { Prompt } from './prompt';
 import { chunks, delay, lerp, removeFromArray, shuffle, tex } from './utils';
 

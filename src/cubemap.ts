@@ -1,5 +1,5 @@
 import { SCALE_MODES } from 'pixi.js';
-import { Cubemap } from 'pixi3d/pixi7';
+import { Cubemap } from './pixi3d';
 import { tex } from './utils';
 
 let cubemap: Cubemap;

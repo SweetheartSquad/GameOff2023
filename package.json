@@ -14,9 +14,7 @@
 		"start": "webpack serve --config webpack.config.dev.js --mode development",
 		"start:prod": "npm run build:prod && npm run serve",
 		"optimize-images": "node --no-experimental-fetch optimize-images.js",
-		"analyze": "webpack --config webpack.config.prod.js --mode production --profile --json > stats.json && npx webpack-bundle-analyzer stats.json",
-		"prestart": "node monkeypatch.js",
-		"prebuild": "node monkeypatch.js"
+		"analyze": "webpack --config webpack.config.prod.js --mode production --profile --json > stats.json && npx webpack-bundle-analyzer stats.json"
 	},
 	"devDependencies": {
 		"@egjs/hammerjs": "^2.0.17",
@@ -48,7 +46,6 @@
 		"matter-js": "^0.18.0",
 		"pixi-filters": "^5.1.1",
 		"pixi.js": "^7.2.4",
-		"pixi3d": "^2.4.0",
 		"postcss-clean": "1.2.0",
 		"postcss-loader": "^7.3.0",
 		"strand-core": "^2.0.1",

@@ -1,11 +1,4 @@
 import { Container, DisplayObject } from 'pixi.js';
-import {
-	Camera as Camera3D,
-	Container3D,
-	Mesh3D,
-	Quat,
-	Skybox,
-} from 'pixi3d/pixi7';
 import { Camera } from './Camera';
 import { game, resource } from './Game';
 import { GameObject } from './GameObject';
@@ -20,6 +13,13 @@ import { distance2 } from './VMath';
 import { getCubemap } from './cubemap';
 import { DEBUG } from './debug';
 import { getInput } from './main';
+import {
+	Camera as Camera3D,
+	Container3D,
+	Mesh3D,
+	Quat,
+	Skybox,
+} from './pixi3d';
 import { lerp } from './utils';
 
 function depthCompare(a: DisplayObject, b: DisplayObject): number {
@@ -114,6 +114,7 @@ export class GameScene extends GameObject {
 		this.pointDialogue = Mesh3D.createCube();
 		this.pointDialogue.visible = false;
 
+		// @ts-ignore
 		this.camera3d = Camera3D.main;
 		this.x = 0;
 		this.y = -10;
