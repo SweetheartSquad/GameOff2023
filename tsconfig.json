@@ -13,16 +13,5 @@
 		"lib": [
 			"DOM",
 		],
-		"paths": {
-			"@pixi/sprite": ["./node_modules/pixi.js/node_modules/@pixi/sprite"],
-			"@pixi/assets": ["./node_modules/pixi.js/node_modules/@pixi/assets"],
-			"@pixi/display": ["./node_modules/pixi.js/node_modules/@pixi/display"],
-			"@pixi/ticker": ["./node_modules/pixi.js/node_modules/@pixi/ticker"],
-			"@pixi/utils": ["./node_modules/pixi.js/node_modules/@pixi/utils"],
-			"@pixi/constants": ["./node_modules/pixi.js/node_modules/@pixi/constants"],
-			"@pixi/math": ["./node_modules/pixi.js/node_modules/@pixi/math"],
-			"@pixi/settings": ["./node_modules/pixi.js/node_modules/@pixi/settings"],
-			"@pixi/core": ["./node_modules/pixi.js/node_modules/@pixi/core"]
-		},
 	},
 }

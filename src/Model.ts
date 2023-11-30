@@ -1,19 +1,20 @@
 /* eslint-disable max-classes-per-file */
 import { MIPMAP_MODES, Program, SCALE_MODES, Texture } from 'pixi.js';
+import { resource } from './Game';
+import { GameObject } from './GameObject';
+import { Animator3d } from './Scripts/Animator3d';
+import { getCubemap } from './cubemap';
+import { getActiveScene } from './main';
 import {
 	Material,
 	Mesh3D,
 	MeshShader,
 	Model as Pixi3dModel,
 	StandardMaterial,
+	// @ts-ignore
 	StandardMaterialAlphaMode,
 	glTFAsset,
-} from 'pixi3d/pixi7';
-import { resource } from './Game';
-import { GameObject } from './GameObject';
-import { Animator3d } from './Scripts/Animator3d';
-import { getCubemap } from './cubemap';
-import { getActiveScene } from './main';
+} from './pixi3d';
 import { tex } from './utils';
 
 const vert = `
@@ -68,6 +69,7 @@ class CustomMaterial extends Material {
 		shader.uniforms.u_EnvironmentSampler = getCubemap();
 	}
 
+	// @ts-ignore
 	createShader() {
 		return new MeshShader(
 			Program.from(vert, frag.replace('DEPTH', this.depth.toFixed(1)))
@@ -110,12 +112,17 @@ export class Model extends GameObject {
 		let mat: CustomMaterial | StandardMaterial;
 		const matKey = `${texture}_${depth}_${transparent}_${smooth}_${doubleSided}`;
 		if (depth) {
+			// @ts-ignore
 			mat = materialCache[matKey] =
-				(materialCache[matKey] as CustomMaterial) || new CustomMaterial(depth);
+				(materialCache[matKey] as unknown as CustomMaterial) ||
+				new CustomMaterial(depth);
 		} else {
+			// @ts-ignore
 			mat = materialCache[matKey] =
-				(materialCache[matKey] as StandardMaterial) || new StandardMaterial();
+				(materialCache[matKey] as unknown as StandardMaterial) ||
+				new StandardMaterial();
 			if (transparent) {
+				// @ts-ignore
 				mat.alphaMode = StandardMaterialAlphaMode.mask;
 			}
 			mat.unlit = true;
@@ -126,6 +133,7 @@ export class Model extends GameObject {
 		});
 		// @ts-ignore
 		this.model.gameObject = this;
+		// @ts-ignore
 		this.material = mat;
 		if (smooth) {
 			matTex.baseTexture.mipmap = MIPMAP_MODES.ON;

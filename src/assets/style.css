@@ -37,7 +37,7 @@ html {
 	font-family: inherit;
 	border: none;
 	cursor: pointer;
-	white-space: pre;
+	white-space: pre-wrap;
 }
 
 /* loader */
@@ -50,7 +50,7 @@ html {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	white-space: pre;
+	white-space: pre-wrap;
 	font-variant-ligatures: none;
 	font-variant-numeric: tabular-nums;
 	padding: 0;

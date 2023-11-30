@@ -361,10 +361,11 @@ debug menu
 
 		this.scrim(1);
 		this.scrim(0, 1000);
+		this.sfx('intro', { volume: 0.4 });
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
-		this.gotod('start3', 3000)
+		this.gotod('start3', 4000)
 	})();
 >>
 
@@ -389,6 +390,7 @@ I'm just going up the mountain and then coming back down. Round trip.
 		await this.delay(3000);
 		this.scene.x = 0;
 		this.scene.y = 0;
+		this.music('bgm', { volume: 0.1, fade: 5000 });
 		this.scrim(0, 1000);
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = true;
@@ -400,8 +402,9 @@ I'm just going up the mountain and then coming back down. Round trip.
 		game.app.stage.addChild(t.display.container);
 		t.text.style.fontSize = 50;
 		t.text.style.fill = 0xd4dde2;
-		t.text.x = 30;
-		t.text.y = 30;
+		t.text.x = this.size.x - 330;
+		t.text.y = this.size.y - 240;
+		t.text.anchor.y = 1.0;
 
 		await this.delay(556*2);
 		t.text.text = 'TAXI QUEST';
@@ -412,8 +415,9 @@ I'm just going up the mountain and then coming back down. Round trip.
 		game.app.stage.addChild(t2.display.container);
 		t2.text.style.fontSize = 240;
 		t2.text.style.fill = 0xd4dde2;
-		t2.text.x = 30;
-		t2.text.y = 10;
+		t2.text.x = this.size.x - 350;
+		t2.text.y = this.size.y + 30;
+		t2.text.anchor.y = 1.0;
 
 		await this.delay(556*6);
 		t.destroy();
@@ -426,15 +430,26 @@ I'm just going up the mountain and then coming back down. Round trip.
 
 ::start5
 <_< - Perfect weather, isn't it?
->Yeah|I guess
+[[Yeah>weather-agree]]
+[[Nah>weather-disagree]]
+[[...|this.goto('close');this.gotod('weather-agree', 2000)]]
+
+::weather-agree
 ._. - Yep. Just perfect.
->
+[[>start5-2]]
+
+::weather-disagree
+._. - Well, for bird watching, it is.
+[[>start5-2]]
+
+::start5-2
 <_< - Overcast, not too cold, enough light...
 >
 ._. - Perfect.
 >
-...
->
+<<do this.goto('close');this.gotod('start5-3', 1500)>>
+
+::start5-3
 Should be like this through the weekend.
 >
 Who knows, though. The weather's so unpredictable now.
@@ -510,9 +525,21 @@ v_v - walking while writing
 
 ::scenario-up-birds
 o_o - See many birds around here?
->Nope|Nah
+[[Nope>no-birds]]
+[[Nah>no-birds]]
+[[...|this.goto('close');this.gotod('silent-birds', 2000)]]
+
+::no-birds
 v_v - In&shy;ter&shy;est&shy;ing.
 >
+<<do this.goto('close');this.gotod('birds2', 1500)>>
+
+::silent-birds
+v_v - It's fine, nothing to be embarrassed about.
+>
+<<do this.goto('close');this.gotod('birds2', 1500)>>
+
+::birds2
 <_< - I've heard there might be an eagle nest up here.
 >
 ._. - And I'd love to see a chickadee.
@@ -521,6 +548,9 @@ v_v - You never know what you'll find, bird watching.
 >
 v_v - That's the fun part.
 >
+<<do this.goto('close');this.gotod('birds3', 2000)>>
+
+::birds3
 ._. - One of the fun parts, anyway.
 [[>main]]
 
@@ -532,9 +562,9 @@ v_v - That's the fun part.
 <<do this.setPose('stand', 'n');this.goto('close');this.gotod('wait-2', 4000)>>
 
 ::wait-2
-🛑 ^_^ - Hmm.
+Hmm.
 >
-<<do this.goto('close');this.gotod('wait-3', 5000)>>
+<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('wait-3', 5000)>>
 
 ::wait-3
 Huh.
@@ -548,7 +578,7 @@ Just a sec.
 ::wait-4
 🛑 o_o - Okay, let's go.
 >
-<<do this.setPose('walk', 'n');this.goto('close');this.gotod('wait-5', 3000)>>
+<<do this.setPose('walk', 'n');this.goto('close');this.gotod('wait-5', 4000)>>
 
 ::wait-5
 <_< - I just can't believe this weather.
@@ -602,6 +632,9 @@ I wasn't trying to imply anything.
 >
 ._. - I really am just a bird watcher.
 >
+<<do this.goto('close');this.gotod('kill-3', 2000)>>
+
+::kill-3
 Well, okay, bird watching can get competitive.
 >
 o_o - Really&shy; competitive.
@@ -747,13 +780,17 @@ Oh. Why not?
 🛑 <_< - Is that normal?
 >Yeah|Nah
 🛑 o_o - .&shy;.&shy;.&shy;And&shy;&shy; that's not&shy; concerning?
->Yeah|Nah
+>Yeah|Nah|...
 Okay. Well.
 >
 ._. - I suppose it'd be silly to turn back now.
 >
+<<do this.goto('close');this.gotod('quake4', 1500)>>
+
+::quake4
 <_< - Very&shy; silly.
-[[>main]]
+>
+<<do setTimeout(() => this.setPose('._.', 'n'), 2000);this.goto('main')>>
 
 // d888888P  .88888.   888888ba
 //    88    d8'   `8b  88    `8b
@@ -767,6 +804,9 @@ Okay. Well.
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.music('', { fade: 5000 });
+		this.scene.x = 0;
+		this.scene.y = 0;
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = true;
@@ -783,13 +823,16 @@ Okay. Well.
 >
 It looks like it goes on forever.
 >
-<<do this.goto('close');this.gotod('top2-1', 2000)>>
+<<do this.goto('close');this.gotod('top2-1', 4000)>>
 
 ::top2-1
 🛑 ._. - It's a shame there's no eagle nest.
 >
-I guess my intel was bad.
+🛑 v_v - I guess my intel was bad.
 >
+<<do this.goto('close');this.gotod('top2-12', 3000)>>
+
+::top2-12
 🛑 o_o - Have you been up here before?
 
 [[Yeah>top2-yeah]]
@@ -798,14 +841,14 @@ I guess my intel was bad.
 ::top2-yeah
 That's fun.
 >
-🛑 ^_^ - Well, maybe it's not fun if you have to do it all the time.
+🛑 ._. - Well, maybe it's not fun if you have to do it all the time.
 >
-<<do this.goto('close');this.gotod('top2-2', 3000)>>
+<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('top2-2', 3000)>>
 
 ::top2-nah
 Isn't that your job?
 >
-<<do this.goto('close');this.gotod('top2-nah-2', 1500)>>
+<<do this.goto('close');this.gotod('top2-nah-2', 1000)>>
 
 ::top2-nah-2
 Oh. Sarcasm.
@@ -834,7 +877,7 @@ No, nothing.
 >
 🛑 ._. - I really thought there'd be something up here.
 >
-<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('top2-3', 3000)>>
+<<do this.setPose('🛑 <_<', 'n');this.goto('close');this.gotod('top2-3', 3000)>>
 
 ::top2-3
 🛑 ._. - Darn.
@@ -848,7 +891,16 @@ Thanks.
 >
 🛑 ^_^ - Okay...
 >
-<<do this.goto('close');this.gotod('top2-4', 4000)>>
+<<do
+	this.goto('close');
+	setTimeout(() => {
+		this.setPose('🛑 v_v', 'n');
+	}, 3500);
+	setTimeout(() => {
+		this.setPose('🛑 ^_^', 'n');
+	}, 6000);
+	this.gotod('top2-4', 10000);
+>>
 
 ::top2-4
 🛑 v_v - Oh well.
@@ -859,9 +911,9 @@ Thanks.
 ::top2-no
 Oh.
 >
-Um, okay.
+🛑 ._. - Um, okay.
 >
-🛑 <_< - I guess we're heading back&shy; then.
+🛑 <_< - I guess we're&shy; heading back&shy; then.
 [[>go-down]]
 
 ::go-down
@@ -870,8 +922,7 @@ Um, okay.
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
-		this.scene.x = 0;
-		this.scene.y = 0;
+		this.music('bgm', { volume: 0.1, fade: 5000 });
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = true;
 		this.groupTop.container.visible = false;
@@ -879,13 +930,9 @@ Um, okay.
 		this.scene.x = -180;
 		this.scene.y = 20;
 		this.setPose('walk', 'n');
-		this.gotod('scenario-top3', 3000)
+		this.gotod('main', 3000)
 	}, 3000);
 >>
-
-::scenario-top3
-walk - walking back down
-[[>main]]
 
 
 
@@ -977,17 +1024,17 @@ You can choose whether to listen, but not whether to hear them.
 It's... well, would you look at that.
 >
 o_o - I'm doing it again, aren't I?
->Yeah|Nah
+>Yeah|Nah|...
 ._. - *sigh*
 >
-Maybe I've been talking over the birdsong all this time.
+Maybe I'd hear their songs if I spent more time listening.
 >
 v_v - Wouldn't that be something...
 [[>main]]
 
 ::scenario-down-love
 o_o - You ever been in love?
-<<do this.loveDelayed=false;setTimeout(() => this.loveDelayed=true, 3000)>>
+<<do this.loveDelayed=false;setTimeout(() => this.loveDelayed=true, 3500)>>
 [[Yeah>love2]]
 [[Nah>love2]]
 [[...|this.goto('close');this.gotod('love-silent', 3000)]]
@@ -1160,16 +1207,17 @@ o_o - I try to remind myself that breaks can be productive too.
 //  88        88     88 88    .8P
 //  88888888P dP     dP 8888888P
 ::scenario-end
-walk - ending
->
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.music('', { fade: 5000 });
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
+		this.scene.x = -160;
+		this.scene.y = 2;
 		this.clearObjs();
 		this.setPose('stand', 'n');
 		this.gotod('scenario-end2', 3000)
@@ -1195,6 +1243,7 @@ Bye.
 		if (this.ended) return;
 		this.ended = true;
 		await this.delay(1000);
+		this.setPose('🛑 <_<', 'n');
 		this.scrim(1, 1000);
 		await this.delay(500);
 		this.sfx('car');
@@ -1206,7 +1255,7 @@ Bye.
 		this.van.model.visible = false;
 		this.scrim(0, 3000);
 
-		await this.delay(6000);
+		await this.delay(9000);
 		const t = this.Text('The End');
 		t.text.anchor.x = 1.0;
 		t.text.anchor.y = 1.0;

@@ -6,6 +6,8 @@ textures/dialogueBg.x6.png
 textures/dialogueChoiceBg.x3.png
 textures/dialogueDiamond.x3.png
 
+audio/intro.mp3
+audio/bgm.mp3
 audio/voiceDefault.mp3
 audio/step.x4.mp3
 audio/car.mp3

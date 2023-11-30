@@ -92,19 +92,12 @@ export class Game {
 	async load(onLoad?: ProgressCallback) {
 		Assets.init();
 
-		// setup parsers
-		Assets.loader.parsers.push({
-			...loadTxt,
-			test(url) {
-				return utils.path.extname(url).includes('.strand');
-			},
-		});
-		Assets.loader.parsers.push({
-			...loadTxt,
-			test(url) {
-				return utils.path.extname(url).includes('.glsl');
-			},
-		});
+		// parse .strand and .glsl as plaintext
+		const loadTextTest = loadTxt.test;
+		loadTxt.test = (url) =>
+			loadTextTest?.(url) ||
+			utils.path.extname(url).includes('.strand') ||
+			utils.path.extname(url).includes('.glsl');
 		extensions.add(HowlerLoaderParser);
 
 		// load assets list

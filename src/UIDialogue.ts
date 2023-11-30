@@ -9,7 +9,6 @@ import {
 	TextMetrics,
 	utils,
 } from 'pixi.js';
-import { Camera, Mesh3D, Point3D, Vec3 } from 'pixi3d/pixi7';
 import Strand from 'strand-core';
 import { sfx } from './Audio';
 import { game } from './Game';
@@ -24,6 +23,7 @@ import { size } from './config';
 import { fontChoice, fontDialogue } from './font';
 import { KEYS, keys } from './input-keys';
 import { getActiveScene, getInput, mouse } from './main';
+import { Camera, Mesh3D, Point3D, Vec3 } from './pixi3d';
 import { clamp, lerp, pointOnRect, smartify, tex } from './utils';
 
 const padding = {
