@@ -921,8 +921,6 @@ Oh.
 	setTimeout(() => {
 		this.scrim(0, 1000);
 		this.music('bgm', { volume: 0.1, fade: 5000 });
-		this.scene.x = 0;
-		this.scene.y = 0;
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = true;
 		this.groupTop.container.visible = false;
