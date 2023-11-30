@@ -805,6 +805,8 @@ Okay. Well.
 	setTimeout(() => {
 		this.scrim(0, 1000);
 		this.music('', { fade: 5000 });
+		this.scene.x = 0;
+		this.scene.y = 0;
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = true;
