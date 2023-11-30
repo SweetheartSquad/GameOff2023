@@ -1241,6 +1241,7 @@ Bye.
 		if (this.ended) return;
 		this.ended = true;
 		await this.delay(1000);
+		this.setPose('🛑 <_<', 'n');
 		this.scrim(1, 1000);
 		await this.delay(500);
 		this.sfx('car');
