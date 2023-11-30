@@ -430,16 +430,26 @@ I'm just going up the mountain and then coming back down. Round trip.
 
 ::start5
 <_< - Perfect weather, isn't it?
->Yeah|I guess
+[[Yeah>weather-agree]]
+[[Nah>weather-disagree]]
+[[...>weather-agree]]
+
+::weather-agree
 ._. - Yep. Just perfect.
->
+[[>start5-2]]
+
+::weather-disagree
+._. - Well, for bird watching, it is.
+[[>start5-2]]
+
+::start5-2
 <_< - Overcast, not too cold, enough light...
 >
 ._. - Perfect.
 >
-<<do this.goto('close');this.gotod('start5-2', 1500)>>
+<<do this.goto('close');this.gotod('start5-3', 1500)>>
 
-::start5-2
+::start5-3
 Should be like this through the weekend.
 >
 Who knows, though. The weather's so unpredictable now.
