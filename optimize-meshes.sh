@@ -1,3 +1,5 @@
+#!/bin/bash -e
+
 for f in ./asset_src/models/*.glb;
 do 
 INPUT=$f
