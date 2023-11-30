@@ -1162,8 +1162,6 @@ o_o - I try to remind myself that breaks can be productive too.
 //  88        88     88 88    .8P
 //  88888888P dP     dP 8888888P
 ::scenario-end
-walk - ending
->
 <<do
 	this.goto('close');
 	this.scrim(1, 1000);
