@@ -562,9 +562,9 @@ v_v - That's the fun part.
 <<do this.setPose('stand', 'n');this.goto('close');this.gotod('wait-2', 4000)>>
 
 ::wait-2
-🛑 ^_^ - Hmm.
+Hmm.
 >
-<<do this.goto('close');this.gotod('wait-3', 5000)>>
+<<do this.setPose('🛑 ^_^', 'n');this.goto('close');this.gotod('wait-3', 5000)>>
 
 ::wait-3
 Huh.
