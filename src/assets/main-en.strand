@@ -821,7 +821,7 @@ Okay. Well.
 >
 It looks like it goes on forever.
 >
-<<do this.goto('close');this.gotod('top2-1', 2000)>>
+<<do this.goto('close');this.gotod('top2-1', 4000)>>
 
 ::top2-1
 🛑 ._. - It's a shame there's no eagle nest.
