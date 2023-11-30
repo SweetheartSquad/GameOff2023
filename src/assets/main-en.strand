@@ -548,6 +548,9 @@ v_v - You never know what you'll find, bird watching.
 >
 v_v - That's the fun part.
 >
+<<do this.goto('close');this.gotod('birds3', 2000)>>
+
+::birds3
 ._. - One of the fun parts, anyway.
 [[>main]]
 
