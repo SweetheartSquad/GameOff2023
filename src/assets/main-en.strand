@@ -999,7 +999,7 @@ v_v - Wouldn't that be something...
 
 ::scenario-down-love
 o_o - You ever been in love?
-<<do this.loveDelayed=false;setTimeout(() => this.loveDelayed=true, 3000)>>
+<<do this.loveDelayed=false;setTimeout(() => this.loveDelayed=true, 3500)>>
 [[Yeah>love2]]
 [[Nah>love2]]
 [[...|this.goto('close');this.gotod('love-silent', 3000)]]
