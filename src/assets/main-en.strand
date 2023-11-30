@@ -771,6 +771,7 @@ Okay. Well.
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.music('', { fade: 5000 });
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = true;
@@ -874,6 +875,7 @@ Um, okay.
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.music('bgm', { fade: 5000 });
 		this.scene.x = 0;
 		this.scene.y = 0;
 		this.groupBottom.container.visible = false;
@@ -1171,6 +1173,7 @@ walk - ending
 	this.scrim(1, 1000);
 	setTimeout(() => {
 		this.scrim(0, 1000);
+		this.music('', { fade: 5000 });
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
