@@ -632,6 +632,9 @@ I wasn't trying to imply anything.
 >
 ._. - I really am just a bird watcher.
 >
+<<do this.goto('close');this.gotod('kill-3', 2000)>>
+
+::kill-3
 Well, okay, bird watching can get competitive.
 >
 o_o - Really&shy; competitive.
