@@ -1217,7 +1217,7 @@ Bye.
 		this.van.model.visible = false;
 		this.scrim(0, 3000);
 
-		await this.delay(6000);
+		await this.delay(9000);
 		const t = this.Text('The End');
 		t.text.anchor.x = 1.0;
 		t.text.anchor.y = 1.0;
