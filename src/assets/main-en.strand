@@ -361,6 +361,7 @@ debug menu
 
 		this.scrim(1);
 		this.scrim(0, 1000);
+		this.sfx('intro', { volume: 0.5 });
 		this.groupBottom.container.visible = true;
 		this.groupMiddle.container.visible = false;
 		this.groupTop.container.visible = false;
