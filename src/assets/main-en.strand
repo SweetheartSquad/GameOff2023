@@ -789,7 +789,8 @@ Okay. Well.
 
 ::quake4
 <_< - Very&shy; silly.
-[[>main]]
+>
+<<do setTimeout(() => this.setPose('._.', 'n'), 2000);this.goto('main')>>
 
 // d888888P  .88888.   888888ba
 //    88    d8'   `8b  88    `8b
