@@ -389,6 +389,7 @@ I'm just going up the mountain and then coming back down. Round trip.
 		await this.delay(3000);
 		this.scene.x = 0;
 		this.scene.y = 0;
+		this.music('bgm');
 		this.scrim(0, 1000);
 		this.groupBottom.container.visible = false;
 		this.groupMiddle.container.visible = true;
