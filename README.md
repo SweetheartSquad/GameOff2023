@@ -1,5 +1,7 @@
 # Taxi Quest 66
 
+![animated cover](./promo/cover.gif)
+
 ## Development
 
 ```sh
