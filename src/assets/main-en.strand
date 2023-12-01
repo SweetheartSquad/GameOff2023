@@ -1077,6 +1077,7 @@ Lying about birds...
 <<do
 	this.goto('close');
 	const tree = this.EnvModel('fallenTree', 'palette', { depth: 85, offset: 90 });
+	tree.model.loops = -1;
 	this.gotod('tree2', 12000);
 	setTimeout(() => this.goto('tree3'), 30000);
 	this.pauseTimeout = setTimeout(() => {
