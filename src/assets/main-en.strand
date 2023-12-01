@@ -671,7 +671,7 @@ o_o - Really&shy; competitive.
 			if (couldSeePassenger()) {
 				state = 2;
 				this.setPose('stand', 'n');
-				setTimeout(() => check(), 4000);
+				setTimeout(() => check(), 7000);
 			} else {
 				requestAnimationFrame(check);
 			}
