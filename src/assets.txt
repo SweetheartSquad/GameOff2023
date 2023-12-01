@@ -8,6 +8,7 @@ textures/dialogueDiamond.x3.png
 
 audio/intro.mp3
 audio/bgm.mp3
+audio/wind.mp3
 audio/voiceDefault.mp3
 audio/step.x4.mp3
 audio/car.mp3
